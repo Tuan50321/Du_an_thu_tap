@@ -33,6 +33,11 @@
                     <i class="fas fa-shopping-cart"></i> Orders
                 </a>
             </li>
+             <li>
+                <a href="{{ route('admin.coupons.index') }}" class="sidebar-link {{ request()->routeIs('admin.coupons.*') ? 'bg-primary' : '' }}">
+                    <i class="fas fa-ticket-alt"></i> Coupons
+                </a>
+            </li>
             <li>
                 <a href="#" class="sidebar-link">
                     <i class="fas fa-cog"></i> Settings
