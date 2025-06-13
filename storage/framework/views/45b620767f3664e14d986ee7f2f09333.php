@@ -4,8 +4,8 @@
         <hr class="bg-light">
         <ul class="list-unstyled">
             <li>
-                <a href="{{ route('admin.dashboard') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.dashboard')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.dashboard') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-home"></i> Dashboard
                 </a>
             </li>
@@ -15,37 +15,37 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.categories.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.categories.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.categories.index')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.categories.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-list"></i> Categories
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.brands.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.brands.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.brands.index')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.brands.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-tags"></i> Brands
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.products.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.products.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.products.index')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.products.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-box"></i> Products
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.banners.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.banners.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.banners.index')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.banners.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-image"></i> Banners
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.orders.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.orders.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.orders.index')); ?>"
+                    class="sidebar-link <?php echo e(request()->routeIs('admin.orders.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-shopping-cart"></i> Orders
                 </a>
             </li>
              <li>
-                <a href="{{ route('admin.coupons.index') }}" class="sidebar-link {{ request()->routeIs('admin.coupons.*') ? 'bg-primary' : '' }}">
+                <a href="<?php echo e(route('admin.coupons.index')); ?>" class="sidebar-link <?php echo e(request()->routeIs('admin.coupons.*') ? 'bg-primary' : ''); ?>">
                     <i class="fas fa-ticket-alt"></i> Coupons
                 </a>
             </li>
@@ -62,3 +62,4 @@
         </ul>
     </div>
 </nav>
+<?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/sidebar.blade.php ENDPATH**/ ?>
