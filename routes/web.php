@@ -29,5 +29,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Coupon routes
      Route::resource('coupons', CouponController::class);
-
+        
 });
