@@ -96,4 +96,4 @@
         });
     </script>
 </body>
-</html> <?php /**PATH D:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>
+</html> <?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>
