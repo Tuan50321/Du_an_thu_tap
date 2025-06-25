@@ -18,9 +18,10 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>Thumbnail</th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Category</th>
@@ -34,6 +35,9 @@
                     <tbody>
                         @foreach($products as $product)
                             <tr>
+                                <td>
+                                    <img src="{{ $product->thumbnail_url }}" alt="Thumbnail" class="img-thumbnail" style="max-width: 50px;">
+                                </td>
                                 <td>{{ $product->product_id }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
@@ -79,4 +83,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

@@ -9,7 +9,7 @@
                     <h4>Edit Product</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.products.update', $product) }}" method="POST">
+                    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -100,6 +100,19 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="thumbnail">Thumbnail</label>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ $product->thumbnail_url }}" alt="Thumbnail" class="img-thumbnail mr-3" style="max-width: 100px;">
+                                        <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror" id="thumbnail" name="thumbnail">
+                                    </div>
+                                    @error('thumbnail')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -116,4 +129,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

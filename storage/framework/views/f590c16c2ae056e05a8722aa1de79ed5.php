@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -17,9 +19,10 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>Thumbnail</th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Category</th>
@@ -33,6 +36,9 @@
                     <tbody>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
+                                <td>
+                                    <img src="<?php echo e($product->thumbnail_url); ?>" alt="Thumbnail" class="img-thumbnail" style="max-width: 50px;">
+                                </td>
                                 <td><?php echo e($product->product_id); ?></td>
                                 <td><?php echo e($product->name); ?></td>
                                 <td><?php echo e($product->category ? $product->category->name : 'N/A'); ?></td>
@@ -82,5 +88,5 @@
         </div>
     </div>
 </div>
-<?php $__env->stopSection(); ?> 
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/products/index.blade.php ENDPATH**/ ?>
