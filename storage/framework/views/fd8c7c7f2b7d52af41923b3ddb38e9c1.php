@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -17,62 +17,64 @@
                                     <h5>Thumbnail</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <img src="{{ $product->thumbnail_url }}" alt="Thumbnail" class="img-fluid" style="max-width: 200px;">
+                                    <img src="<?php echo e($product->thumbnail_url); ?>" alt="Thumbnail" class="img-fluid" style="max-width: 200px;">
                                 </div>
                             </div>
                             <table class="table table-bordered">
                                 <tr>
                                     <th width="200px">ID</th>
-                                    <td>{{ $product->product_id }}</td>
+                                    <td><?php echo e($product->product_id); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Name</th>
-                                    <td>{{ $product->name }}</td>
+                                    <td><?php echo e($product->name); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Category</th>
-                                    <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
+                                    <td><?php echo e($product->category ? $product->category->name : 'N/A'); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Brand</th>
-                                    <td>{{ $product->brand ? $product->brand->name : 'N/A' }}</td>
+                                    <td><?php echo e($product->brand ? $product->brand->name : 'N/A'); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Price</th>
-                                    <td>${{ number_format($product->price, 2) }}</td>
+                                    <td>$<?php echo e(number_format($product->price, 2)); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Discount Price</th>
                                     <td>
-                                        @if($product->discount_price)
-                                            ${{ number_format($product->discount_price, 2) }}
+                                        <?php if($product->discount_price): ?>
+                                            $<?php echo e(number_format($product->discount_price, 2)); ?>
+
                                             <small class="text-muted">
-                                                ({{ round((1 - $product->discount_price / $product->price) * 100) }}% off)
+                                                (<?php echo e(round((1 - $product->discount_price / $product->price) * 100)); ?>% off)
                                             </small>
-                                        @else
+                                        <?php else: ?>
                                             No discount
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Status</th>
                                     <td>
-                                        <span class="badge bg-{{ $product->status === 'active' ? 'success' : 'danger' }}">
-                                            {{ ucfirst($product->status) }}
+                                        <span class="badge bg-<?php echo e($product->status === 'active' ? 'success' : 'danger'); ?>">
+                                            <?php echo e(ucfirst($product->status)); ?>
+
                                         </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Created By</th>
-                                    <td>{{ $product->creator ? $product->creator->name : 'N/A' }}</td>
+                                    <td><?php echo e($product->creator ? $product->creator->name : 'N/A'); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Created At</th>
-                                    <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
+                                    <td><?php echo e($product->created_at->format('Y-m-d H:i:s')); ?></td>
                                 </tr>
                                 <tr>
                                     <th>Updated At</th>
-                                    <td>{{ $product->updated_at->format('Y-m-d H:i:s') }}</td>
+                                    <td><?php echo e($product->updated_at->format('Y-m-d H:i:s')); ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -82,23 +84,24 @@
                                     <h5>Description</h5>
                                 </div>
                                 <div class="card-body">
-                                    {{ $product->description ?? 'No description available.' }}
+                                    <?php echo e($product->description ?? 'No description available.'); ?>
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-4 d-flex justify-content-between">
-                        <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
+                        <a href="<?php echo e(route('admin.products.index')); ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to List
                         </a>
                         <div>
-                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning">
+                            <a href="<?php echo e(route('admin.products.edit', $product)); ?>" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
+                            <form action="<?php echo e(route('admin.products.destroy', $product)); ?>" method="POST" class="d-inline">
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
@@ -110,4 +113,5 @@
         </div>
     </div>
 </div>
-@endsection 
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/products/show.blade.php ENDPATH**/ ?>

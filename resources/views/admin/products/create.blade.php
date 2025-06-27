@@ -9,7 +9,7 @@
                     <h4>Add New Product</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.products.store') }}" method="POST">
+                    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -95,6 +95,16 @@
                                     <textarea class="form-control @error('description') is-invalid @enderror" 
                                         id="description" name="description" rows="4">{{ old('description') }}</textarea>
                                     @error('description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="thumbnail">Thumbnail</label>
+                                    <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror" id="thumbnail" name="thumbnail">
+                                    @error('thumbnail')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

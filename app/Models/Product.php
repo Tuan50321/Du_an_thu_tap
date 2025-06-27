@@ -16,7 +16,8 @@ class Product extends Model
         'discount_price',
         'description',
         'status',
-        'created_by'
+        'created_by',
+        'thumbnail'
     ];
 
     protected $casts = [
@@ -52,5 +53,26 @@ class Product extends Model
     public function getIsDiscountedAttribute()
     {
         return !is_null($this->discount_price) && $this->discount_price < $this->price;
+    }
+
+    // Method để xử lý upload ảnh thumbnail
+    public function uploadThumbnail($file)
+    {
+        if ($file) {
+            $path = $file->store('products/thumbnails', 'public');
+            $this->thumbnail = $path;
+            $this->save();
+            return $path;
+        }
+        return null;
+    }
+
+    // Method để lấy đường dẫn ảnh thumbnail
+    public function getThumbnailUrlAttribute()
+    {
+        if ($this->thumbnail) {
+            return asset('storage/' . $this->thumbnail);
+        }
+        return asset('images/default-thumbnail.jpg'); // Ảnh mặc định nếu không có thumbnail
     }
 } 

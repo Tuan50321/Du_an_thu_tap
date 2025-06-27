@@ -42,10 +42,14 @@ class ProductController extends Controller
                 }
             ],
             'description' => 'nullable',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:active,inactive',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'discount_price.numeric' => 'The discount price must be a number.',
-            'discount_price.min' => 'The discount price must be at least 0.'
+            'discount_price.min' => 'The discount price must be at least 0.',
+            'thumbnail.image' => 'The thumbnail must be an image.',
+            'thumbnail.mimes' => 'The thumbnail must be a file of type: jpeg, png, jpg, gif.',
+            'thumbnail.max' => 'The thumbnail may not be greater than 2MB.'
         ]);
 
         $product = Product::create([
@@ -58,6 +62,11 @@ class ProductController extends Controller
             'status' => $request->status,
             'created_by' => Auth::id()
         ]);
+
+        // Upload thumbnail nếu có
+        if ($request->hasFile('thumbnail')) {
+            $product->uploadThumbnail($request->file('thumbnail'));
+        }
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');
@@ -94,10 +103,14 @@ class ProductController extends Controller
                 }
             ],
             'description' => 'nullable',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:active,inactive',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'discount_price.numeric' => 'The discount price must be a number.',
-            'discount_price.min' => 'The discount price must be at least 0.'
+            'discount_price.min' => 'The discount price must be at least 0.',
+            'thumbnail.image' => 'The thumbnail must be an image.',
+            'thumbnail.mimes' => 'The thumbnail must be a file of type: jpeg, png, jpg, gif.',
+            'thumbnail.max' => 'The thumbnail may not be greater than 2MB.'
         ]);
 
         $product->update([
@@ -109,6 +122,11 @@ class ProductController extends Controller
             'description' => $request->description,
             'status' => $request->status
         ]);
+
+        // Upload thumbnail mới nếu có
+        if ($request->hasFile('thumbnail')) {
+            $product->uploadThumbnail($request->file('thumbnail'));
+        }
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product updated successfully');
