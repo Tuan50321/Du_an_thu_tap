@@ -17,25 +17,10 @@
                             <div class="col-md-6">
                                 <h5>Thông tin đơn hàng</h5>
                                 <p><strong>Trạng thái:</strong>
-                                    <?php
-                                        $statusLabels = [
-                                            'pending' => ['label' => 'Chờ xác nhận', 'color' => 'warning'],
-                                            'confirmed' => ['label' => 'Đã xác nhận', 'color' => 'primary'],
-                                            'processing' => ['label' => 'Đang xử lý', 'color' => 'info'],
-                                            'shipping' => ['label' => 'Đang giao', 'color' => 'secondary'],
-                                            'delivered' => ['label' => 'Đã giao', 'color' => 'success'],
-                                            'completed' => ['label' => 'Hoàn tất', 'color' => 'success'],
-                                            'cancelled' => ['label' => 'Đã hủy', 'color' => 'danger'],
-                                            'refunded' => ['label' => 'Đã hoàn tiền', 'color' => 'dark'],
-                                        ];
-                                    ?>
-                                    
-                                    <td>
-                                        <span class="badge bg-<?php echo e($order->status_badge_class); ?>">
-                                            <?php echo e($order->status_text); ?>
+                                    <span class="badge bg-<?php echo e($order->status_badge_class); ?>">
+                                                        <?php echo e($order->status_text); ?>
 
-                                        </span>
-                                    </td>
+                                                    </span>
                                 </p>
                                 <p><strong>Hình thức thanh toán:</strong> <?php echo e($order->payment_method); ?></p>
                                 <p><strong>Ngày đặt hàng:</strong> <?php echo e($order->created_at->format('d/m/Y H:i')); ?></p>
@@ -101,6 +86,7 @@
                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

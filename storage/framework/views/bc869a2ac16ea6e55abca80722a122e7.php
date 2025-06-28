@@ -1,5 +1,5 @@
 <nav id="sidebar">
-    <div class="p-4">
+    <div class="p-3">
         <h4 class="text-white">Bảng Quản Trị</h4>
         <hr class="bg-light">
         <ul class="list-unstyled">
@@ -83,6 +83,12 @@
                         </li>
                     </ul>
                 </div>
+            </li>
+            <li>
+                <a href="<?php echo e(route('admin.lienhe.index')); ?>"
+                   class="sidebar-link <?php echo e(request()->routeIs('admin.lienhe.*') ? 'bg-primary text-white' : ''); ?>">
+                    <i class="fas fa-envelope"></i> Liên hệ
+                </a>
             </li>
 
             <li>
