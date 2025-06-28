@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\LienHeAdminController;
 use App\Http\Controllers\Admin\OrderController;
 
 
@@ -42,6 +43,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Route cập nhật trạng thái đơn hàng (custom)
     Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
 
+    // Quản lý liên hệ
+    Route::get('lien-he', [LienHeAdminController::class, 'index'])->name('lienhe.index');
+    Route::get('lien-he/{id}', [LienHeAdminController::class, 'show'])->name('lienhe.show');
+    Route::delete('lien-he/{id}', [LienHeAdminController::class, 'destroy'])->name('lienhe.destroy');
+
+    
 
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
