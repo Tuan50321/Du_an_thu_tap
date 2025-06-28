@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\BaiViet\NewsCategoryController;
+use App\Http\Controllers\Admin\BaiViet\NewsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\BrandController;
@@ -29,10 +31,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
     // Coupon routes
-     Route::resource('coupons', CouponController::class);
+    Route::resource('coupons', CouponController::class);
 
-    // Order routes
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+    Route::resource('news', NewsController::class);
+    Route::resource('news-categories', NewsCategoryController::class);
+
+    // Route resource
+    Route::resource('orders', OrderController::class);
+
+    // Route cập nhật trạng thái đơn hàng (custom)
+    Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+
+
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
 });

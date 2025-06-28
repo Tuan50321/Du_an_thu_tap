@@ -38,7 +38,7 @@
                                                         'refunded' => ['label' => 'Đã hoàn tiền', 'color' => 'dark'],
                                                     ];
                                                 ?>
-                                                
+
                                                 <td>
                                                     <span class="badge bg-<?php echo e($order->status_badge_class); ?>">
                                                         <?php echo e($order->status_text); ?>
@@ -60,6 +60,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
                         <?php else: ?>
                             <div class="alert alert-info text-center">
                                 Không có đơn hàng nào được tìm thấy.

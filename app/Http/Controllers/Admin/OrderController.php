@@ -13,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['user', 'items'])->latest()->paginate(10);
+        $orders = Order::with(['user', 'items'])->latest()->get();
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -36,11 +36,13 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show($id)
     {
-        $order->load(['user', 'items.variant']);
+        $order = \App\Models\Order::with(['user', 'items.variant'])->findOrFail($id);
+
         return view('admin.orders.show', compact('order'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -69,13 +71,11 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled'
+            'status' => 'required|in:pending,confirmed,processing,shipping,delivered,completed,cancelled,refunded',
         ]);
 
-        $order->update([
-            'status' => $request->status
-        ]);
+        $order->update(['status' => $request->status]);
 
-        return redirect()->back()->with('success', 'Order status updated successfully');
+        return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
 }

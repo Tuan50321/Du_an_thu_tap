@@ -18,10 +18,10 @@ class OrderItemSeeder extends Seeder
         }
 
         foreach ($orders as $order) {
-            foreach (range(1, rand(1, 3)) as $i) {
+            foreach (range(1, rand(1, 2)) as $i) {
                 OrderItem::create([
                     'order_id' => $order->order_id ?? $order->id,
-                    'variant_id' => rand(1, 5), // Điều chỉnh theo dữ liệu thật
+                    'variant_id' => rand(1, 2), // Điều chỉnh theo dữ liệu thật
                     'quantity' => rand(1, 5),
                     'price' => rand(10000, 100000),
                 ]);
