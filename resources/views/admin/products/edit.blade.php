@@ -17,7 +17,7 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Tên sản phẩm</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                        id="name" name="name" value="{{ old('name', $product->name) }}" required>
+                                        id="name" name="name" value="{{ old('name', $product->name) }}" >
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
