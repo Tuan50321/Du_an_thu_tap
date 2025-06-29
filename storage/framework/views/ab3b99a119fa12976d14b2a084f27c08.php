@@ -7,18 +7,26 @@
                         <h4>Edit Banner</h4>
                     </div>
                     <div class="card-body">
+
                         <form action="<?php echo e(route('admin.banners.update', $banner)); ?>" method="POST" enctype="multipart/form-data">
+
+                        <form action="<?php echo e(route('admin.banners.update', $banner)); ?>" method="POST">
+
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('PUT'); ?>
 
                             <div class="mb-3">
+
                                 <label for="image" class="form-label">Banner Image</label>
                                 <?php if($banner->image_url): ?>
                                     <div class="mb-2">
                                         <img src="<?php echo e($banner->image_url_full); ?>" alt="Current Banner" style="max-width: 300px;" class="img-thumbnail">
                                     </div>
                                 <?php endif; ?>
-                                <input type="file" class="form-control <?php $__errorArgs = ['image'];
+
+                                <label for="image_url" class="form-label">Image URL</label>
+                                <input type="text" class="form-control <?php $__errorArgs = ['image_url'];
+
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -27,6 +35,11 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="image" name="image">
                                 <?php $__errorArgs = ['image'];
+
+unset($__errorArgs, $__bag); ?>"
+                                    id="image_url" name="image_url" value="<?php echo e(old('image_url', $banner->image_url)); ?>"
+                                    required>
+                                <?php $__errorArgs = ['image_url'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }

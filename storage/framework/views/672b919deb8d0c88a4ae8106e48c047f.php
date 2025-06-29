@@ -29,13 +29,21 @@
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                             <?php $__empty_1 = true; $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+=======
+                            <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                                 <tr>
                                     <td><?php echo e($banner->banner_id); ?></td>
                                     <td>
                                         <?php if($banner->image_url): ?>
                                             <img src="<?php echo e(asset('storage/' . $banner->image_url)); ?>" alt="Banner"
+<<<<<<< HEAD
                                                 style="max-width: 200px;">
+=======
+                                                class="img-fluid" style="max-width: 150px;">
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                                         <?php else: ?>
                                             No Image
                                         <?php endif; ?>
@@ -75,7 +83,13 @@
                                         </form>
                                     </td>
                                 </tr>
+<<<<<<< HEAD
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+=======
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            <?php if($banners->isEmpty()): ?>
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                                 <tr>
                                     <td colspan="6" class="text-center text-muted">No banners found.</td>
                                 </tr>
@@ -87,4 +101,8 @@
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/admin/banners/index.blade.php ENDPATH**/ ?>

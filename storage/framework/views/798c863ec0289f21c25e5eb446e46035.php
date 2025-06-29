@@ -17,10 +17,16 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
+<<<<<<< HEAD
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Thumbnail</th>
+=======
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                             <th>ID</th>
                             <th>Name</th>
                             <th>Category</th>
@@ -34,9 +40,12 @@
                     <tbody>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
+<<<<<<< HEAD
                                 <td>
                                     <img src="<?php echo e($product->thumbnail_url); ?>" alt="Thumbnail" class="img-thumbnail" style="max-width: 50px;">
                                 </td>
+=======
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                                 <td><?php echo e($product->product_id); ?></td>
                                 <td><?php echo e($product->name); ?></td>
                                 <td><?php echo e($product->category ? $product->category->name : 'N/A'); ?></td>
@@ -86,5 +95,9 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 <?php $__env->stopSection(); ?>
+=======
+<?php $__env->stopSection(); ?> 
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/admin/products/index.blade.php ENDPATH**/ ?>

@@ -2,6 +2,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
+<<<<<<< HEAD
             <h1>Bảng điều khiển</h1>
             <div class="card">
                 <div class="card-body">
@@ -166,12 +167,23 @@
                             </tbody>
                         </table>
                     </div>
+=======
+            <h1>Dashboard</h1>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome to Admin Dashboard</h5>
+                    <p class="card-text">This is your admin dashboard. You can manage your content from here.</p>
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                 </div>
             </div>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('scripts'); ?>
 <?php $__env->stopPush(); ?> 
+=======
+<?php $__env->stopSection(); ?> 
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

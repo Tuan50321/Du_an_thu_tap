@@ -9,11 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<<<<<<< HEAD
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+=======
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
     <style>
         #sidebar {
             min-height: 100vh;
@@ -75,6 +78,7 @@
         .sub-nav-link:hover {
             color: #fff;
         }
+<<<<<<< HEAD
 
         .pagination-wrapper nav {
             padding: 8px 16px;
@@ -84,6 +88,11 @@
     </style>
 
 
+=======
+    </style>
+
+    
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
 </head>
 
 <body>
@@ -99,6 +108,7 @@
                     <button class="btn btn-dark" id="sidebarCollapse">
                         <i class="fas fa-bars"></i>
                     </button>
+<<<<<<< HEAD
 
                     <div class="dropdown">
                         <?php if(auth()->guard()->check()): ?>
@@ -122,6 +132,28 @@
                         <?php endif; ?>
                     </div>
 
+=======
+                    
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown">
+                                    <i class="fas fa-user"></i> Admin
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i>
+                                            Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i>
+                                            Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
                 </div>
             </nav>
 
@@ -149,7 +181,10 @@
             });
         });
     </script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
     <?php echo $__env->yieldContent('scripts'); ?>
 
 </body>

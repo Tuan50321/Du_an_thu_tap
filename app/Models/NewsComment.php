@@ -34,6 +34,10 @@ class NewsComment extends Model
      */
     public function news()
     {
+<<<<<<< HEAD
         return $this->belongsTo(\App\Models\News::class, 'news_id', 'news_id'); // CHÚ Ý: nếu cột khóa chính trong bảng news là `news_id`
+=======
+        return $this->belongsTo(News::class);
+>>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
     }
 }
