@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
+
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -8,6 +10,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -17,12 +20,14 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
+
     public function create()
     {
         $categories = Category::all();
         $brands = Brand::all();
         return view('admin.products.create', compact('categories', 'brands'));
     }
+
 
     public function store(Request $request)
     {
@@ -52,6 +57,7 @@ class ProductController extends Controller
             'thumbnail.max' => 'The thumbnail may not be greater than 2MB.'
         ]);
 
+
         $product = Product::create([
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
@@ -63,14 +69,17 @@ class ProductController extends Controller
             'created_by' => Auth::id()
         ]);
 
+
         // Upload thumbnail nếu có
         if ($request->hasFile('thumbnail')) {
             $product->uploadThumbnail($request->file('thumbnail'));
         }
 
+
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');
     }
+
 
     public function show(Product $product)
     {
@@ -78,12 +87,14 @@ class ProductController extends Controller
         return view('admin.products.show', compact('product'));
     }
 
+
     public function edit(Product $product)
     {
         $categories = Category::all();
         $brands = Brand::all();
         return view('admin.products.edit', compact('product', 'categories', 'brands'));
     }
+
 
     public function update(Request $request, Product $product)
     {
@@ -113,6 +124,7 @@ class ProductController extends Controller
             'thumbnail.max' => 'The thumbnail may not be greater than 2MB.'
         ]);
 
+
         $product->update([
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
@@ -123,14 +135,17 @@ class ProductController extends Controller
             'status' => $request->status
         ]);
 
+
         // Upload thumbnail mới nếu có
         if ($request->hasFile('thumbnail')) {
             $product->uploadThumbnail($request->file('thumbnail'));
         }
 
+
         return redirect()->route('admin.products.index')
             ->with('success', 'Product updated successfully');
     }
+
 
     public function destroy(Product $product)
     {
@@ -138,4 +153,7 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully');
     }
-} 
+}
+
+
+

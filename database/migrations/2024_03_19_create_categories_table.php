@@ -9,14 +9,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id('category_id');
+            $table->id();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('slug')->unique();
 
             // Tạo foreign key liên kết đến chính nó
             $table->foreign('parent_id')
-                  ->references('category_id')
+                  ->references('id')
                   ->on('categories')
                   ->onDelete('cascade');
         });

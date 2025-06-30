@@ -35,8 +35,7 @@
                                     <td>{{ $banner->banner_id }}</td>
                                     <td>
                                         @if ($banner->image_url)
-                                            <img src="{{ asset('storage/' . $banner->image_url) }}" alt="Banner"
-                                                class="img-fluid" style="max-width: 150px;">
+                                            <img src="{{ $banner->image_url_full }}" alt="Banner" style="max-width: 200px;">
                                         @else
                                             No Image
                                         @endif

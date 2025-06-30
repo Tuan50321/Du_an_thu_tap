@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id')->nullable();
             $table->enum('status', ['published', 'draft', 'archived'])->default('draft');
             $table->timestamp('published_at')->nullable();
+            $table->timestamps();
         });
     }
 

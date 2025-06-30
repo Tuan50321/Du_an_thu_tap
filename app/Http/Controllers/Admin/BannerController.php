@@ -27,14 +27,14 @@ class BannerController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        $imagePath = null;
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('banners', 'public');
+        } else {
+            $imagePath = null;
         }
 
         Banner::create([
-            'image_url' => $imagePath, // chỉ lưu 'banners/tenfile.jpg'
+            'image_url' => $imagePath,
             'link_url' => $request->link_url,
             'position' => $request->position,
             'is_active' => $request->is_active,
