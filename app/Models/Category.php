@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
     
     protected $primaryKey = 'category_id';
@@ -14,7 +17,8 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
-        'parent_id'
+        'parent_id',
+        'status'
     ];
 
     // Relationship với danh mục cha
@@ -27,6 +31,12 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id', 'category_id');
+    }
+
+    // Relationship với products
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id', 'category_id');
     }
 
     // Tự động tạo slug khi set name

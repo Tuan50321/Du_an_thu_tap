@@ -12,12 +12,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\LienHeAdminController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Client\HomeController;
 
-
-// Chuyển hướng trang chủ vào dashboard
-Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
-});
+// Client routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

@@ -9,16 +9,19 @@
                         <h4>Edit Banner</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.banners.update', $banner) }}" method="POST">
+                        <form action="{{ route('admin.banners.update', $banner) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
-                                <label for="image_url" class="form-label">Image URL</label>
-                                <input type="text" class="form-control @error('image_url') is-invalid @enderror"
-                                    id="image_url" name="image_url" value="{{ old('image_url', $banner->image_url) }}"
-                                    required>
-                                @error('image_url')
+                                <label for="image" class="form-label">Banner Image</label>
+                                @if($banner->image_url)
+                                    <div class="mb-2">
+                                        <img src="{{ $banner->image_url_full }}" alt="Current Banner" style="max-width: 300px;" class="img-thumbnail">
+                                    </div>
+                                @endif
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+                                @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
