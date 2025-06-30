@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,31 +17,64 @@
             color: #fff;
             transition: all 0.3s;
         }
+
         #content {
             width: calc(100% - 250px);
             min-height: 100vh;
             transition: all 0.3s;
         }
+
         .wrapper {
             display: flex;
             width: 100%;
         }
+
         .sidebar-link {
             color: #fff;
             text-decoration: none;
             padding: 10px 15px;
             display: block;
         }
+
         .sidebar-link:hover {
             background: #495057;
             color: #fff;
             text-decoration: none;
         }
+
         .sidebar-link i {
             margin-right: 10px;
         }
+
+        .sidebar-link {
+            display: block;
+            padding: 10px 15px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.bg-primary {
+            color: #fff;
+            background-color: #0d6efd;
+            border-radius: 4px;
+        }
+
+        .sub-nav-link {
+            display: block;
+            padding: 6px 10px;
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        .sub-nav-link:hover {
+            color: #fff;
+        }
     </style>
+
+    
 </head>
+
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -54,16 +88,22 @@
                     <button class="btn btn-dark" id="sidebarCollapse">
                         <i class="fas fa-bars"></i>
                     </button>
+                    
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown">
                                     <i class="fas fa-user"></i> Admin
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> Profile</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i>
+                                            Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i>
+                                            Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -95,5 +135,9 @@
             });
         });
     </script>
+    <?php echo $__env->yieldContent('scripts'); ?>
+
 </body>
-</html> <?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>
+
+</html>
+<?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>

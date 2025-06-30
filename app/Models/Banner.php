@@ -15,4 +15,15 @@ class Banner extends Model
         'position',
         'is_active',
     ];
+
+    // Accessor để lấy image_url từ image
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
+
+    public function getImageUrlFullAttribute()
+    {
+        return $this->image_url ? asset('storage/' . $this->image_url) : null;
+    }
 }
