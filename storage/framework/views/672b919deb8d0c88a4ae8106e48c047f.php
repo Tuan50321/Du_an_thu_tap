@@ -34,8 +34,7 @@
                                     <td><?php echo e($banner->banner_id); ?></td>
                                     <td>
                                         <?php if($banner->image_url): ?>
-                                            <img src="<?php echo e(asset('storage/' . $banner->image_url)); ?>" alt="Banner"
-                                                class="img-fluid" style="max-width: 150px;">
+                                            <img src="<?php echo e($banner->image_url_full); ?>" alt="Banner" style="max-width: 200px;">
                                         <?php else: ?>
                                             No Image
                                         <?php endif; ?>

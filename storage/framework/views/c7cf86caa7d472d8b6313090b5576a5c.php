@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Shop Online')</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Shop Online'); ?></title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -112,15 +112,15 @@
         
     </style>
 
-    @yield('styles')
+    <?php echo $__env->yieldContent('styles'); ?>
 </head>
 
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg" style="background-color: #012035;">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('client.home') }}">
-                <img src="{{ asset('storage/logo/logo.png') }}" alt="Logo"
+            <a class="navbar-brand d-flex align-items-center" href="<?php echo e(route('client.home')); ?>">
+                <img src="<?php echo e(asset('storage/logo/logo.png')); ?>" alt="Logo"
                     style="height:80px; width:auto; margin-right:18px;">
                 <span style="font-weight:bold; font-size:2.2rem; color:#fff; letter-spacing:1px;">HOUSE HOLD GOOD</span>
             </a>
@@ -132,7 +132,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.home') }}">Trang chủ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.home')); ?>">Trang chủ</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button"
@@ -140,26 +140,26 @@
                             Danh mục
                         </a>
                         <ul class="dropdown-menu">
-                            @foreach ($categories ?? [] as $category)
-                                <li><a class="dropdown-item" href="#">{{ $category->name }}</a></li>
-                            @endforeach
+                            <?php $__currentLoopData = $categories ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><a class="dropdown-item" href="#"><?php echo e($category->name); ?></a></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.news.index') }}">Tin tức</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.news.index')); ?>">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.lienhe.index') }}">Liên hệ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.lienhe.index')); ?>">Liên hệ</a>
                     </li>
                 </ul>
 
-                <form class="d-flex me-3" action="{{ route('client.search') }}" method="GET"
+                <form class="d-flex me-3" action="<?php echo e(route('client.search')); ?>" method="GET"
                     style="max-width: 300px;">
                     <input class="form-control me-2" type="search" name="q"
-                        value="{{ isset($query) ? $query : '' }}" placeholder="Tìm kiếm sản phẩm..."
+                        value="<?php echo e(isset($query) ? $query : ''); ?>" placeholder="Tìm kiếm sản phẩm..."
                         aria-label="Tìm kiếm">
                     <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -192,7 +192,7 @@
 
     <!-- Main Content -->
     <main>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
     <!-- Footer -->
@@ -251,7 +251,8 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    @yield('scripts')
+    <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 
 </html>
+<?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/client/layouts/app.blade.php ENDPATH**/ ?>

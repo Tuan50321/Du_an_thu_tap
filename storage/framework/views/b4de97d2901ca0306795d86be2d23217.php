@@ -1,33 +1,31 @@
-@extends('client.layouts.app')
+<?php $__env->startSection('title', 'Trang chủ - HOUSE HOLD GOOD'); ?>
 
-@section('title', 'Trang chủ - HOUSE HOLD GOOD')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- Banner Carousel -->
-    @if ($banners->count() > 0)
+    <?php if($banners->count() > 0): ?>
         <section class="banner-carousel">
             <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    @foreach ($banners as $index => $banner)
-                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="{{ $index }}"
-                            class="{{ $index == 0 ? 'active' : '' }}"></button>
-                    @endforeach
+                    <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="<?php echo e($index); ?>"
+                            class="<?php echo e($index == 0 ? 'active' : ''); ?>"></button>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
                 <div class="carousel-inner">
-                    @foreach ($banners as $index => $banner)
-                        @if ($banner->is_active)
-                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                @if ($banner->link_url)
+                    <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($banner->is_active): ?>
+                            <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
+                                <?php if($banner->link_url): ?>
                         
-                                <a href="{{ $banner->link_url }}" target="_blank">
-                                        <img src="{{ $banner->image_url_full }}" class="d-block w-100" alt="Banner">
+                                <a href="<?php echo e($banner->link_url); ?>" target="_blank">
+                                        <img src="<?php echo e($banner->image_url_full); ?>" class="d-block w-100" alt="Banner">
                                     </a>
-                                @else
-                                    <img src="{{ $banner->image_url_full }}" class="d-block w-100" alt="Banner">
-                                @endif
+                                <?php else: ?>
+                                    <img src="<?php echo e($banner->image_url_full); ?>" class="d-block w-100" alt="Banner">
+                                <?php endif; ?>
                             </div>
-                        @endif
-                    @endforeach
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -37,7 +35,7 @@
                 </button>
             </div>
         </section>
-    @endif
+    <?php endif; ?>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -55,12 +53,12 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    @if ($banners->count() > 0)
-                        <img src="{{ $banners->first()->image_url_full }}" alt="Banner" class="img-fluid rounded shadow">
-                    @else
+                    <?php if($banners->count() > 0): ?>
+                        <img src="<?php echo e($banners->first()->image_url_full); ?>" alt="Banner" class="img-fluid rounded shadow">
+                    <?php else: ?>
                         <img src="https://via.placeholder.com/600x400?text=No+Banner" alt="No Banner"
                             class="img-fluid rounded shadow">
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -76,15 +74,15 @@
                 </div>
             </div>
             <div class="row g-4">
-                @foreach ($categories->take(6) as $category)
+                <?php $__currentLoopData = $categories->take(6); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-4 col-lg-2">
                         <div class="category-card">
                             <i class="fas fa-couch fa-3x mb-3"></i>
-                            <h5>{{ $category->name }}</h5>
-                            <small>{{ $category->products_count ?? 0 }} sản phẩm</small>
+                            <h5><?php echo e($category->name); ?></h5>
+                            <small><?php echo e($category->products_count ?? 0); ?> sản phẩm</small>
                         </div>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </section>
@@ -94,38 +92,40 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    @if (isset($query))
-                        <h2 class="fw-bold">Kết quả tìm kiếm cho: "{{ $query }}"</h2>
-                        <p class="text-muted">Tìm thấy {{ $products->count() }} sản phẩm</p>
-                    @else
+                    <?php if(isset($query)): ?>
+                        <h2 class="fw-bold">Kết quả tìm kiếm cho: "<?php echo e($query); ?>"</h2>
+                        <p class="text-muted">Tìm thấy <?php echo e($products->count()); ?> sản phẩm</p>
+                    <?php else: ?>
                         <h2 class="fw-bold">Sản phẩm gia dụng nổi bật</h2>
                         <p class="text-muted">Những sản phẩm được khách hàng tin dùng và đánh giá cao</p>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="row g-4">
-                @php
+                <?php
                     $listProducts = isset($products) ? $products : $featuredProducts;
-                @endphp
-                @foreach ($listProducts as $product)
-                    @if ($product->status === 'active')
-                        {{-- ✅ chỉ hiển thị nếu sản phẩm đang active --}}
+                ?>
+                <?php $__currentLoopData = $listProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if($product->status === 'active'): ?>
+                        
                         <div class="col-md-6 col-lg-3">
                             <div class="card product-card h-100">
-                                <img src="{{ $product->thumbnail_url }}" class="card-img-top product-image"
-                                    alt="{{ $product->name }}">
+                                <img src="<?php echo e($product->thumbnail_url); ?>" class="card-img-top product-image"
+                                    alt="<?php echo e($product->name); ?>">
                                 <div class="card-body d-flex flex-column">
-                                    <h6 class="card-title">{{ $product->name }}</h6>
-                                    <p class="card-text text-muted small">{{ Str::limit($product->description, 100) }}</p>
+                                    <h6 class="card-title"><?php echo e($product->name); ?></h6>
+                                    <p class="card-text text-muted small"><?php echo e(Str::limit($product->description, 100)); ?></p>
                                     <div class="mt-auto">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="text-danger fw-bold">{{ number_format($product->price) }}
+                                            <span class="text-danger fw-bold"><?php echo e(number_format($product->price)); ?>
+
                                                 VNĐ</span>
-                                            @if ($product->old_price)
+                                            <?php if($product->old_price): ?>
                                                 <span
-                                                    class="text-muted text-decoration-line-through">{{ number_format($product->old_price) }}
+                                                    class="text-muted text-decoration-line-through"><?php echo e(number_format($product->old_price)); ?>
+
                                                     VNĐ</span>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                         <div class="d-flex gap-2">
                                             <button class="btn btn-primary btn-sm flex-fill">
@@ -139,15 +139,15 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </div>
             <div class="row mt-4">
                 <div class="col-12 text-center">
-                    @if (!isset($query))
+                    <?php if(!isset($query)): ?>
                         <a href="#" class="btn btn-primary btn-lg">Xem tất cả sản phẩm gia dụng</a>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -192,28 +192,28 @@
                 }
             </style>
             <div class="row g-4 align-items-center">
-                @foreach ($brands->take(6) as $brand)
+                <?php $__currentLoopData = $brands->take(6); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-2 col-6 text-center">
                         <div class="brand-card">
-                            @if ($brand->logo)
-                                <img src="{{ asset('storage/' . $brand->logo) }}" alt="{{ $brand->name }}"
+                            <?php if($brand->logo): ?>
+                                <img src="<?php echo e(asset('storage/' . $brand->logo)); ?>" alt="<?php echo e($brand->name); ?>"
                                     class="img-fluid mb-2"
                                     style="max-height: 60px; filter: drop-shadow(0 2px 8px #6366f1aa);">
-                            @else
+                            <?php else: ?>
                                 <i class="fas fa-industry fa-3x mb-2"></i>
-                            @endif
+                            <?php endif; ?>
                             <div>
-                                <h6 class="mb-0">{{ $brand->name }}</h6>
+                                <h6 class="mb-0"><?php echo e($brand->name); ?></h6>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </section>
 
     <!-- News Section -->
-    @if ($latestNews->count() > 0)
+    <?php if($latestNews->count() > 0): ?>
         <section class="py-5 bg-light">
             <div class="container">
                 <div class="row mb-4">
@@ -223,19 +223,19 @@
                     </div>
                 </div>
                 <div class="row g-4">
-                    @foreach ($latestNews as $news)
+                    <?php $__currentLoopData = $latestNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-md-4">
                             <div class="card news-card h-100">
-                                <img src="{{ asset($news->image) }}" class="card-img-top" alt="{{ $news->title }}"
+                                <img src="<?php echo e(asset($news->image)); ?>" class="card-img-top" alt="<?php echo e($news->title); ?>"
                                     style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
-                                    <h6 class="card-title">{{ $news->title }}</h6>
+                                    <h6 class="card-title"><?php echo e($news->title); ?></h6>
                                     <p class="card-text text-muted">
-                                        {{ Str::limit($news->summary ?? $news->content, 120) }}</p>
+                                        <?php echo e(Str::limit($news->summary ?? $news->content, 120)); ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small
-                                            class="text-muted">{{ $news->created_at ? $news->created_at->format('d/m/Y') : 'N/A' }}</small>
-                                        <a href="{{ route('client.news.show', $news->news_id) }}" class="btn btn-outline-primary btn-sm">
+                                            class="text-muted"><?php echo e($news->created_at ? $news->created_at->format('d/m/Y') : 'N/A'); ?></small>
+                                        <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>" class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết
                                         </a>
 
@@ -243,11 +243,11 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
         </section>
-    @endif
+    <?php endif; ?>
 
     <!-- Features Section -->
     <section class="py-5">
@@ -284,9 +284,9 @@
             </div>
         </div>
     </section>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
     <script>
         // Auto-play carousel
         $(document).ready(function() {
@@ -295,4 +295,6 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/client/home.blade.php ENDPATH**/ ?>

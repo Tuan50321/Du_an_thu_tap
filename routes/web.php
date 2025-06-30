@@ -10,13 +10,24 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\LienHeAdminController;
+use App\Http\Controllers\Admin\Lienhe\LienHeAdminController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\Lienhe\LienHeController;
+use App\Http\Controllers\Client\Baiviet\NewsController as BaivietNewsController;
 
 // Client routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::prefix('/')->name('client.')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/search', [HomeController::class, 'search'])->name('search');
+    Route::resource('lienhe', LienHeController::class);
+
+
+    Route::get('news', [BaivietNewsController::class, 'index'])->name('news.index');
+    Route::get('news/{news}', [BaivietNewsController::class, 'show'])->name('news.show');
+    Route::post('news/{news}/comment', [BaivietNewsController::class, 'comment'])->name('news.comment');
+});
+
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -47,7 +58,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('lien-he/{id}', [LienHeAdminController::class, 'show'])->name('lienhe.show');
     Route::delete('lien-he/{id}', [LienHeAdminController::class, 'destroy'])->name('lienhe.destroy');
 
-    
+
 
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
