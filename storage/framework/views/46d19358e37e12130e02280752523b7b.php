@@ -1,19 +1,18 @@
-@extends('admin.layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Banners</h1>
-            <a href="{{ route('admin.banners.create') }}" class="btn btn-primary">
+            <a href="<?php echo e(route('admin.banners.create')); ?>" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Add New Banner
             </a>
         </div>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success">
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="card">
             <div class="card-body">
@@ -30,42 +29,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($banners as $banner)
+                            <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $banner->banner_id }}</td>
+                                    <td><?php echo e($banner->banner_id); ?></td>
                                     <td>
-                                        @if ($banner->image_url)
-                                            <img src="{{ $banner->image_url_full }}" alt="Banner" style="max-width: 200px;">
-                                        @else
+                                        <?php if($banner->image_url): ?>
+                                            <img src="<?php echo e($banner->image_url_full); ?>" alt="Banner" style="max-width: 200px;">
+                                        <?php else: ?>
                                             No Image
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        @if ($banner->link_url)
-                                            <a href="{{ $banner->link_url }}" target="_blank">{{ $banner->link_url }}</a>
-                                        @else
+                                        <?php if($banner->link_url): ?>
+                                            <a href="<?php echo e($banner->link_url); ?>" target="_blank"><?php echo e($banner->link_url); ?></a>
+                                        <?php else: ?>
                                             N/A
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
-                                    <td>{{ $banner->position }}</td>
+                                    <td><?php echo e($banner->position); ?></td>
                                     <td>
-                                        <span class="badge bg-{{ $banner->is_active ? 'success' : 'secondary' }}">
-                                            {{ $banner->is_active ? 'Active' : 'Inactive' }}
+                                        <span class="badge bg-<?php echo e($banner->is_active ? 'success' : 'secondary'); ?>">
+                                            <?php echo e($banner->is_active ? 'Active' : 'Inactive'); ?>
+
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.banners.show', $banner) }}" class="btn btn-sm btn-info"
+                                        <a href="<?php echo e(route('admin.banners.show', $banner)); ?>" class="btn btn-sm btn-info"
                                             title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('admin.banners.edit', $banner) }}" class="btn btn-sm btn-warning"
+                                        <a href="<?php echo e(route('admin.banners.edit', $banner)); ?>" class="btn btn-sm btn-warning"
                                             title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.banners.destroy', $banner) }}" method="POST"
+                                        <form action="<?php echo e(route('admin.banners.destroy', $banner)); ?>" method="POST"
                                             class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
                                             <button type="submit" class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Are you sure you want to delete this banner?')"
                                                 title="Delete">
@@ -74,17 +74,18 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            @if ($banners->isEmpty())
+                            <?php if($banners->isEmpty()): ?>
                                 <tr>
                                     <td colspan="6" class="text-center text-muted">No banners found.</td>
                                 </tr>
-                            @endif
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/banners/index.blade.php ENDPATH**/ ?>
