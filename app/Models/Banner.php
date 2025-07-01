@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Banner extends Model
 {
-    protected $table = 'banners'; // nếu tên bảng không phải dạng số nhiều theo mặc định
+    protected $table = 'banners'; // tên bảng
     protected $primaryKey = 'banner_id';
     public $timestamps = false;
 
@@ -16,14 +16,8 @@ class Banner extends Model
         'is_active',
     ];
 
-    // Accessor để lấy image_url từ image
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute($value)
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
-    }
-
-    public function getImageUrlFullAttribute()
-    {
-        return $this->image_url ? asset('storage/' . $this->image_url) : null;
+        return $value ? asset('storage/' . $value) : null;
     }
 }

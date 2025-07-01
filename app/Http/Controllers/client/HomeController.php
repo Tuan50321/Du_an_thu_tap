@@ -24,7 +24,7 @@ class HomeController extends Controller
         $brands = Brand::all();
         $banners = Banner::where('is_active', 1)->whereNotNull('image_url')->get();
         $latestNews = News::where('status', 'published')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('published_at', 'desc')   // <-- SỬA Ở ĐÂY
             ->take(3)
             ->get();
 
@@ -44,10 +44,10 @@ class HomeController extends Controller
         $brands = Brand::all();
         $banners = Banner::where('is_active', 1)->whereNotNull('image_url')->get();
         $latestNews = News::where('status', 'published')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('published_at', 'desc')   // <-- SỬA Ở ĐÂY
             ->take(3)
             ->get();
 
         return view('client.home', compact('products', 'categories', 'brands', 'banners', 'latestNews', 'query'));
     }
-} 
+}
