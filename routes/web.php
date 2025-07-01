@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\Lienhe\LienHeController;
 use App\Http\Controllers\Client\Baiviet\NewsController as BaivietNewsController;
+use App\Http\Controllers\Client\CategoryController as ClientCategoryController;
 
 // Client routes
 Route::prefix('/')->name('client.')->group(function () {
@@ -26,6 +27,8 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::get('news', [BaivietNewsController::class, 'index'])->name('news.index');
     Route::get('news/{news}', [BaivietNewsController::class, 'show'])->name('news.show');
     Route::post('news/{news}/comment', [BaivietNewsController::class, 'comment'])->name('news.comment');
+
+    Route::get('category/{slug}', [ClientCategoryController::class, 'show'])->name('category.show');
 });
 
 
