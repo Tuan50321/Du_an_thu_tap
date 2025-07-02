@@ -75,12 +75,6 @@
         .sub-nav-link:hover {
             color: #fff;
         }
-
-        .pagination-wrapper nav {
-            padding: 8px 16px;
-            background-color: #fff;
-            border-radius: 10px;
-        }
     </style>
 
 
@@ -89,7 +83,7 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
-        @include('admin.layouts.sidebar')
+        <?php echo $__env->make('admin.layouts.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
         <!-- Page Content -->
         <div id="content">
@@ -101,32 +95,32 @@
                     </button>
 
                     <div class="dropdown">
-                        @auth
-                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li>
-                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        @else
-                            <a href="{{ route('login') }}" class="btn btn-primary">
-                                <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
-                            </a>
-                        @endauth
-                    </div>
+    <?php if(auth()->guard()->check()): ?>
+        <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle me-1"></i> <?php echo e(Auth::user()->name); ?>
+
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li>
+                <form action="<?php echo e(route('logout')); ?>" method="POST" class="d-inline">
+                    <?php echo csrf_field(); ?>
+                    <button type="submit" class="dropdown-item">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    <?php else: ?>
+        <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+        </a>
+    <?php endif; ?>
+</div>
 
                 </div>
             </nav>
 
             <!-- Main Content -->
             <main class="p-4">
-                @yield('content')
+                <?php echo $__env->yieldContent('content'); ?>
             </main>
         </div>
     </div>
@@ -149,8 +143,9 @@
         });
     </script>
 
-    @yield('scripts')
+    <?php echo $__env->yieldContent('scripts'); ?>
 
 </body>
 
 </html>
+<?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>

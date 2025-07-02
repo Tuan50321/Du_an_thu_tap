@@ -52,7 +52,7 @@ class NewsController extends Controller
         ]);
 
         NewsComment::create([
-            'news_id' => $news->id,
+            'news_id' => $news->news_id,
             'user_id' => Auth::id(), // hoặc null nếu cho phép ẩn danh
             'content' => $request->input('content'),
             'is_hidden' => false, // có thể dùng để duyệt thủ công
