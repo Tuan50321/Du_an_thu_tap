@@ -3,36 +3,44 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Banner;
+use Illuminate\Support\Facades\DB;
 
 class BannerSeeder extends Seeder
 {
     public function run(): void
     {
-        $banners = [
+        DB::table('banners')->insert([
             [
-                'image_url' => 'banners/banner1.jpg',
-                'link_url' => 'https://example.com/summer-sale',
-                'position' => 'top',
-                'is_active' => true,
+                'title' => 'Summer Sale',
+                'description' => 'Giảm giá lên đến 50% cho tất cả sản phẩm hè!',
+                'image' => 'banners/banner1.jpg',
+                'link' => 'https://example.com/summer-sale',
+                'sort_order' => 1,
+                'status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'image_url' => 'banners/banner2.jpg',
-                'link_url' => 'https://example.com/winter-sale',
-                'position' => 'bottom',
-                'is_active' => true,
+                'title' => 'Back to School',
+                'description' => 'Ưu đãi đặc biệt cho mùa tựu trường!',
+                'image' => 'banners/banner2.jpg',
+                'link' => 'https://example.com/back-to-school',
+                'sort_order' => 2,
+                'status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'image_url' => 'banners/banner3.jpg',
-                'link_url' => null,
-                'position' => 'sidebar',
-                'is_active' => false,
+                'title' => 'Flash Sale',
+                'description' => 'Chỉ hôm nay! Săn deal cực sốc.',
+                'image' => 'banners/banner3.jpg',
+                'link' => 'https://example.com/flash-sale',
+                'sort_order' => 3,
+                'status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-        ];
-
-        foreach ($banners as $banner) {
-            Banner::create($banner);
-        }
+        ]);
 
         $this->command->info('✅ Đã seed dữ liệu banner.');
     }

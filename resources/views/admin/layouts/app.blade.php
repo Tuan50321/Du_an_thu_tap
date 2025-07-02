@@ -75,6 +75,12 @@
         .sub-nav-link:hover {
             color: #fff;
         }
+
+        .pagination-wrapper nav {
+            padding: 8px 16px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
     </style>
 
 
@@ -95,24 +101,25 @@
                     </button>
 
                     <div class="dropdown">
-    @auth
-        <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li>
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="dropdown-item">Đăng xuất</button>
-                </form>
-            </li>
-        </ul>
-    @else
-        <a href="{{ route('login') }}" class="btn btn-primary">
-            <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
-        </a>
-    @endauth
-</div>
+                        @auth
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+                            </a>
+                        @endauth
+                    </div>
 
                 </div>
             </nav>

@@ -16,30 +16,38 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             $user = Auth::user();
 
-            if($user->role === 'admin') {
-                return redirect('admin/categories')->with('success', 'Login successful');
-            } else {
-                return redirect('admin/products')->with('success', 'Login successful');
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công (Admin)');
             }
+
+            // 👇 Chuyển về trang chủ nếu không phải admin
+            return redirect()->route('client.home')->with('success', 'Đăng nhập thành công');
         }
+
+        return back()->with('error', 'Email hoặc mật khẩu không đúng');
     }
 
-   public function register(Request $request)
+    public function register(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role'     => 'user', // hoặc để mặc định trong migration
+        ]);
 
-        Auth::login($user);
+        Auth::login($user); // 👈 Tự động đăng nhập
 
-        return redirect('/login')->with('success', 'Registration successful');
+        return redirect()->route('client.home')->with('success', 'Đăng ký thành công');
     }
 }

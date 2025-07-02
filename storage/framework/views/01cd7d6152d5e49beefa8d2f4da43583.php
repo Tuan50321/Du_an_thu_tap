@@ -27,20 +27,13 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Tác giả <span class="text-danger">*</span></label>
-                <select name="author_id" class="form-select" required>
-                    <option value="">-- Chọn tác giả --</option>
-                    <?php $__currentLoopData = $authors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $author): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($author->id); ?>" <?php echo e(old('author_id') == $author->id ? 'selected' : ''); ?>>
-                            <?php echo e($author->name); ?>
+            <select name="author_id" class="form-select" readonly>
+                <option value="<?php echo e(auth()->user()->user_id); ?>" selected>
+                    <?php echo e(auth()->user()->name); ?>
 
-                        </option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </select>
-            </div>
-
-
+                </option>
+            </select>
+            
             <div class="mb-3">
                 <label class="form-label fw-semibold">Ảnh đại diện</label>
                 <input type="file" name="image" class="form-control">

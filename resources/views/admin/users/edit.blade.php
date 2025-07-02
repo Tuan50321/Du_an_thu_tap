@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="container mt-4">
-
     {{-- Thông báo --}}
     @if (session('status'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,7 +28,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="row g-3">
+            <form action="{{ route('admin.users.update', $user->user_id) }}" method="POST" enctype="multipart/form-data" class="row g-3">
                 @csrf
                 @method('PUT')
 
@@ -90,13 +89,13 @@
 
                 {{-- Trạng thái --}}
                 <div class="col-md-6">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select name="status" id="status"
-                            class="form-select @error('status') is-invalid @enderror">
-                        <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : '' }}>Hoạt động</option>
-                        <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : '' }}>Ngưng hoạt động</option>
+                    <label for="is_active" class="form-label">Trạng thái</label>
+                    <select name="is_active" id="is_active"
+                            class="form-select @error('is_active') is-invalid @enderror">
+                        <option value="1" {{ old('is_active', $user->is_active) == 1 ? 'selected' : '' }}>Hoạt động</option>
+                        <option value="0" {{ old('is_active', $user->is_active) == 0 ? 'selected' : '' }}>Ngưng hoạt động</option>
                     </select>
-                    @error('status')
+                    @error('is_active')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

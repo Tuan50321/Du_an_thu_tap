@@ -1,73 +1,283 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Trang chủ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Shop Online')</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-card {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: #007bff;
+        }
+
+        .banner-carousel .carousel-item {
+            height: 400px;
+        }
+
+        .banner-carousel .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+        }
+
+        .news-card {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        }
+
+        .navbar .dropdown-menu {
+            background-color: #012035;
+        }
+
+        .navbar .dropdown-menu .dropdown-item {
+            color: #fff;
+        }
+
+        .navbar .dropdown-menu .dropdown-item:hover {
+            background-color: #013a6b;
+            color: #fff;
+        }
+    </style>
+
+    @yield('styles')
 </head>
-<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
 
-  <!-- Header -->
-  <header class="bg-white shadow">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="text-2xl font-bold text-blue-600">MyShop</a>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" style="background-color: #012035;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('client.home') }}">
+                <img src="{{ asset('storage/logo/logo.png') }}" alt="Logo"
+                    style="height:80px; width:auto; margin-right:18px;">
+                <span style="font-weight:bold; font-size:1.3rem; color:#fff; letter-spacing:1px;">HOUSE HOLD GOOD</span>
+            </a>
 
-      <nav class="space-x-6">
-        <a href="/" class="text-gray-700 hover:text-blue-600">Trang chủ</a>
-        <a href="/product" class="text-gray-700 hover:text-blue-600">Sản phẩm</a>
-        <a href="/about" class="text-gray-700 hover:text-blue-600">Giới thiệu</a>
-        <a href="/contact" class="text-gray-700 hover:text-blue-600">Liên hệ</a>
-      </nav>
-
-      <!-- Auth -->
-      <div>
-        @auth
-          <!-- Dropdown menu bằng click -->
-          <div x-data="{ open: false }" class="relative">
-            <button @click="open = !open" class="flex items-center space-x-2 hover:text-blue-600 focus:outline-none">
-              <span>{{ Auth::user()->name }}</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div x-show="open" @click.outside="open = false"
-                 class="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-10">
-              <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Đăng xuất</button>
-              </form>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('client.home') }}">Trang chủ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button"
+                            data-bs-toggle="dropdown">
+                            Danh mục
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach ($categories ?? [] as $category)
+                                <li><a class="dropdown-item" href="#">{{ $category->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('client.news.index') }}">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('client.lienhe.index') }}">Liên hệ</a>
+                    </li>
+                </ul>
+
+                <form class="d-flex me-3" action="{{ route('client.search') }}" method="GET"
+                    style="max-width: 300px;">
+                    <input class="form-control me-2" type="search" name="q"
+                        value="{{ isset($query) ? $query : '' }}" placeholder="Tìm kiếm sản phẩm..."
+                        aria-label="Tìm kiếm">
+                    <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge bg-danger">0</span>
+                        </a>
+                    </li>
+                    <!-- Auth -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center gap-1" href="#"
+                            id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                            @auth
+                                <span>{{ Auth::user()->name }}</span>
+                            @endauth
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            @auth
+                                <!-- 👉 Mục Tài khoản -->
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user-circle me-2"></i> Tài khoản
+                                    </a>
+                                </li>
+
+                                <!-- 👉 Mục Đăng xuất -->
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="dropdown-item m-0 p-0">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-link text-dark text-decoration-none w-100 text-start px-3 py-2">
+                                            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span class="text-danger">Đăng xuất</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            @else
+                                <li><a class="dropdown-item" href="{{ route('login') }}">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="{{ route('register') }}">
+                                        <i class="fas fa-user-plus me-2"></i>Đăng ký</a></li>
+                            @endauth
+                        </ul>
+                    </li>
+
+                </ul>
             </div>
-          </div>
-        @else
-          <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Đăng nhập</a>
-        @endauth
-      </div>
-    </div>
-  </header>
+        </div>
+    </nav>
 
-  <!-- Nội dung -->
-  <main class="flex-grow">
-    <!-- Banner -->
-    <section class="bg-blue-100 py-16 text-center">
-      <h1 class="text-4xl font-bold mb-2">Chào mừng bạn đến với MyShop</h1>
-      <p class="text-gray-700 text-lg">Khám phá các sản phẩm chất lượng với giá hợp lý</p>
-    </section>
+    <!-- Main Content -->
+    <main>
+        @yield('content')
+    </main>
 
-    <!-- Nội dung khác -->
-    <section class="container mx-auto px-4 py-12">
-      @yield('content')
-    </section>
-  </main>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Về chúng tôi</h5>
+                    <p>Householdgood - Nơi mua sắm trực tuyến uy tín, chất lượng với đa dạng sản phẩm và dịch vụ tốt
+                        nhất.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Danh mục</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Điện tử</a></li>
+                        <li><a href="#" class="text-light">Thời trang</a></li>
+                        <li><a href="#" class="text-light">Nhà cửa</a></li>
+                        <li><a href="#" class="text-light">Sức khỏe</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Trung tâm trợ giúp</a></li>
+                        <li><a href="#" class="text-light">Chính sách đổi trả</a></li>
+                        <li><a href="#" class="text-light">Vận chuyển</a></li>
+                        <li><a href="#" class="text-light">Bảo hành</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Liên hệ</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Trịnh Văn Bô, Quận Nam Từ Liêm, TP Hà Nội</p>
+                    <p><i class="fas fa-phone me-2"></i> 0123 456 789</p>
+                    <p><i class="fas fa-envelope me-2"></i> householdgood@gmail.com</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2024 Shop Online. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <img src="https://via.placeholder.com/200x30/007bff/ffffff?text=Payment+Methods"
+                        alt="Payment Methods" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
 
-  <!-- Footer cố định dưới -->
-  <footer class="bg-gray-800 text-white py-6 text-center">
-    <p>&copy; 2025 MyShop. All rights reserved.</p>
-  </footer>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  
-
+    @yield('scripts')
 </body>
+
 </html>

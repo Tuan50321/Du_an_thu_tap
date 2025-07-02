@@ -28,19 +28,12 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Tác giả <span class="text-danger">*</span></label>
-                <select name="author_id" class="form-select" required>
-                    <option value="">-- Chọn tác giả --</option>
-                    @foreach ($authors as $author)
-                        <option value="{{ $author->id }}" {{ old('author_id') == $author->id ? 'selected' : '' }}>
-                            {{ $author->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-
+            <select name="author_id" class="form-select" readonly>
+                <option value="{{ auth()->user()->user_id }}" selected>
+                    {{ auth()->user()->name }}
+                </option>
+            </select>
+            
             <div class="mb-3">
                 <label class="form-label fw-semibold">Ảnh đại diện</label>
                 <input type="file" name="image" class="form-control">

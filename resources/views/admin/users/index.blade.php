@@ -2,8 +2,18 @@
 
 @section('title', 'Danh sách người dùng')
 
+@push('styles')
+    <style>
+        .pagination-wrapper nav {
+            padding: 8px 16px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+    </style>
+@endpush
+
 @section('content')
-    <div class="container mt-4">
+    <div class="container-fluid px-3 px-md-5 mt-4">
 
         <!-- Thông báo -->
         @if (session('status'))
@@ -20,26 +30,25 @@
             </div>
         @endif
 
-        <div class="card shadow-sm">
+        <div class="card shadow-sm border-0">
             <div class="card-body">
 
                 <!-- Nút thêm -->
-                <div class="mb-3 d-flex justify-content-end">
+                <div class="mb-3 d-flex justify-content-end flex-wrap gap-2">
                     <a href="{{ route('admin.users.create') }}"
                         class="btn btn-outline-success d-flex align-items-center gap-1" title="Thêm người dùng mới">
                         <i class="bi bi-person-plus-fill fs-5"></i>
                         <span class="d-none d-sm-inline">Thêm</span>
                     </a>
-
                 </div>
 
                 <!-- Form tìm kiếm -->
-                <form action="" method="get" class="row g-3 mb-3">
-                    <div class="col-auto">
+                <form action="" method="get" class="row row-cols-1 row-cols-sm-auto g-2 align-items-center mb-3">
+                    <div class="col">
                         <input type="text" name="search" class="form-control" placeholder="Tìm kiếm người dùng"
                             value="{{ request('search') }}">
                     </div>
-                    <div class="col-auto">
+                    <div class="col">
                         <button type="submit" class="btn btn-primary btn-sm" title="Tìm kiếm">
                             <i class="bi bi-search fs-5"></i>
                         </button>
@@ -48,7 +57,7 @@
 
                 <!-- Bảng người dùng -->
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
+                    <table class="table table-bordered table-hover table-sm align-middle text-center">
                         <thead class="table-light">
                             <tr>
                                 <th>ID</th>
@@ -59,9 +68,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->user_id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
@@ -71,30 +80,24 @@
                                                     <i class="bi bi-shield-lock-fill"></i> Admin
                                                 </span>
                                             @break
-
                                             @default
                                                 <span class="badge bg-secondary d-inline-flex align-items-center gap-1">
                                                     <i class="bi bi-person"></i> User
                                                 </span>
                                         @endswitch
                                     </td>
-
-
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">
-
                                             <!-- Sửa -->
-                                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                            <a href="{{ route('admin.users.edit', $user->user_id) }}"
                                                 class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                 style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                 title="Sửa người dùng">
                                                 <i class="fa-solid fa-pen"></i>
-
                                             </a>
 
-
                                             <!-- Xóa -->
-                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                            <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST"
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">
                                                 @csrf
                                                 @method('DELETE')
@@ -102,29 +105,28 @@
                                                     class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                     style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                     title="Xóa người dùng">
-                                                    <i class="bi bi-trash3-fill fs-5 "></i>
+                                                    <i class="bi bi-trash3-fill fs-5"></i>
                                                 </button>
                                             </form>
-
-
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
-
-                            @if ($users->isEmpty())
+                            @empty
                                 <tr>
                                     <td colspan="5" class="text-center text-muted">Không có người dùng nào.</td>
                                 </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Phân trang -->
-                <div class="d-flex justify-content-center mt-3">
-                    {{ $users->links() }}
+                <div class="d-flex justify-content-center mt-4">
+                    <div class="shadow-sm rounded pagination-wrapper">
+                        {{ $users->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -132,9 +134,9 @@
     {{-- Kích hoạt tooltip --}}
     @push('scripts')
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-                tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+            document.addEventListener("DOMContentLoaded", () => {
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
             });
         </script>
     @endpush

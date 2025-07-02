@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use App\Models\User;
-
 
 class UserSeeder extends Seeder
 {
@@ -17,17 +15,23 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin',
-            'email'=>'admin@gmail.com',
-            'password'=>Hash::make('admin'),
-            'role' => 'admin', // Set role for admin user
+            'name'       => 'Admin',
+            'email'      => 'admin@gmail.com',
+            'password'   => Hash::make('123456789@'),
+            'role'       => 'admin',
+            'is_active'  => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         User::create([
-            'name' => 'user',
-            'email'=>'user@gmail.com',
-            'password'=>Hash::make('user'),
-            'role' => 'user', // Set role for regular user
+            'name'       => 'User',
+            'email'      => 'user@gmail.com',
+            'password'   => Hash::make('123456789'),
+            'role'       => 'user',
+            'is_active'  => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

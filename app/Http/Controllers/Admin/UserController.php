@@ -17,7 +17,7 @@ class UserController extends Controller
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        $users = $query->orderBy('id', 'desc')->paginate(5);
+        $users = $query->orderBy('user_id', 'desc')->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id . ',user_id',
             'password' => 'nullable|string|min:8',
         ]);
 
