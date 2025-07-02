@@ -11,15 +11,13 @@ class CreateNewsCommentsTable extends Migration
         Schema::create('news_comments', function (Blueprint $table) {
             $table->id();
 
-            // Khóa ngoại đúng kiểu và tên cột (user_id) từ bảng users
-            $table->bigInteger('user_id'); // mặc định là signed
+            // Khóa ngoại đúng đến users(id)
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-
-
-            // news_id phải đúng kiểu với bảng news
+            // Khóa ngoại đến news(id)
             $table->unsignedBigInteger('news_id');
             $table->foreign('news_id')->references('news_id')->on('news')->onDelete('cascade');
+
 
             $table->text('content');
             $table->boolean('is_hidden')->default(false);

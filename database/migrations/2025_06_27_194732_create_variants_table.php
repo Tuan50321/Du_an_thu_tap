@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });

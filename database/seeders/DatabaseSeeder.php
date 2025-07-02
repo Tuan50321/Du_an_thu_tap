@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             NewsCategorySeeder::class,
             NewsCommentSeeder::class,
             ContactSeeder::class,
+            UserSeeder::class, // Ensure UserSeeder is called to seed users
         ]);
     }
 }
