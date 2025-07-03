@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Client\Sanphamchitiet\ProductDetailController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -58,9 +59,12 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::get('/products/{id}', [ProductClientController::class, 'show'])->name('products.show');
 
     // Tin tức
-    Route::get('/news', [BaivietNewsController::class, 'index'])->name('news.index');
-    Route::get('/news/{news}', [BaivietNewsController::class, 'show'])->name('news.show');
-    Route::post('/news/{news}/comment', [BaivietNewsController::class, 'comment'])->name('news.comment');
+    Route::get('news', [BaivietNewsController::class, 'index'])->name('news.index');
+    Route::get('news/{news}', [BaivietNewsController::class, 'show'])->name('news.show');
+    Route::post('news/{news}/comment', [BaivietNewsController::class, 'comment'])->name('news.comment');
+
+    Route::get('/product/{id}', [ProductDetailController::class, 'index'])->name('product.details');
+
 });
 
 // ============================

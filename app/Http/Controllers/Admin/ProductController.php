@@ -29,14 +29,14 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request)
+        public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,category_id',
-            'brand_id' => 'required|exists:brands,brand_id',
-            'name' => 'required|max:255',
-            'price' => 'required|numeric|min:0',
-            'discount_price' => [
+            'category_id'     => 'required|exists:categories,category_id',
+            'brand_id'        => 'required|exists:brands,brand_id',
+            'name'            => 'required|max:255',
+            'price'           => 'required|numeric|min:0',
+            'discount_price'  => [
                 'nullable',
                 'numeric',
                 'min:0',
@@ -46,35 +46,37 @@ class ProductController extends Controller
                     }
                 }
             ],
-            'description' => 'nullable',
-            'status' => 'required|in:active,inactive',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'description'     => 'nullable',
+            'status'          => 'required|in:active,inactive',
+            'thumbnail'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'discount_price.numeric' => 'The discount price must be a number.',
-            'discount_price.min' => 'The discount price must be at least 0.',
-            'thumbnail.image' => 'The thumbnail must be an image.',
-            'thumbnail.mimes' => 'The thumbnail must be a file of type: jpeg, png, jpg, gif.',
-            'thumbnail.max' => 'The thumbnail may not be greater than 2MB.'
+            'discount_price.min'     => 'The discount price must be at least 0.',
+            'thumbnail.image'       => 'The thumbnail must be an image.',
+            'thumbnail.mimes'       => 'The thumbnail must be a file of type: jpeg, png, jpg, gif.',
+            'thumbnail.max'         => 'The thumbnail may not be greater than 2MB.'
         ]);
 
+        // Mặc định thumbnail là null
+        $thumbnailPath = null;
 
-        $product = Product::create([
-            'category_id' => $request->category_id,
-            'brand_id' => $request->brand_id,
-            'name' => $request->name,
-            'price' => $request->price,
-            'discount_price' => $request->discount_price,
-            'description' => $request->description,
-            'status' => $request->status,
-            'created_by' => Auth::id()
-        ]);
-
-
-        // Upload thumbnail nếu có
+        // Nếu có upload thumbnail, thì lưu file
         if ($request->hasFile('thumbnail')) {
-            $product->uploadThumbnail($request->file('thumbnail'));
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
+        // Tạo sản phẩm
+        $product = Product::create([
+            'category_id'     => $validated['category_id'],
+            'brand_id'        => $validated['brand_id'],
+            'name'            => $validated['name'],
+            'price'           => $validated['price'],
+            'discount_price'  => $validated['discount_price'],
+            'description'     => $validated['description'],
+            'status'          => $validated['status'],
+            'thumbnail'       => $thumbnailPath, // thêm thumbnail
+            'created_by'      => Auth::id(),
+        ]);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');

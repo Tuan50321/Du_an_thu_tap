@@ -18,8 +18,7 @@
                         @if ($banner->is_active)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                 @if ($banner->link_url)
-                        
-                                <a href="{{ $banner->link_url }}" target="_blank">
+                                    <a href="{{ $banner->link_url }}" target="_blank">
                                         <img src="{{ $banner->image_url_full }}" class="d-block w-100" alt="Banner">
                                     </a>
                                 @else
@@ -112,8 +111,9 @@
                         {{-- ✅ chỉ hiển thị nếu sản phẩm đang active --}}
                         <div class="col-md-6 col-lg-3">
                             <div class="card product-card h-100">
-                                <img src="{{ $product->thumbnail_url }}" class="card-img-top product-image"
-                                    alt="{{ $product->name }}">
+                                <a href="{{ route('client.product.details', ['id' => $product->product_id]) }}">
+                                    <img src="{{ $product->thumbnail_url }}" class="card-img-top product-image"
+                                        alt="{{ $product->name }}"></a>
                                 <div class="card-body d-flex flex-column">
                                     <h6 class="card-title">{{ $product->name }}</h6>
                                     <p class="card-text text-muted small">{{ Str::limit($product->description, 100) }}</p>
@@ -235,7 +235,8 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small
                                             class="text-muted">{{ $news->created_at ? $news->created_at->format('d/m/Y') : 'N/A' }}</small>
-                                        <a href="{{ route('client.news.show', $news->news_id) }}" class="btn btn-outline-primary btn-sm">
+                                        <a href="{{ route('client.news.show', $news->news_id) }}"
+                                            class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết
                                         </a>
 
