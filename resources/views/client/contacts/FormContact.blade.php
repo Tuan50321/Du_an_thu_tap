@@ -135,7 +135,7 @@
             </div>
             <div class="info-item">
                 <i class="fas fa-envelope"></i>
-                <span><a href="mailto:coolteam@gmail.com" style="color: #fff;">HOUSEHOLDGOOD@gmail.com</a></span>
+                <span><a href="mailto:HOUSEHOLDGOOD@gmail.com" style="color: #fff;">HOUSEHOLDGOOD@gmail.com</a></span>
             </div>
         </div>
 
@@ -157,7 +157,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('client.lienhe.store') }}" method="POST">
+            <form action="{{ route('client.contacts.store') }}" method="POST">
                 @csrf
                 <input type="text" name="name" placeholder="Họ và tên" value="{{ old('name') }}" required>
                 <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>

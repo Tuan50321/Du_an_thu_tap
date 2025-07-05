@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Client\Lienhe;
+namespace App\Http\Controllers\Client\Contacts;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Lienhe;
+use App\Models\Contact;
 
-class LienHeController extends Controller
+class ContactController extends Controller
 {
     public function index()
     {
-        return view('client.lienhe.formlienhe');
+        return view('client.contacts.formcontact');
     }
 
     public function store(Request $request)
@@ -30,7 +30,7 @@ class LienHeController extends Controller
             'message.min'      => 'Nội dung liên hệ tối thiểu 10 ký tự.',
         ]);
 
-        Lienhe::create([
+        Contact::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
@@ -38,6 +38,6 @@ class LienHeController extends Controller
             'message' => $request->message,
         ]);
 
-        return redirect()->route('client.lienhe.index')->with('success', 'Gửi liên hệ thành công!');
+        return redirect()->route('client.contacts.index')->with('success', 'Gửi liên hệ thành công!');
     }
 }

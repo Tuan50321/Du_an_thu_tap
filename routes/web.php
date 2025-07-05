@@ -1,5 +1,4 @@
 <?php
-use App\Http\Controllers\Client\Sanphamchitiet\ProductDetailController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -7,8 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductClientController;
-use App\Http\Controllers\Client\Lienhe\LienHeController;
-use App\Http\Controllers\Client\Baiviet\NewsController as BaivietNewsController;
+use App\Http\Controllers\Client\Contacts\ContactController;
+use App\Http\Controllers\Client\News\NewsController as NewsNewsController;
+use App\Http\Controllers\Client\ProductsShow\ProductDetailController;
+
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -18,9 +19,11 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\Lienhe\LienHeAdminController;
-use App\Http\Controllers\Admin\BaiViet\NewsCategoryController;
-use App\Http\Controllers\Admin\BaiViet\NewsController;
+use App\Http\Controllers\Admin\ContactAdminController;
+use App\Http\Controllers\Admin\News\NewsCategoryController as NewsNewsCategoryController;
+use App\Http\Controllers\Admin\News\NewsController;
+use App\Models\Contact;
+use App\Models\News;
 
 // ============================
 // Public Auth Routes
@@ -53,15 +56,15 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::get('/search', [HomeController::class, 'search'])->name('search');
 
     // Liên hệ
-    Route::resource('lienhe', LienHeController::class);
+    Route::resource('contacts', ContactController::class);
 
     // Sản phẩm
     Route::get('/products/{id}', [ProductClientController::class, 'show'])->name('products.show');
 
     // Tin tức
-    Route::get('news', [BaivietNewsController::class, 'index'])->name('news.index');
-    Route::get('news/{news}', [BaivietNewsController::class, 'show'])->name('news.show');
-    Route::post('news/{news}/comment', [BaivietNewsController::class, 'comment'])->name('news.comment');
+    Route::get('news', [NewsNewsController::class, 'index'])->name('news.index');
+    Route::get('news/{news}', [NewsNewsController::class, 'show'])->name('news.show');
+    Route::post('news/{news}/comment', [NewsNewsController::class, 'comment'])->name('news.comment');
 
     Route::get('/product/{id}', [ProductDetailController::class, 'index'])->name('product.details');
 
@@ -85,15 +88,15 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('coupons', CouponController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('news', NewsController::class);
-    Route::resource('news-categories', NewsCategoryController::class);
+    Route::resource('news-categories', NewsNewsCategoryController::class);
 
     // Cập nhật trạng thái đơn hàng
     Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
 
     // Quản lý liên hệ
-    Route::get('lien-he', [LienHeAdminController::class, 'index'])->name('lienhe.index');
-    Route::get('lien-he/{id}', [LienHeAdminController::class, 'show'])->name('lienhe.show');
-    Route::delete('lien-he/{id}', [LienHeAdminController::class, 'destroy'])->name('lienhe.destroy');
+    Route::get('contacts', [ContactAdminController::class, 'index'])->name('contacts.index');
+    Route::get('contacts/{id}', [ContactAdminController::class, 'show'])->name('contacts.show');
+    Route::delete('contacts/{id}', [ContactAdminController::class, 'destroy'])->name('contacts.destroy');
 
     // Laravel File Manager
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

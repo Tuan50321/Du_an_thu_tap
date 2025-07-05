@@ -85,8 +85,8 @@
                 </div>
             </li>
             <li>
-                <a href="<?php echo e(route('admin.lienhe.index')); ?>"
-                   class="sidebar-link <?php echo e(request()->routeIs('admin.lienhe.*') ? 'bg-primary text-white' : ''); ?>">
+                <a href="<?php echo e(route('admin.contacts.index')); ?>"
+                   class="sidebar-link <?php echo e(request()->routeIs('admin.contacts.*') ? 'bg-primary text-white' : ''); ?>">
                     <i class="fas fa-envelope"></i> Liên hệ
                 </a>
             </li>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\BaiViet;
+namespace App\Http\Controllers\Admin\News;
 
 use App\Http\Controllers\Controller;
 use App\Models\NewsCategory;
@@ -11,12 +11,12 @@ class NewsCategoryController extends Controller
     public function index()
     {
          $categories = NewsCategory::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.BaiViet.news_categories.index', compact('categories'));
+        return view('admin.news.news_categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.BaiViet.news_categories.create');
+        return view('admin.news.news_categories.create');
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class NewsCategoryController extends Controller
 
     public function edit(NewsCategory $newsCategory)
     {
-        return view('admin.BaiViet.news_categories.edit', compact('newsCategory'));
+        return view('admin.news.news_categories.edit', compact('newsCategory'));
     }
 
     public function update(Request $request, NewsCategory $newsCategory)
