@@ -11,37 +11,37 @@ class BannerSeeder extends Seeder
     {
         DB::table('banners')->insert([
             [
-                'title' => 'Summer Sale',
-                'description' => 'Giảm giá lên đến 50% cho tất cả sản phẩm hè!',
-                'image' => 'banners/banner1.jpg',
-                'link' => 'https://example.com/summer-sale',
-                'sort_order' => 1,
-                'status' => 1,
+                'image_url' => 'https://example.com/images/banner1.jpg',
+                'link_url' => '/collections/khuyen-mai',
+                'position' => 'homepage_top',
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'title' => 'Back to School',
-                'description' => 'Ưu đãi đặc biệt cho mùa tựu trường!',
-                'image' => 'banners/banner2.jpg',
-                'link' => 'https://example.com/back-to-school',
-                'sort_order' => 2,
-                'status' => 1,
+                'image_url' => 'https://example.com/images/banner2.jpg',
+                'link_url' => '/collections/do-nha-bep',
+                'position' => 'homepage_middle',
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'title' => 'Flash Sale',
-                'description' => 'Chỉ hôm nay! Săn deal cực sốc.',
-                'image' => 'banners/banner3.jpg',
-                'link' => 'https://example.com/flash-sale',
-                'sort_order' => 3,
-                'status' => 1,
+                'image_url' => 'https://example.com/images/banner3.jpg',
+                'link_url' => '/collections/tu-lanh',
+                'position' => 'sidebar',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'image_url' => 'https://example.com/images/banner4.jpg',
+                'link_url' => '/collections/may-loc-nuoc',
+                'position' => 'footer',
+                'is_active' => false, // chưa hiển thị
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
-
-        $this->command->info('✅ Đã seed dữ liệu banner.');
     }
 }
