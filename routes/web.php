@@ -71,6 +71,9 @@ Route::prefix('/')->name('client.')->group(function () {
 
     Route::get('/product/{id}', [ProductDetailController::class, 'index'])->name('product.details');
 
+    // Danh mục - Hiển thị sản phẩm theo danh mục
+    Route::get('/category/{slug}', [\App\Http\Controllers\Client\CategoryController::class, 'show'])->name('category.show');
+
     Route::resource('reviews', ReviewsController::class);
 });
 

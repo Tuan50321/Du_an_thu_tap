@@ -1,6 +1,4 @@
-@extends('admin.layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -11,7 +9,7 @@
                     <p class="card-text">Bạn có thể quản lý nội dung từ đây.</p>
                 </div>
             </div>
-            @push('styles')
+            <?php $__env->startPush('styles'); ?>
             <style>
                 .stat-card {
                     border-radius: 18px;
@@ -64,13 +62,13 @@
                     .stat-row { gap: 1rem 0; }
                 }
             </style>
-            @endpush
+            <?php $__env->stopPush(); ?>
             <div class="row mt-4 stat-row">
                 <div class="col-md-3 col-6 stat-col">
                     <div class="card stat-card text-white bg-primary h-100">
                         <div class="card-body">
-                            <a href="{{ route('admin.orders.index') }}" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng đơn hàng</a>
-                            <div class="stat-value">{{ number_format($orderCount, 0, ',', '.') }}</div>
+                            <a href="<?php echo e(route('admin.orders.index')); ?>" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng đơn hàng</a>
+                            <div class="stat-value"><?php echo e(number_format($orderCount, 0, ',', '.')); ?></div>
                             <i class="fas fa-shopping-cart stat-icon" title="Tổng số đơn hàng"></i>
                         </div>
                     </div>
@@ -78,8 +76,8 @@
                 <div class="col-md-3 col-6 stat-col">
                     <div class="card stat-card text-white bg-success h-100">
                         <div class="card-body">
-                            <a href="{{ route('admin.orders.index') }}" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng doanh thu</a>
-                            <div class="stat-value">{{ number_format($totalRevenue, 0, ',', '.') }} đ</div>
+                            <a href="<?php echo e(route('admin.orders.index')); ?>" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng doanh thu</a>
+                            <div class="stat-value"><?php echo e(number_format($totalRevenue, 0, ',', '.')); ?> đ</div>
                             <i class="fas fa-coins stat-icon" title="Tổng doanh thu"></i>
                         </div>
                     </div>
@@ -87,8 +85,8 @@
                 <div class="col-md-2 col-6 stat-col">
                     <div class="card stat-card text-white bg-info h-100">
                         <div class="card-body">
-                            <a href="{{ route('admin.products.index') }}" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng sản phẩm</a>
-                            <div class="stat-value">{{ number_format($productCount, 0, ',', '.') }}</div>
+                            <a href="<?php echo e(route('admin.products.index')); ?>" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng sản phẩm</a>
+                            <div class="stat-value"><?php echo e(number_format($productCount, 0, ',', '.')); ?></div>
                             <i class="fas fa-boxes stat-icon" title="Tổng số sản phẩm"></i>
                         </div>
                     </div>
@@ -96,8 +94,8 @@
                 <div class="col-md-2 col-12 stat-col">
                     <div class="card stat-card text-white bg-dark h-100">
                         <div class="card-body">
-                            <a href="{{ route('admin.users.index') }}" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng người dùng</a>
-                            <div class="stat-value">{{ number_format($totalUsers, 0, ',', '.') }}</div>
+                            <a href="<?php echo e(route('admin.users.index')); ?>" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng người dùng</a>
+                            <div class="stat-value"><?php echo e(number_format($totalUsers, 0, ',', '.')); ?></div>
                             <i class="fas fa-user-shield stat-icon" title="Tổng số người dùng"></i>
                         </div>
                     </div>
@@ -105,8 +103,8 @@
                 <div class="col-md-2 col-12 stat-col">
                     <div class="card stat-card text-white bg-secondary h-100">
                         <div class="card-body">
-                            <a href="{{ route('admin.news.index') }}" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng bài viết</a>
-                            <div class="stat-value">{{ number_format($newsCount, 0, ',', '.') }}</div>
+                            <a href="<?php echo e(route('admin.news.index')); ?>" class="stat-title text-white text-decoration-underline" style="cursor:pointer">Tổng bài viết</a>
+                            <div class="stat-value"><?php echo e(number_format($newsCount, 0, ',', '.')); ?></div>
                             <i class="fas fa-newspaper stat-icon" title="Tổng số bài viết"></i>
                         </div>
                     </div>
@@ -117,18 +115,18 @@
                 <div class="col-12">
                     <h4 class="mb-3"><i class="fas fa-fire text-danger me-2"></i>Sản phẩm bán chạy nhất</h4>
                     <div class="row g-3">
-                        @foreach($bestSellers as $product)
+                        <?php $__currentLoopData = $bestSellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-md-3 col-6">
                             <div class="card h-100 shadow-sm">
-                                <img src="{{ $product->thumbnail_url ?? asset('images/default-thumbnail.jpg') }}" class="card-img-top" alt="{{ $product->name }}">
+                                <img src="<?php echo e($product->thumbnail_url ?? asset('images/default-thumbnail.jpg')); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
                                 <div class="card-body">
-                                    <h6 class="card-title mb-1" style="font-size:1rem">{{ $product->name }}</h6>
-                                    <div class="mb-1 text-muted" style="font-size:0.95rem">Giá: <span class="fw-bold text-danger">{{ number_format($product->display_price, 0, ',', '.') }} đ</span></div>
-                                    <div class="small">Đã bán: <span class="fw-bold">{{ $product->total_sold ?? 0 }}</span></div>
+                                    <h6 class="card-title mb-1" style="font-size:1rem"><?php echo e($product->name); ?></h6>
+                                    <div class="mb-1 text-muted" style="font-size:0.95rem">Giá: <span class="fw-bold text-danger"><?php echo e(number_format($product->display_price, 0, ',', '.')); ?> đ</span></div>
+                                    <div class="small">Đã bán: <span class="fw-bold"><?php echo e($product->total_sold ?? 0); ?></span></div>
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
             </div>
@@ -148,23 +146,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($latestProducts as $product)
+                                <?php $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td style="width:70px">
-                                        <img src="{{ $product->thumbnail_url ?? asset('images/default-thumbnail.jpg') }}" alt="{{ $product->name }}" class="img-thumbnail" style="max-width:60px;max-height:60px">
+                                        <img src="<?php echo e($product->thumbnail_url ?? asset('images/default-thumbnail.jpg')); ?>" alt="<?php echo e($product->name); ?>" class="img-thumbnail" style="max-width:60px;max-height:60px">
                                     </td>
-                                    <td>{{ $product->name }}</td>
-                                    <td class="text-danger fw-bold">{{ number_format($product->display_price, 0, ',', '.') }} đ</td>
-                                    <td>{{ $product->created_at ? $product->created_at->format('d/m/Y') : 'N/A' }}</td>
+                                    <td><?php echo e($product->name); ?></td>
+                                    <td class="text-danger fw-bold"><?php echo e(number_format($product->display_price, 0, ',', '.')); ?> đ</td>
+                                    <td><?php echo e($product->created_at ? $product->created_at->format('d/m/Y') : 'N/A'); ?></td>
                                     <td>
-                                        @if($product->status === 'active')
+                                        <?php if($product->status === 'active'): ?>
                                             <span class="badge bg-success">Đang bán</span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-secondary">Ngừng bán</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
                     </div>
@@ -173,6 +171,7 @@
         </div>
     </div>
 </div>
-@endsection
-@push('scripts')
-@endpush 
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('scripts'); ?>
+<?php $__env->stopPush(); ?> 
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
