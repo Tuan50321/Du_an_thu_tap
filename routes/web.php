@@ -87,6 +87,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     // Resource routes
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
+
+    Route::delete('/products/{product}/gallery/{index}', [ProductController::class, 'removeGalleryImage'])
+        ->name('products.remove-gallery');
     Route::resource('brands', BrandController::class);
     Route::resource('banners', BannerController::class);
     Route::resource('coupons', CouponController::class);
