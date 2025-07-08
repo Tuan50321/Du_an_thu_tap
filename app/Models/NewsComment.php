@@ -34,6 +34,6 @@ class NewsComment extends Model
      */
     public function news()
     {
-        return $this->belongsTo(News::class);
+        return $this->belongsTo(\App\Models\News::class, 'news_id', 'news_id'); // CHÚ Ý: nếu cột khóa chính trong bảng news là `news_id`
     }
 }

@@ -234,7 +234,9 @@
                                         <?php echo e(Str::limit($news->summary ?? $news->content, 120)); ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small
-                                            class="text-muted"><?php echo e($news->created_at ? $news->created_at->format('d/m/Y') : 'N/A'); ?></small>
+                                            class="text-muted"><?php echo e($news->created_at ? \Carbon\Carbon::parse($news->created_at)->format('d/m/Y') : 'N/A'); ?>
+
+                                        </small>
                                         <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>"
                                             class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết

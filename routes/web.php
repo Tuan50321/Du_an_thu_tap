@@ -21,7 +21,10 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\News\NewsCategoryController as NewsNewsCategoryController;
+use App\Http\Controllers\Admin\News\NewsCommentController;
 use App\Http\Controllers\Admin\News\NewsController;
+use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Client\ReviewsController;
 use App\Models\Contact;
 use App\Models\News;
 
@@ -71,6 +74,7 @@ Route::prefix('/')->name('client.')->group(function () {
     // Danh mục - Hiển thị sản phẩm theo danh mục
     Route::get('/category/{slug}', [\App\Http\Controllers\Client\CategoryController::class, 'show'])->name('category.show');
 
+    Route::resource('reviews', ReviewsController::class);
 });
 
 // ============================
@@ -92,6 +96,17 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('orders', OrderController::class);
     Route::resource('news', NewsController::class);
     Route::resource('news-categories', NewsNewsCategoryController::class);
+
+    Route::get('/news-comments', [NewsCommentController::class, 'index'])->name('news-comments.index');
+    Route::delete('/news-comments/{id}', [NewsCommentController::class, 'destroy'])->name('news-comments.destroy');
+    Route::patch('/news-comments/{id}/toggle', [NewsCommentController::class, 'toggleVisibility'])->name('news-comments.toggle');
+
+
+
+    // Quản lý đánh giá sản phẩm
+    Route::resource('reviews', ReviewController::class);
+    // Ẩn/hiện đánh giá
+    Route::patch('reviews/{review}/toggle', [ReviewController::class, 'toggleVisibility'])->name('reviews.toggle');
 
     // Cập nhật trạng thái đơn hàng
     Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');

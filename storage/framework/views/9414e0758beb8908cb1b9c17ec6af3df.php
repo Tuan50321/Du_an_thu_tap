@@ -109,7 +109,6 @@
             background-color: #013a6b;
             color: #fff;
         }
-        
     </style>
 
     <?php echo $__env->yieldContent('styles'); ?>
@@ -122,7 +121,7 @@
             <a class="navbar-brand d-flex align-items-center" href="<?php echo e(route('client.home')); ?>">
                 <img src="<?php echo e(asset('storage/logo/logo.png')); ?>" alt="Logo"
                     style="height:80px; width:auto; margin-right:18px;">
-                <span style="font-weight:bold; font-size:2.2rem; color:#fff; letter-spacing:1px;">HOUSE HOLD GOOD</span>
+                <span style="font-weight:bold; font-size:1.3rem; color:#fff; letter-spacing:1px;">HOUSE HOLD GOOD</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -152,7 +151,7 @@
                         <a class="nav-link text-white" href="<?php echo e(route('client.news.index')); ?>">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo e(route('client.lienhe.index')); ?>">Liên hệ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.contacts.index')); ?>">Liên hệ</a>
                     </li>
                 </ul>
 
@@ -175,16 +174,43 @@
                             <span class="badge bg-danger">0</span>
                         </a>
                     </li>
+                    <!-- Auth -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button"
-                            data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center gap-1" href="#"
+                            id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user"></i>
+                            <?php if(auth()->guard()->check()): ?>
+                                <span><?php echo e(Auth::user()->name); ?></span>
+                            <?php endif; ?>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="#">Đăng ký</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <?php if(auth()->guard()->check()): ?>
+                                <!-- 👉 Mục Tài khoản -->
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user-circle me-2"></i> Tài khoản
+                                    </a>
+                                </li>
+
+                                <!-- 👉 Mục Đăng xuất -->
+                                <li>
+                                    <form action="<?php echo e(route('logout')); ?>" method="POST" class="dropdown-item m-0 p-0">
+                                        <?php echo csrf_field(); ?>
+                                        <button type="submit"
+                                            class="btn btn-link text-dark text-decoration-none w-100 text-start px-3 py-2">
+                                            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span class="text-danger">Đăng xuất</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            <?php else: ?>
+                                <li><a class="dropdown-item" href="<?php echo e(route('login')); ?>">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="<?php echo e(route('register')); ?>">
+                                        <i class="fas fa-user-plus me-2"></i>Đăng ký</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </div>
