@@ -10,8 +10,13 @@ class ProductDetailController extends Controller
 {
     public function index($id)
     {
-        // Lấy sản phẩm
-        $product = Product::with(['brand', 'category', 'creator'])->findOrFail($id);
+        // Lấy sản phẩm kèm đánh giá và người đánh giá
+        $product = Product::with([
+            'brand',
+            'category',
+            'creator',
+            'reviews.user' // 👈 Thêm dòng này để load đánh giá và user
+        ])->findOrFail($id);
 
         // Lấy tất cả biến thể của sản phẩm
         $variants = ProductVariant::where('product_id', $product->product_id)->get();
@@ -29,7 +34,13 @@ class ProductDetailController extends Controller
             ->get();
 
         return view('client.product-details.index', compact(
-            'product', 'variants', 'rams', 'roms', 'colors', 'materials', 'relatedProducts'
+            'product',
+            'variants',
+            'rams',
+            'roms',
+            'colors',
+            'materials',
+            'relatedProducts'
         ));
     }
 }

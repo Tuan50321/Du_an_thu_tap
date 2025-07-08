@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $table = 'products';
     protected $primaryKey = 'product_id';
-   
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'category_id',
         'brand_id',
@@ -47,7 +50,7 @@ class Product extends Model
     // Relationship với User (người tạo)
     public function creator()
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'user_id');
     }
 
 
@@ -86,7 +89,9 @@ class Product extends Model
         }
         return asset('images/default-thumbnail.jpg'); // Ảnh mặc định nếu không có thumbnail
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'product_id');
+    }
 }
-
-
-
