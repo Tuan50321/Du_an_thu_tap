@@ -165,7 +165,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <?php $__currentLoopData = $categories ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <li><a class="dropdown-item" href="#"><?php echo e($category->name); ?></a></li>
+                                <li><a class="dropdown-item" href="<?php echo e(route('client.category.show', $category->slug)); ?>"><?php echo e($category->name); ?></a></li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </li>

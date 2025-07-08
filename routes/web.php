@@ -25,8 +25,6 @@ use App\Http\Controllers\Admin\News\NewsCommentController;
 use App\Http\Controllers\Admin\News\NewsController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Client\ReviewsController;
-use App\Models\Contact;
-use App\Models\News;
 
 // ============================
 // Public Auth Routes
@@ -70,6 +68,9 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::post('news/{news}/comment', [NewsNewsController::class, 'comment'])->name('news.comment');
 
     Route::get('/product/{id}', [ProductDetailController::class, 'index'])->name('product.details');
+
+    // Danh mục - Hiển thị sản phẩm theo danh mục
+    Route::get('/category/{slug}', [\App\Http\Controllers\Client\CategoryController::class, 'show'])->name('category.show');
 
     Route::resource('reviews', ReviewsController::class);
 });
