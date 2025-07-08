@@ -17,6 +17,6 @@
         </div>
     </div>
 
-    <a href="{{ route('admin.lienhe.index') }}" class="btn btn-secondary mt-3">← Quay lại danh sách</a>
+    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary mt-3">← Quay lại danh sách</a>
 </div>
 @endsection

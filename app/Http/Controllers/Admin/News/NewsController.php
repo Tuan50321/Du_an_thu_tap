@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\BaiViet;
+namespace App\Http\Controllers\Admin\News;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
@@ -20,14 +20,14 @@ class NewsController extends Controller
 
         $news = $query->orderBy('published_at', 'desc')->paginate(10);
 
-        return view('admin.BaiViet.index', compact('news'));
+        return view('admin.news.index', compact('news'));
     }
 
     public function create()
     {
         $categories = NewsCategory::all();
         $author = auth()->user(); // ✅ chỉ lấy người dùng đang đăng nhập
-        return view('admin.BaiViet.create', compact('categories', 'author'));
+        return view('admin.news.create', compact('categories', 'author'));
     }
     public function store(Request $request)
     {
@@ -54,6 +54,11 @@ class NewsController extends Controller
         // ✅ Gán tác giả là user đang đăng nhập
         $data['author_id'] = auth()->user()->user_id;
 
+        if (empty($data['published_at'])) {
+            $data['published_at'] = now(); // ngày giờ hiện tại
+        }
+
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -70,13 +75,12 @@ class NewsController extends Controller
     {
         $categories = NewsCategory::all();
         $author = auth()->user(); // ✅ chỉ cho hiển thị tác giả là chính mình
-        return view('admin.BaiViet.edit', compact('news', 'categories', 'author'));
+        return view('admin.news.edit', compact('news', 'categories', 'author'));
     }
 
 
     public function update(Request $request, News $news)
     {
-
         $data = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -98,27 +102,31 @@ class NewsController extends Controller
             'image.max' => 'Kích thước ảnh không được vượt quá 2MB.',
         ]);
 
-        // ✅ Đảm bảo giữ nguyên tác giả là người đang đăng nhập
+        // ✅ Gán lại tác giả là người đang đăng nhập
         $data['author_id'] = auth()->user()->user_id;
 
+        // ✅ Gán lại thời gian đăng là hiện tại
+        $data['published_at'] = now();
+
+        // ✅ Cập nhật ảnh nếu có
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension(); // lấy đúng đuôi: webp, jpg, ...
+            $extension = $file->getClientOriginalExtension();
             $filename = time() . '_' . uniqid() . '.' . $extension;
             $file->move(public_path('uploads/news'), $filename);
             $data['image'] = 'uploads/news/' . $filename;
         }
-
 
         $news->update($data);
 
         return redirect()->route('admin.news.index')->with('success', 'Bài viết đã được cập nhật thành công.');
     }
 
+
     public function show(News $news)
     {
         $news->load(['comments.user']);
-        return view('admin.BaiViet.show', compact('news'));
+        return view('admin.news.show', compact('news'));
     }
 
     public function destroy(News $news)

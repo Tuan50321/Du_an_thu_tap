@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client\Sanphamchitiet;
+namespace App\Http\Controllers\Client\ProductsShow;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;

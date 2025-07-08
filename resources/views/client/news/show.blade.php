@@ -98,19 +98,27 @@
                             <p class="text-muted fst-italic">Chưa có bình luận nào.</p>
                         @endforelse
 
-                        <!-- Form gửi bình luận -->
                         <div class="mt-5">
                             <h5 class="mb-3">✍️ Gửi bình luận của bạn</h5>
-                            <form action="{{ route('client.news.comment', $news->news_id) }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <textarea name="content" class="form-control" rows="3" required placeholder="Nội dung bình luận...">{{ old('content') }}</textarea>
+
+                            @auth
+                                <form action="{{ route('client.news.comment', $news->news_id) }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <textarea name="content" class="form-control" rows="3" required placeholder="Nội dung bình luận...">{{ old('content') }}</textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        Gửi bình luận
+                                    </button>
+                                </form>
+                            @else
+                                <div class="alert alert-warning">
+                                    Vui lòng <a href="{{ route('login') }}" class="text-primary fw-bold">đăng nhập</a> để gửi
+                                    bình luận.
                                 </div>
-                                <button type="submit" class="btn btn-primary">
-                                    Gửi bình luận
-                                </button>
-                            </form>
+                            @endauth
                         </div>
+
                     </div>
                 </div>
 

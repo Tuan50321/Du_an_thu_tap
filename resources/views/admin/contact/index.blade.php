@@ -12,11 +12,12 @@
             </div>
         @endif
 
-        {{-- Nếu muốn tìm kiếm theo tên hoặc email --}}
-        <form method="GET" action="{{ route('admin.lienhe.index') }}" class="mb-4 d-flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control w-auto" placeholder="Tìm kiếm...">
+        <form method="GET" action="{{ route('admin.contacts.index') }}" class="mb-4 d-flex gap-2 w-50">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control w-auto"
+                placeholder="Tìm kiếm...">
             <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
         </form>
+
 
         <div class="card">
             <div class="card-body">
@@ -45,14 +46,17 @@
                                     <td>{{ Str::limit($contact->message, 40) }}</td>
                                     <td>{{ $contact->created_at->format('d/m/Y H:i') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.lienhe.show', $contact) }}" class="btn btn-sm btn-info" title="Xem chi tiết">
+                                        <a href="{{ route('admin.contacts.show', $contact) }}" class="btn btn-sm btn-info"
+                                            title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <form action="{{ route('admin.lienhe.destroy', $contact) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('admin.contacts.destroy', $contact) }}" method="POST"
+                                            class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Bạn có chắc muốn xoá liên hệ này?')" title="Xoá">
+                                                onclick="return confirm('Bạn có chắc muốn xoá liên hệ này?')"
+                                                title="Xoá">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>

@@ -151,7 +151,7 @@
                         <a class="nav-link text-white" href="{{ route('client.news.index') }}">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.lienhe.index') }}">Liên hệ</a>
+                        <a class="nav-link text-white" href="{{ route('client.contacts.index') }}">Liên hệ</a>
                     </li>
                 </ul>
 

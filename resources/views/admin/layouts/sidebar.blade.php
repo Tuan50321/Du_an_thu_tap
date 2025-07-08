@@ -85,8 +85,8 @@
                 </div>
             </li>
             <li>
-                <a href="{{ route('admin.lienhe.index') }}"
-                   class="sidebar-link {{ request()->routeIs('admin.lienhe.*') ? 'bg-primary text-white' : '' }}">
+                <a href="{{ route('admin.contacts.index') }}"
+                   class="sidebar-link {{ request()->routeIs('admin.contacts.*') ? 'bg-primary text-white' : '' }}">
                     <i class="fas fa-envelope"></i> Liên hệ
                 </a>
             </li>

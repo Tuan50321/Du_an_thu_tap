@@ -75,30 +75,10 @@
                     </div>
                 <?php endif; ?>
 
-               
-<div class="mb-3" style="width: 140px;">
-    <div class="input-group">
-        <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity()">
-            <i class="fas fa-minus"></i>
-        </button>
-        <input type="number" name="quantity" id="quantityInput" value="1" min="1" class="form-control text-center no-spinner">
-        <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity()">
-            <i class="fas fa-plus"></i>
-        </button>
-    </div>
-</div>
-<style>
-    /* Ẩn nút mũi tên lên xuống của input number trên Chrome, Safari, Edge */
-    input[type=number].no-spinner::-webkit-inner-spin-button,
-    input[type=number].no-spinner::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    /* Ẩn trên Firefox */
-    input[type=number].no-spinner {
-        -moz-appearance: textfield;
-    }
-</style>
+                
+                <div class="mb-3" style="width: 120px;">
+                    <input type="number" name="quantity" value="1" min="1" class="form-control">
+                </div>
 
                  
                 <div class="mt-4">
@@ -154,20 +134,7 @@
             </div>
         </div>
     <?php endif; ?>
-<script>
-    function incrementQuantity() {
-        var input = document.getElementById('quantityInput');
-        input.value = parseInt(input.value) + 1;
-    }
-
-    function decrementQuantity() {
-        var input = document.getElementById('quantityInput');
-        if (parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
-        }
-    }
-</script>
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\resources\views/client/product-details/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/client/product-details/index.blade.php ENDPATH**/ ?>

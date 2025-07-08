@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client\Baiviet;
+namespace App\Http\Controllers\Client\News;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
@@ -23,7 +23,7 @@ class NewsController extends Controller
             ->take(5)
             ->get();
 
-        return view('client.Baiviet.index', compact('newsList', 'categories', 'latestNews'));
+        return view('client.news.index', compact('newsList', 'categories', 'latestNews'));
     }
 
     public function show($news_id)
@@ -40,7 +40,7 @@ class NewsController extends Controller
             ->take(5)
             ->get();
 
-        return view('client.Baiviet.show', compact('news', 'categories', 'latestNews'));
+        return view('client.news.show', compact('news', 'categories', 'latestNews'));
     }
 
     public function comment(Request $request, $news_id)
