@@ -12,6 +12,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Custom CSS -->
     <style>
         .navbar-brand {
@@ -109,6 +112,28 @@
             background-color: #013a6b;
             color: #fff;
         }
+
+        <style>.star-rating {
+            direction: rtl;
+            font-size: 1.5rem;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: #ffc107;
+        }
+    </style>
+
     </style>
 
     <?php echo $__env->yieldContent('styles'); ?>
@@ -198,7 +223,8 @@
                                         <?php echo csrf_field(); ?>
                                         <button type="submit"
                                             class="btn btn-link text-dark text-decoration-none w-100 text-start px-3 py-2">
-                                            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span class="text-danger">Đăng xuất</span>
+                                            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span
+                                                class="text-danger">Đăng xuất</span>
                                         </button>
                                     </form>
                                 </li>
