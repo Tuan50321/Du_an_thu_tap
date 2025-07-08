@@ -151,7 +151,7 @@
                         <a class="nav-link text-white" href="<?php echo e(route('client.news.index')); ?>">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo e(route('client.lienhe.index')); ?>">Liên hệ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.contacts.index')); ?>">Liên hệ</a>
                     </li>
                 </ul>
 

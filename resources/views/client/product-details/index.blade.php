@@ -77,16 +77,39 @@
                     </div>
                 @endif
 
-                {{-- Số lượng --}}
-                <div class="mb-3" style="width: 120px;">
-                    <input type="number" name="quantity" value="1" min="1" class="form-control">
+                {{-- Số lượng với nút cộng / trừ --}}
+                <div class="mb-3" style="width: 140px;">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity()">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" name="quantity" id="quantityInput" value="1" min="1"
+                            class="form-control text-center no-spinner">
+                        <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
+                <style>
+                    /* Ẩn nút mũi tên lên xuống của input number trên Chrome, Safari, Edge */
+                    input[type=number].no-spinner::-webkit-inner-spin-button,
+                    input[type=number].no-spinner::-webkit-outer-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
 
-                 {{-- Mô tả chi tiết --}}
+                    /* Ẩn trên Firefox */
+                    input[type=number].no-spinner {
+                        -moz-appearance: textfield;
+                    }
+                </style>
+                {{-- Mô tả chi tiết --}}
                 <div class="mt-4">
                     <h5 class="fw-bold mb-2">Mô tả sản phẩm</h5>
                     <div class="p-3 rounded bg-light shadow-sm" style="line-height: 1.7;">
-                        {!! nl2br(e($product->description ?: 'Sản phẩm chất lượng cao, thiết kế tinh tế, đáp ứng nhu cầu sử dụng hàng ngày của bạn.')) !!}
+                        {!! nl2br(
+                            e($product->description ?: 'Sản phẩm chất lượng cao, thiết kế tinh tế, đáp ứng nhu cầu sử dụng hàng ngày của bạn.'),
+                        ) !!}
                     </div>
                 </div>
                 <br>
@@ -105,7 +128,7 @@
 
     </div>
 
-        {{-- Sản phẩm liên quan --}}
+    {{-- Sản phẩm liên quan --}}
     @if ($relatedProducts->isNotEmpty())
         <div class="mt-5">
             <h4 class="fw-bold mb-3">Sản phẩm liên quan</h4>
@@ -114,10 +137,8 @@
                     <div class="col">
                         <div class="card h-100 shadow-sm border-0">
                             <a href="{{ route('client.product.details', $related->product_id) }}">
-                                <img src="{{ asset('storage/' . $related->thumbnail) }}"
-                                     class="card-img-top"
-                                     alt="{{ $related->name }}"
-                                     style="object-fit: cover; height: 200px;">
+                                <img src="{{ asset('storage/' . $related->thumbnail) }}" class="card-img-top"
+                                    alt="{{ $related->name }}" style="object-fit: cover; height: 200px;">
                             </a>
                             <div class="card-body p-2">
                                 <h6 class="card-title mb-1 text-truncate">{{ $related->name }}</h6>
@@ -125,7 +146,7 @@
                                     {{ number_format($related->discount_price ?? $related->price, 0, ',', '.') }}₫
                                 </p>
                                 <a href="{{ route('client.product.details', $related->product_id) }}"
-                                   class="btn btn-sm btn-outline-primary w-100">
+                                    class="btn btn-sm btn-outline-primary w-100">
                                     Xem chi tiết
                                 </a>
                             </div>
@@ -135,5 +156,18 @@
             </div>
         </div>
     @endif
+    <script>
+        function incrementQuantity() {
+            var input = document.getElementById('quantityInput');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decrementQuantity() {
+            var input = document.getElementById('quantityInput');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+    </script>
 
 @endsection
