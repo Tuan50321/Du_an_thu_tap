@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -69,16 +67,6 @@
                                             title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <form action="<?php echo e(route('admin.reviews.destroy', $item)); ?>" method="POST"
-                                            class="d-inline">
-                                            <?php echo csrf_field(); ?>
-                                            <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Bạn có chắc muốn xoá đánh giá này?')"
-                                                title="Xoá">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

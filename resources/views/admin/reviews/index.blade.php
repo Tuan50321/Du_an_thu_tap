@@ -67,16 +67,6 @@
                                             title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <form action="{{ route('admin.reviews.destroy', $item) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Bạn có chắc muốn xoá đánh giá này?')"
-                                                title="Xoá">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @empty

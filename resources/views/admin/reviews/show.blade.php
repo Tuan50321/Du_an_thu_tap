@@ -37,9 +37,6 @@
                 <a href="{{ route('admin.reviews.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Quay lại danh sách
                 </a>
-                <a href="{{ route('admin.reviews.edit', $review) }}" class="btn btn-warning">
-                    <i class="fas fa-edit"></i> Chỉnh sửa
-                </a>
             </div>
         </div>
     </div>
