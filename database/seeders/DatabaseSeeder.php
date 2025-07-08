@@ -2,37 +2,47 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $this->call([
-            CouponSeeder::class,
-            OrderSeeder::class,
-            ProductSeeder::class,
+            // Người dùng & phân quyền
+            UserSeeder::class,
+            PermissionSeeder::class,
+            UserRoleSeeder::class,
+            UserProfileSeeder::class,
+
+            // Danh mục, thương hiệu, sản phẩm
             CategorySeeder::class,
             BrandSeeder::class,
+            ProductSeeder::class,
+            ProductVariantSeeder::class,
+
+            // Banners / Giảm giá / Mã giảm
             BannerSeeder::class,
+            DiscountSeeder::class,
+            CouponSeeder::class,
+
+            // Đơn hàng & giỏ hàng
+            OrderSeeder::class,
             OrderItemSeeder::class,
-            NewsSeeder::class,
+            CartItemSeeder::class,
+
+            // Tin tức & bình luận
             NewsCategorySeeder::class,
+            NewsSeeder::class,
             NewsCommentSeeder::class,
+
+            // Đánh giá & bình luận chung
+            ReviewSeeder::class,
+            CommentSeeder::class,
+
+            // Liên hệ & thông báo
             ContactSeeder::class,
-            UserSeeder::class, // Ensure UserSeeder is called to seed users
+            NotificationSeeder::class,
         ]);
     }
 }

@@ -10,7 +10,7 @@ class NewsCategoryController extends Controller
 {
     public function index()
     {
-         $categories = NewsCategory::orderBy('created_at', 'desc')->paginate(10);
+        $categories = NewsCategory::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.BaiViet.news_categories.index', compact('categories'));
     }
 
@@ -35,9 +35,13 @@ class NewsCategoryController extends Controller
         return redirect()->route('admin.news-categories.index')->with('success', 'Thêm danh mục thành công.');
     }
 
-    public function edit(NewsCategory $newsCategory)
+    public function edit($id)
     {
-        return view('admin.BaiViet.news_categories.edit', compact('newsCategory'));
+        $category = \App\Models\NewsCategory::findOrFail($id);
+
+        return view('admin.BaiViet.news_categories.edit', [
+            'category' => $category
+        ]);
     }
 
     public function update(Request $request, NewsCategory $newsCategory)
