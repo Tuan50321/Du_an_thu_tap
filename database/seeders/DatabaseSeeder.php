@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             OrderItemSeeder::class,
             CartItemSeeder::class,
+            CartSeeder::class,
 
             // Tin tức & bình luận
             NewsCategorySeeder::class,
