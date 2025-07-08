@@ -54,10 +54,12 @@
                     @endif
                 </div>
 
-                <div class="mt-3">
-                    <label class="form-label">Số lượng:</label>
-                    <input type="number" name="quantity" value="1" min="1" class="form-control"
-                        style="width: 120px;">
+                 {{-- Mô tả chi tiết --}}
+                <div class="mt-4">
+                    <h5 class="fw-bold mb-2">Mô tả sản phẩm</h5>
+                    <div class="p-3 rounded bg-light shadow-sm" style="line-height: 1.7;">
+                        {!! nl2br(e($product->description ?: 'Sản phẩm chất lượng cao, thiết kế tinh tế, đáp ứng nhu cầu sử dụng hàng ngày của bạn.')) !!}
+                    </div>
                 </div>
 
                 <div class="mt-4 d-flex gap-2">

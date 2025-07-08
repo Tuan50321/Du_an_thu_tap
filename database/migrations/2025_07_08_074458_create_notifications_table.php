@@ -9,27 +9,24 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
-            $table->id();
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->bigIncrements('notification_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('content', 500)->nullable();
             $table->boolean('is_read')->default(false);
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable(); 
-            $table->string('subject');
-            $table->text('message');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
-
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('notifications');
     }
 };
