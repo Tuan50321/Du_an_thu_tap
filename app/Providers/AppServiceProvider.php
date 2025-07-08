@@ -21,7 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Chia sẻ danh mục cho mọi view
-        View::share('categories', Category::all());
+        // Chỉ chia sẻ danh mục cho layout client.layouts.app
+        View::composer('client.layouts.app', function ($view) {
+            $view->with('categories', Category::all());
+        });
     }
 }

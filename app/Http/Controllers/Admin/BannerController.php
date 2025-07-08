@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -57,12 +58,11 @@ class BannerController extends Controller
     public function update(Request $request, Banner $banner)
     {
         $rules = [
-            'link_url' => 'nullable|string',
+            'link_url' => 'nullable|url',
             'position' => 'required|integer',
             'is_active' => 'required|boolean',
         ];
 
-        // Nếu có upload ảnh mới thì validate ảnh
         if ($request->hasFile('image')) {
             $rules['image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
         }
@@ -70,11 +70,12 @@ class BannerController extends Controller
         $validated = $request->validate($rules);
 
         if ($request->hasFile('image')) {
-            // Lưu ảnh vào storage/app/public/banners
-            $imagePath = $request->file('image')->store('banners', 'public');
-
-            // Cập nhật đường dẫn ảnh mới vào mảng validated
-            $validated['image_url'] = $imagePath;
+            // Xóa file cũ
+            if ($banner->image_url && Storage::disk('public')->exists($banner->image_url)) {
+                Storage::disk('public')->delete($banner->image_url);
+            }
+            // Lưu ảnh mới
+            $validated['image_url'] = $request->file('image')->store('banners', 'public');
         }
 
         $banner->update($validated);

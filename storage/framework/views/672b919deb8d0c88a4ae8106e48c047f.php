@@ -29,12 +29,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__empty_1 = true; $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
                                     <td><?php echo e($banner->banner_id); ?></td>
                                     <td>
                                         <?php if($banner->image_url): ?>
-                                            <img src="<?php echo e($banner->image_url_full); ?>" alt="Banner" style="max-width: 200px;">
+                                            <img src="<?php echo e(asset('storage/' . $banner->image_url)); ?>" alt="Banner"
+                                                style="max-width: 200px;">
                                         <?php else: ?>
                                             No Image
                                         <?php endif; ?>
@@ -74,9 +75,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                            <?php if($banners->isEmpty()): ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <tr>
                                     <td colspan="6" class="text-center text-muted">No banners found.</td>
                                 </tr>

@@ -30,12 +30,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($banners as $banner)
+                            @forelse ($banners as $banner)
                                 <tr>
                                     <td>{{ $banner->banner_id }}</td>
                                     <td>
                                         @if ($banner->image_url)
-                                            <img src="{{ $banner->image_url_full }}" alt="Banner" style="max-width: 200px;">
+                                            <img src="{{ asset('storage/' . $banner->image_url) }}" alt="Banner"
+                                                style="max-width: 200px;">
                                         @else
                                             No Image
                                         @endif
@@ -74,13 +75,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
-
-                            @if ($banners->isEmpty())
+                            @empty
                                 <tr>
                                     <td colspan="6" class="text-center text-muted">No banners found.</td>
                                 </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

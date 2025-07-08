@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', $news->title . ' - HOUSE HOLD GOOD'); ?>
 
 <?php $__env->startSection('content'); ?>

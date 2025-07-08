@@ -16,8 +16,7 @@
                         <?php if($banner->is_active): ?>
                             <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
                                 <?php if($banner->link_url): ?>
-                        
-                                <a href="<?php echo e($banner->link_url); ?>" target="_blank">
+                                    <a href="<?php echo e($banner->link_url); ?>" target="_blank">
                                         <img src="<?php echo e($banner->image_url_full); ?>" class="d-block w-100" alt="Banner">
                                     </a>
                                 <?php else: ?>
@@ -110,8 +109,9 @@
                         
                         <div class="col-md-6 col-lg-3">
                             <div class="card product-card h-100">
-                                <img src="<?php echo e($product->thumbnail_url); ?>" class="card-img-top product-image"
-                                    alt="<?php echo e($product->name); ?>">
+                                <a href="<?php echo e(route('client.product.details', ['id' => $product->product_id])); ?>">
+                                    <img src="<?php echo e($product->thumbnail_url); ?>" class="card-img-top product-image"
+                                        alt="<?php echo e($product->name); ?>"></a>
                                 <div class="card-body d-flex flex-column">
                                     <h6 class="card-title"><?php echo e($product->name); ?></h6>
                                     <p class="card-text text-muted small"><?php echo e(Str::limit($product->description, 100)); ?></p>
@@ -235,7 +235,8 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small
                                             class="text-muted"><?php echo e($news->created_at ? $news->created_at->format('d/m/Y') : 'N/A'); ?></small>
-                                        <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>" class="btn btn-outline-primary btn-sm">
+                                        <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>"
+                                            class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết
                                         </a>
 

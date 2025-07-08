@@ -9,6 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         #sidebar {
             min-height: 100vh;
@@ -70,9 +75,15 @@
         .sub-nav-link:hover {
             color: #fff;
         }
+
+        .pagination-wrapper nav {
+            padding: 8px 16px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
     </style>
 
-    
+
 </head>
 
 <body>
@@ -88,26 +99,28 @@
                     <button class="btn btn-dark" id="sidebarCollapse">
                         <i class="fas fa-bars"></i>
                     </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown">
-                                    <i class="fas fa-user"></i> Admin
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i>
-                                            Profile</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i>
-                                            Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+
+                    <div class="dropdown">
+                        @auth
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+                            </a>
+                        @endauth
                     </div>
+
                 </div>
             </nav>
 
@@ -135,6 +148,7 @@
             });
         });
     </script>
+
     @yield('scripts')
 
 </body>

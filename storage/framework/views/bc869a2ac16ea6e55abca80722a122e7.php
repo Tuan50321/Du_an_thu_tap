@@ -12,7 +12,7 @@
             </li>
 
             <li>
-                <a href="#" class="sidebar-link">
+                <a href="<?php echo e(route('admin.users.index')); ?>" class="sidebar-link">
                     <i class="fas fa-users"></i> Quản lý người dùng
                 </a>
             </li>
@@ -85,8 +85,8 @@
                 </div>
             </li>
             <li>
-                <a href="<?php echo e(route('admin.lienhe.index')); ?>"
-                   class="sidebar-link <?php echo e(request()->routeIs('admin.lienhe.*') ? 'bg-primary text-white' : ''); ?>">
+                <a href="<?php echo e(route('admin.contacts.index')); ?>"
+                   class="sidebar-link <?php echo e(request()->routeIs('admin.contacts.*') ? 'bg-primary text-white' : ''); ?>">
                     <i class="fas fa-envelope"></i> Liên hệ
                 </a>
             </li>
