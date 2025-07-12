@@ -22,7 +22,11 @@ class CreateNewsCommentsTable extends Migration
                 ->references('news_id')
                 ->on('news')
                 ->onDelete('cascade');
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 2a1de02 (Tài khoản và giỏ hàng)
             $table->text('content');
             $table->boolean('is_hidden')->default(false);
             $table->timestamps();

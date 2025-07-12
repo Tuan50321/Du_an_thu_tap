@@ -10,11 +10,6 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $table = 'user_profiles';
-    protected $primaryKey = 'profile_id';
-    public $incrementing = true;
-    protected $keyType = 'int';
-    public $timestamps = false; // Bỏ qua timestamps
-
     protected $fillable = [
         'user_id',
         'phone',

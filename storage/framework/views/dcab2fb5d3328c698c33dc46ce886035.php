@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Shop Online')</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Shop Online'); ?></title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -136,16 +136,16 @@
 
     </style>
 
-    @stack('styles')
-    @yield('styles')
+    <?php echo $__env->yieldPushContent('styles'); ?>
+    <?php echo $__env->yieldContent('styles'); ?>
 </head>
 
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg" style="background-color: #012035;">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('client.home') }}">
-                <img src="{{ asset('storage/logo/logo.png') }}" alt="Logo"
+            <a class="navbar-brand d-flex align-items-center" href="<?php echo e(route('client.home')); ?>">
+                <img src="<?php echo e(asset('storage/logo/logo.png')); ?>" alt="Logo"
                     style="height:80px; width:auto; margin-right:18px;">
                 <span style="font-weight:bold; font-size:1.3rem; color:#fff; letter-spacing:1px;">HOUSE HOLD GOOD</span>
             </a>
@@ -157,7 +157,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.home') }}">Trang chủ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.home')); ?>">Trang chủ</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button"
@@ -165,26 +165,26 @@
                             Danh mục
                         </a>
                         <ul class="dropdown-menu">
-                            @foreach ($categories ?? [] as $category)
-                                <li><a class="dropdown-item" href="{{ route('client.category.show', $category->slug) }}">{{ $category->name }}</a></li>
-                            @endforeach
+                            <?php $__currentLoopData = $categories ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><a class="dropdown-item" href="<?php echo e(route('client.category.show', $category->slug)); ?>"><?php echo e($category->name); ?></a></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.news.index') }}">Tin tức</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.news.index')); ?>">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.contacts.index') }}">Liên hệ</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.contacts.index')); ?>">Liên hệ</a>
                     </li>
                 </ul>
 
-                <form class="d-flex me-3" action="{{ route('client.search') }}" method="GET"
+                <form class="d-flex me-3" action="<?php echo e(route('client.search')); ?>" method="GET"
                     style="max-width: 300px;">
                     <input class="form-control me-2" type="search" name="q"
-                        value="{{ isset($query) ? $query : '' }}" placeholder="Tìm kiếm sản phẩm..."
+                        value="<?php echo e(isset($query) ? $query : ''); ?>" placeholder="Tìm kiếm sản phẩm..."
                         aria-label="Tìm kiếm">
                     <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -195,7 +195,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('client.cart.index') }}">
+                        <a class="nav-link text-white" href="<?php echo e(route('client.cart.index')); ?>">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="badge bg-danger cart-count">0</span>
                         </a>
@@ -205,23 +205,23 @@
                         <a class="nav-link dropdown-toggle text-white d-flex align-items-center gap-1" href="#"
                             id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user"></i>
-                            @auth
-                                <span>{{ Auth::user()->name }}</span>
-                            @endauth
+                            <?php if(auth()->guard()->check()): ?>
+                                <span><?php echo e(Auth::user()->name); ?></span>
+                            <?php endif; ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            @auth
+                            <?php if(auth()->guard()->check()): ?>
                                 <!-- 👉 Mục Tài khoản -->
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('client.profile.index') }}">
+                                    <a class="dropdown-item" href="<?php echo e(route('client.profile.index')); ?>">
                                         <i class="fas fa-user-circle me-2"></i> Tài khoản
                                     </a>
                                 </li>
 
                                 <!-- 👉 Mục Đăng xuất -->
                                 <li>
-                                    <form action="{{ route('logout') }}" method="POST" class="dropdown-item m-0 p-0">
-                                        @csrf
+                                    <form action="<?php echo e(route('logout')); ?>" method="POST" class="dropdown-item m-0 p-0">
+                                        <?php echo csrf_field(); ?>
                                         <button type="submit"
                                             class="btn btn-link text-dark text-decoration-none w-100 text-start px-3 py-2">
                                             <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span
@@ -229,12 +229,12 @@
                                         </button>
                                     </form>
                                 </li>
-                            @else
-                                <li><a class="dropdown-item" href="{{ route('login') }}">
+                            <?php else: ?>
+                                <li><a class="dropdown-item" href="<?php echo e(route('login')); ?>">
                                         <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập</a></li>
-                                <li><a class="dropdown-item" href="{{ route('register') }}">
+                                <li><a class="dropdown-item" href="<?php echo e(route('register')); ?>">
                                         <i class="fas fa-user-plus me-2"></i>Đăng ký</a></li>
-                            @endauth
+                            <?php endif; ?>
                         </ul>
                     </li>
 
@@ -245,7 +245,7 @@
 
     <!-- Main Content -->
     <main>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
     <!-- Footer -->
@@ -314,7 +314,7 @@
 
     function loadCartCount() {
         $.ajax({
-            url: '{{ route("client.cart.count") }}',
+            url: '<?php echo e(route("client.cart.count")); ?>',
             method: 'GET',
             success: function(response) {
                 $('.cart-count').text(response.count);
@@ -330,7 +330,8 @@
     }
     </script>
 
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html>
+<?php /**PATH C:\laragon\www\Du_an_thu_tap\resources\views/client/layouts/app.blade.php ENDPATH**/ ?>

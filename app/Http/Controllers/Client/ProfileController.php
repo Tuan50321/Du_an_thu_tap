@@ -20,7 +20,7 @@ class ProfileController extends Controller
         // Kiểm tra và tạo profile nếu chưa tồn tại
         if (!$user->profile) {
             $profile = new UserProfile();
-            $profile->id = $user->id;
+            $profile->user_id = $user->id;
             $profile->save();
         }
         

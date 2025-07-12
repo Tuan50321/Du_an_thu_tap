@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Danh sách thương hiệu'); ?>
 
 <?php $__env->startPush('styles'); ?>

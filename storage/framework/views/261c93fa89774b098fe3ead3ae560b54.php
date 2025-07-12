@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Danh sách danh mục'); ?>
 
 <?php $__env->startPush('styles'); ?>
