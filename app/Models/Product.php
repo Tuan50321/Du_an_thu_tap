@@ -5,7 +5,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Collection;
 
 class Product extends Model
 {
@@ -23,7 +23,9 @@ class Product extends Model
         'description',
         'status',
         'created_by',
-        'thumbnail'
+        'thumbnail',
+        'gallery',
+        'stock'
     ];
 
 
@@ -50,7 +52,7 @@ class Product extends Model
     // Relationship với User (người tạo)
     public function creator()
     {
-        return $this->belongsTo(User::class, 'created_by', 'user_id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
 
@@ -81,13 +83,28 @@ class Product extends Model
     }
 
 
-    // Method để lấy đường dẫn ảnh thumbnail
+    // Accessor để lấy đường dẫn ảnh thumbnail
     public function getThumbnailUrlAttribute()
     {
         if ($this->thumbnail) {
-            return asset('storage/' . $this->thumbnail);
+            // Thay đổi đường dẫn từ images/products/ thành products/thumbnails/
+            $path = str_replace('images/products/', 'products/thumbnails/', $this->thumbnail);
+            return asset('storage/' . $path);
         }
-        return asset('images/default-thumbnail.jpg'); // Ảnh mặc định nếu không có thumbnail
+        return asset('images/default-thumbnail.jpg');
+    }
+
+    // Accessor để lấy đường dẫn ảnh gallery
+    public function getGalleryUrlsAttribute()
+    {
+        if ($this->gallery) {
+            return collect($this->gallery)->map(function($image) {
+                // Thay đổi đường dẫn từ images/products/ thành products/thumbnails/
+                $path = str_replace('images/products/', 'products/thumbnails/', $image);
+                return asset('storage/' . $path);
+            })->toArray();
+        }
+        return [];
     }
 
     public function reviews()

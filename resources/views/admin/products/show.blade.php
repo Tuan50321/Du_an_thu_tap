@@ -6,101 +6,202 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Product Details</h4>
+                    <h3 class="card-title">Chi tiết sản phẩm</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <!-- Thông tin cơ bản -->
                         <div class="col-md-6">
-                            <!-- Thêm phần hiển thị ảnh thumbnail -->
-                            <div class="card mb-3">
+                            <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5>Thumbnail</h5>
-                                </div>
-                                <div class="card-body text-center">
-                                    <img src="{{ $product->thumbnail_url }}" alt="Thumbnail" class="img-fluid" style="max-width: 200px;">
-                                </div>
-                            </div>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th width="200px">ID</th>
-                                    <td>{{ $product->product_id }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Name</th>
-                                    <td>{{ $product->name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Category</th>
-                                    <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Brand</th>
-                                    <td>{{ $product->brand ? $product->brand->name : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Price</th>
-                                    <td>${{ number_format($product->price, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Discount Price</th>
-                                    <td>
-                                        @if($product->discount_price)
-                                            ${{ number_format($product->discount_price, 2) }}
-                                            <small class="text-muted">
-                                                ({{ round((1 - $product->discount_price / $product->price) * 100) }}% off)
-                                            </small>
-                                        @else
-                                            No discount
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>
-                                        <span class="badge bg-{{ $product->status === 'active' ? 'success' : 'danger' }}">
-                                            {{ ucfirst($product->status) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Created By</th>
-                                    <td>{{ $product->creator ? $product->creator->name : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Created At</th>
-                                    <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Updated At</th>
-                                    <td>{{ $product->updated_at->format('Y-m-d H:i:s') }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Description</h5>
+                                    <h5 class="card-title">Thông tin cơ bản</h5>
                                 </div>
                                 <div class="card-body">
-                                    {{ $product->description ?? 'No description available.' }}
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Mã sản phẩm</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->product_id }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Tên sản phẩm</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->name }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Danh mục</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->category->name ?? '' }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Thương hiệu</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->brand->name ?? '' }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Giá</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ number_format($product->price) }}đ</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Giá khuyến mãi</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->discount_price ? number_format($product->discount_price) . 'đ' : 'Không có' }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Số lượng tồn kho</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            @if($product->stock == 0)
+                                                <span class="badge bg-danger">Hết hàng</span>
+                                            @else
+                                                <span class="badge bg-success">{{ $product->stock }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Trạng thái</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="badge {{ $product->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ ucfirst($product->status) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin thêm -->
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title">Thông tin thêm</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Mô tả</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->description }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Người tạo</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->creator->name ?? '' }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Ngày tạo</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->created_at->format('Y-m-d H:i:s') }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Ngày cập nhật</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="form-control-plaintext mb-0">{{ $product->updated_at->format('Y-m-d H:i:s') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ảnh -->
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Ảnh sản phẩm</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <!-- Ảnh đại diện -->
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ảnh đại diện</label>
+                                                <div class="text-center">
+                                                    <img src="{{ $product->thumbnail_url }}" 
+                                                         alt="Thumbnail" 
+                                                         class="img-thumbnail" 
+                                                         style="max-width: 300px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Ảnh bổ sung -->
+                                        @if($product->gallery)
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Ảnh bổ sung</label>
+                                                    <div class="row">
+                                                        @foreach(json_decode($product->gallery) as $image)
+                                                            <div class="col-3 mb-2">
+                                                                <img src="{{ asset('storage/' . $image) }}" 
+                                                                     alt="Gallery" 
+                                                                     class="img-thumbnail">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-4 d-flex justify-content-between">
+                    <!-- Các nút hành động -->
+                    <div class="d-flex justify-content-between mt-4">
                         <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Back to List
+                            <i class="fas fa-arrow-left"></i> Quay lại
                         </a>
                         <div>
-                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning">
-                                <i class="fas fa-edit"></i> Edit
+                            <a href="{{ route('admin.products.edit', $product->product_id) }}" class="btn btn-primary me-2">
+                                <i class="fas fa-edit"></i> Chỉnh sửa
                             </a>
-                            <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.products.destroy', $product->product_id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">
-                                    <i class="fas fa-trash"></i> Delete
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
+                                    <i class="fas fa-trash"></i> Xóa
                                 </button>
                             </form>
                         </div>
@@ -110,4 +211,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

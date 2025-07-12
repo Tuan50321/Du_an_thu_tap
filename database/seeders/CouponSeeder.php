@@ -10,7 +10,7 @@ class CouponSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('coupons')->insert([
+        $coupons = [
             [
                 'code' => 'GIAM10',
                 'discount_type' => 'percentage',
@@ -22,8 +22,6 @@ class CouponSeeder extends Seeder
                 'start_date' => Carbon::now()->subDays(1),
                 'end_date' => Carbon::now()->addDays(30),
                 'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'code' => 'FREESHIP50',
@@ -36,8 +34,6 @@ class CouponSeeder extends Seeder
                 'start_date' => Carbon::now()->subDays(5),
                 'end_date' => Carbon::now()->addDays(10),
                 'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'code' => 'DOGIADUNG20',
@@ -50,9 +46,17 @@ class CouponSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(15),
                 'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
-        ]);
+        ];
+
+        foreach ($coupons as $coupon) {
+            DB::table('coupons')->updateOrInsert(
+                ['code' => $coupon['code']], // điều kiện để kiểm tra trùng mã
+                array_merge($coupon, [
+                    'updated_at' => now(),
+                    'created_at' => now()
+                ])
+            );
+        }
     }
 }

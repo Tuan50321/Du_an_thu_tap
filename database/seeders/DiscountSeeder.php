@@ -10,6 +10,9 @@ class DiscountSeeder extends Seeder
 {
     public function run(): void
     {
+        // Xóa toàn bộ dữ liệu cũ và reset ID tự tăng (nếu có)
+        DB::table('discounts')->truncate();
+
         DB::table('discounts')->insert([
             [
                 'code' => 'GIAM5',

@@ -70,7 +70,7 @@
                         <tbody>
                             @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $user->user_id }}</td>
+                                    <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
@@ -89,7 +89,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">
                                             <!-- Sửa -->
-                                            <a href="{{ route('admin.users.edit', $user->user_id) }}"
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
                                                 class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                 style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                 title="Sửa người dùng">
@@ -97,15 +97,15 @@
                                             </a>
 
                                             <!-- Xóa -->
-                                            <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                     style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
-                                                    title="Xóa người dùng">
-                                                    <i class="bi bi-trash3-fill fs-5"></i>
+                                                    title="Xóa người dùng"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
+                                                    <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>

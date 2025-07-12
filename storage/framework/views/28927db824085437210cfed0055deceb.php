@@ -70,7 +70,7 @@
                         <tbody>
                             <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
-                                    <td><?php echo e($user->user_id); ?></td>
+                                    <td><?php echo e($user->id); ?></td>
                                     <td><?php echo e($user->name); ?></td>
                                     <td><?php echo e($user->email); ?></td>
                                     <td>
@@ -89,7 +89,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">
                                             <!-- Sửa -->
-                                            <a href="<?php echo e(route('admin.users.edit', $user->user_id)); ?>"
+                                            <a href="<?php echo e(route('admin.users.edit', $user->id)); ?>"
                                                 class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                 style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                 title="Sửa người dùng">
@@ -97,15 +97,15 @@
                                             </a>
 
                                             <!-- Xóa -->
-                                            <form action="<?php echo e(route('admin.users.destroy', $user->user_id)); ?>" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">
+                                            <form action="<?php echo e(route('admin.users.destroy', $user->id)); ?>" method="POST"
+                                                class="d-inline">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('DELETE'); ?>
-                                                <button type="submit"
-                                                    class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                     style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
-                                                    title="Xóa người dùng">
-                                                    <i class="bi bi-trash3-fill fs-5"></i>
+                                                    title="Xóa người dùng"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
+                                                    <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>

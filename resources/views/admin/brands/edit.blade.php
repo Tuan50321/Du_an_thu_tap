@@ -6,36 +6,43 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Edit Brand</h4>
+                    <h3 class="card-title">Chỉnh sửa thương hiệu</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.brands.update', $brand) }}" method="POST">
                         @csrf
                         @method('PUT')
+
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                id="name" name="name" value="{{ old('name', $brand->name) }}" required>
+                            <label class="form-label">Tên thương hiệu</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $brand->name) }}">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" 
-                                id="description" name="description" rows="3">{{ old('description', $brand->description) }}</textarea>
+                            <label class="form-label">Mô tả</label>
+                            <textarea name="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $brand->description) }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('admin.brands.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </a>
+                        <div class="mb-3">
+                            <label class="form-label">Trạng thái</label>
+                            <select name="status" class="form-control @error('status') is-invalid @enderror">
+                                <option value="active" {{ old('status', $brand->status) === 'active' ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="inactive" {{ old('status', $brand->status) === 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Update Brand
+                                <i class="fas fa-save"></i> Lưu thay đổi
                             </button>
                         </div>
                     </form>
@@ -44,4 +51,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

@@ -26,7 +26,7 @@ class Review extends Model
     // Quan hệ: mỗi review thuộc về 1 người dùng
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 
