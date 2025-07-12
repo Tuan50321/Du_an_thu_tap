@@ -11,22 +11,25 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->bigIncrements('review_id');
 
-            // Foreign key: users.user_id
+            // Foreign key: users.id
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')
-                ->references('user_id')
+                ->references('id') // ✅ sửa lại từ user_id → id
                 ->on('users')
                 ->nullOnDelete();
 
             // Foreign key: products.product_id
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('product_id')
+                ->references('product_id')
+                ->on('products')
+                ->nullOnDelete();
 
             $table->integer('rating')->nullable();
             $table->text('content')->nullable();
             $table->boolean('is_approved')->default(0);
 
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamps(); // dùng timestamps() cho tiện
         });
     }
 

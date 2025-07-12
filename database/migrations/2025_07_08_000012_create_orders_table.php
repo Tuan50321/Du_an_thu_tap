@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
 
             // Khóa ngoại CHUẨN – không dùng constrained()
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('status', 30)->nullable();
             $table->string('payment_method', 20)->nullable();

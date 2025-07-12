@@ -34,20 +34,25 @@ return new class extends Migration
             $table->json('gallery')->nullable();
             $table->string('status', 20)->nullable();
 
-            // Foreign key: users.user_id
+            // Foreign key: users.user_id (⚠ Thêm dòng unsigned trước foreign key)
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')
-                ->references('user_id')
+                ->references('id') // ✅ tham chiếu đúng cột 'id' của bảng users
                 ->on('users')
-                ->nullOnDelete();
+                ->nullOnDelete();            
 
-            // Timestamps
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);
+            $table->dropForeign(['brand_id']);
+            $table->dropForeign(['created_by']);
+        });
+
         Schema::dropIfExists('products');
     }
 };

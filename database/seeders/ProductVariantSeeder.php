@@ -12,7 +12,6 @@ class ProductVariantSeeder extends Seeder
         DB::table('product_variants')->insert([
             [
                 'product_id' => 1,
-<<<<<<< HEAD
                 'color'      => 'Trắng',
                 'material'   => 'Nhựa ABS',
                 'stock'      => 50,
@@ -48,26 +47,5 @@ class ProductVariantSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
-=======
-                'ram'        => '4GB',
-                'rom'        => '64GB',
-                'color'      => 'Đen',
-                'material'   => 'Nhựa',
-                'stock'      => 20,
-                'price'      => 150000,
-            ],
-            [
-                'product_id' => 2,
-                'ram'        => '6GB',
-                'rom'        => '128GB',
-                'color'      => 'Trắng',
-                'material'   => 'Kính',
-                'stock'      => 15,
-                'price'      => 200000,
-            ],
-        ]);
-
-        $this->command->info('✅ Đã thêm product_variants.');
->>>>>>> f2b6f01 (Merge branch 'main' of https://github.com/Tuan50321/Du_an_thu_tap)
     }
 }

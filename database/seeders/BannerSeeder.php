@@ -3,45 +3,38 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\DB;
+use App\Models\Banner;
 
 class BannerSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('banners')->insert([
+        $banners = [
             [
-                'image_url' => 'https://example.com/images/banner1.jpg',
-                'link_url' => '/collections/khuyen-mai',
-                'position' => 'homepage_top',
+                'image_url' => 'banners/banner1.jpg',
+                'link_url' => 'https://example.com/summer-sale',
+                'position' => 'top',
                 'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'image_url' => 'https://example.com/images/banner2.jpg',
-                'link_url' => '/collections/do-nha-bep',
-                'position' => 'homepage_middle',
+                'image_url' => 'banners/banner2.jpg',
+                'link_url' => 'https://example.com/winter-sale',
+                'position' => 'bottom',
                 'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'image_url' => 'https://example.com/images/banner3.jpg',
-                'link_url' => '/collections/tu-lanh',
+                'image_url' => 'banners/banner3.jpg',
+                'link_url' => null,
                 'position' => 'sidebar',
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'is_active' => false,
             ],
-            [
-                'image_url' => 'https://example.com/images/banner4.jpg',
-                'link_url' => '/collections/may-loc-nuoc',
-                'position' => 'footer',
-                'is_active' => false, // chưa hiển thị
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],        ]);
+        ];
+
+        foreach ($banners as $banner) {
+            Banner::create($banner);
+        }
+
+        $this->command->info('✅ Đã seed dữ liệu banner.');
     }
 }
+

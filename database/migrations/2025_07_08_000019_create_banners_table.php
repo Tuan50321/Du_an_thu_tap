@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('banners', function (Blueprint $table) {
-            $table->bigIncrements('banner_id'); // primary key
-            $table->text('image_url')->nullable();
-            $table->text('link_url')->nullable();
-            $table->string('position', 20)->nullable();
-            $table->boolean('is_active')->default(0);
-            $table->timestamps(); // created_at và updated_at
+            $table->id('banner_id');
+            $table->string('image_url')->nullable();
+            $table->string('link_url')->nullable();
+
+            // Sửa kiểu position từ integer -> string (hoặc enum nếu muốn giới hạn)
+            $table->string('position', 50)->nullable();
+
+            $table->boolean('is_active')->default(1);
+            $table->timestamps();
         });
     }
 

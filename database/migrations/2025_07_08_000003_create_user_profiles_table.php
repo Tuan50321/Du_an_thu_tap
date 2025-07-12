@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            $table->bigIncrements('profile_id');
+            $table->id(); // Sử dụng id thay vì profile_id
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('phone', 20)->nullable();
             $table->string('province', 100)->nullable();
@@ -18,11 +18,10 @@ return new class extends Migration
             $table->string('street', 255)->nullable();
             $table->date('birthday')->nullable();
             $table->string('gender', 10)->nullable();
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
 
             // Khóa ngoại nếu có bảng users
-            // $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

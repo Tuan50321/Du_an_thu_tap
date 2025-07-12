@@ -10,21 +10,23 @@ class CreateNewsCommentsTable extends Migration
     {
         Schema::create('news_comments', function (Blueprint $table) {
             $table->id();
-
-            // Khóa ngoại đúng kiểu và tên cột (user_id) từ bảng users
-            $table->bigInteger('user_id'); // mặc định là signed
-
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-
-
-            // news_id phải đúng kiểu với bảng news
-            $table->unsignedBigInteger('news_id');
-            $table->foreign('news_id')->references('news_id')->on('news')->onDelete('cascade');
-
+        
+            // ✅ Tạo cột user_id trước khi tạo foreign key
+            $table->foreignId('user_id')
+                ->nullable() // phải có dòng này
+                ->constrained('users')
+                ->nullOnDelete();
+        
+            $table->unsignedBigInteger('news_id')->nullable();
+            $table->foreign('news_id')
+                ->references('news_id')
+                ->on('news')
+                ->onDelete('cascade');
+        
             $table->text('content');
             $table->boolean('is_hidden')->default(false);
             $table->timestamps();
-        });
+        });        
     }
 
     public function down()

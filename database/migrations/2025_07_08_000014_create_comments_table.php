@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable(); // Không dùng updated_at nên không cần timestamps()
             
             // Foreign key
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

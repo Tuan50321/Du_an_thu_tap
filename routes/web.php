@@ -118,7 +118,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/products/{product}/gallery/{index}', [ProductController::class, 'removeGalleryImage'])
         ->name('products.remove-gallery');
-    Route::resource('brands', BrandController::class);
+    Route::resource('brands', BrandController::class)->parameters([
+        'brands' => 'brand_id'
+    ]);
     Route::resource('banners', BannerController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('orders', OrderController::class);
@@ -149,15 +151,5 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     //     \UniSharp\LaravelFilemanager\Lfm::routes();
     // });
     
-<<<<<<< HEAD
-     // Order routes
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
-=======
 
-    // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    //     \UniSharp\LaravelFilemanager\Lfm::routes();
-    // });
->>>>>>> 5b4c80c (Thay đổi)
 });
