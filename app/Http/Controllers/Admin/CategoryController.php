@@ -11,27 +11,25 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('parent')->get();
+        $categories = Category::with('parent')->paginate(10);
         return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(10);
         return view('admin.categories.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'parent_id' => 'nullable|exists:categories,category_id'
+        $category = new Category([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+            'status' => $request->has('status')
         ]);
 
-        Category::create([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id
-        ]);
+        $category->save();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category created successfully');
@@ -52,15 +50,10 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'parent_id' => 'nullable|exists:categories,category_id'
-        ]);
-
-        $category->update([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id
-        ]);
+        $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
+        $category->status = $request->has('status');
+        $category->save();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully');

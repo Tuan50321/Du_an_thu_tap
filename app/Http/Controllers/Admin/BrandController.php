@@ -10,7 +10,7 @@ class BrandController extends Controller
 {
     public function index()
     {
-        $brands = Brand::all();
+        $brands = Brand::paginate(10);
         return view('admin.brands.index', compact('brands'));
     }
 
@@ -21,48 +21,48 @@ class BrandController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable'
+        $validated = $request->validate([
+            'name' => 'required|string|max:100|unique:brands',
+            'description' => 'nullable|string',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        Brand::create([
-            'name' => $request->name,
-            'description' => $request->description
-        ]);
+        Brand::create($validated);
 
         return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand created successfully');
+            ->with('success', 'Thương hiệu đã được tạo thành công');
     }
 
-    public function show(Brand $brand)
+    public function show($brand_id)
     {
+        $brand = Brand::findOrFail($brand_id);
         return view('admin.brands.show', compact('brand'));
     }
 
-    public function edit(Brand $brand)
+    public function edit($brand_id)
     {
+        $brand = Brand::findOrFail($brand_id);
         return view('admin.brands.edit', compact('brand'));
     }
 
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, $brand_id)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable'
+        $validated = $request->validate([
+            'name' => 'required|string|max:100|unique:brands,name,' . $brand_id . ',brand_id',
+            'description' => 'nullable|string',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        $brand->update([
-            'name' => $request->name,
-            'description' => $request->description
-        ]);
+        $brand = Brand::findOrFail($brand_id);
+        $brand->update($validated);
 
         return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand updated successfully');
+            ->with('success', 'Thương hiệu đã được cập nhật thành công');
     }
 
-    public function destroy(Brand $brand)
+    public function destroy($brand_id)
     {
+        $brand = Brand::findOrFail($brand_id);
         $brand->delete();
         return redirect()->route('admin.brands.index')
             ->with('success', 'Brand deleted successfully');

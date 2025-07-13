@@ -9,7 +9,7 @@ use App\Http\Controllers\Client\ProductClientController;
 use App\Http\Controllers\Client\Contacts\ContactController;
 use App\Http\Controllers\Client\News\NewsController as NewsNewsController;
 use App\Http\Controllers\Client\ProductsShow\ProductDetailController;
-
+use App\Http\Controllers\Client\CartController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -72,7 +72,34 @@ Route::prefix('/')->name('client.')->group(function () {
     // Danh mục - Hiển thị sản phẩm theo danh mục
     Route::get('/category/{slug}', [\App\Http\Controllers\Client\CategoryController::class, 'show'])->name('category.show');
 
+    // Giỏ hàng
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [App\Http\Controllers\client\CartController::class, 'index'])->name('index');
+        Route::post('/add', [App\Http\Controllers\client\CartController::class, 'add'])->name('add');
+        Route::put('/{id}/update', [App\Http\Controllers\client\CartController::class, 'update'])->name('update');
+        Route::delete('/{id}/remove', [App\Http\Controllers\client\CartController::class, 'remove'])->name('remove');
+        Route::delete('/clear', [App\Http\Controllers\client\CartController::class, 'clear'])->name('clear');
+        Route::post('/checkout', [App\Http\Controllers\client\CartController::class, 'checkout'])->name('checkout');
+        Route::get('/count', [App\Http\Controllers\client\CartController::class, 'getCount'])->name('count');
+        Route::get('/mini', [App\Http\Controllers\client\CartController::class, 'miniCart'])->name('mini');
+    });
+
     Route::resource('reviews', ReviewsController::class);
+});
+
+// Shopping Cart routes theo mẫu mới
+Route::post('/shopping-cart/add', [App\Http\Controllers\Client\CartController::class, 'addToCart'])->name('shopping-cart.add');
+Route::get('/shopping-cart/count', [App\Http\Controllers\Client\CartController::class, 'getCartCount'])->name('shopping-cart.count');
+Route::delete('/shopping-cart/remove/{itemId}', [App\Http\Controllers\Client\CartController::class, 'removeFromCart'])->name('shopping-cart.remove');
+Route::put('/shopping-cart/update/{item}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('shopping-cart.update');
+
+// Profile routes
+Route::prefix('profile')->name('client.profile.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Client\ProfileController::class, 'index'])->name('index');
+    Route::get('/edit', [App\Http\Controllers\Client\ProfileController::class, 'edit'])->name('edit');
+    Route::post('/update', [App\Http\Controllers\Client\ProfileController::class, 'update'])->name('update');
+    Route::get('/password', [App\Http\Controllers\Client\ProfileController::class, 'password'])->name('password');
+    Route::post('/update-password', [App\Http\Controllers\Client\ProfileController::class, 'updatePassword'])->name('update-password');
 });
 
 // ============================
@@ -91,7 +118,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/products/{product}/gallery/{index}', [ProductController::class, 'removeGalleryImage'])
         ->name('products.remove-gallery');
-    Route::resource('brands', BrandController::class);
+    Route::resource('brands', BrandController::class)->parameters([
+        'brands' => 'brand_id'
+    ]);
     Route::resource('banners', BannerController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('orders', OrderController::class);
@@ -118,7 +147,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::delete('contacts/{id}', [ContactAdminController::class, 'destroy'])->name('contacts.destroy');
 
     // Laravel File Manager
-    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-        \UniSharp\LaravelFilemanager\Lfm::routes();
-    });
+    // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    //     \UniSharp\LaravelFilemanager\Lfm::routes();
+    // });
+    
+
 });
