@@ -136,6 +136,7 @@
 
     </style>
 
+    <?php echo $__env->yieldPushContent('styles'); ?>
     <?php echo $__env->yieldContent('styles'); ?>
 </head>
 
@@ -194,9 +195,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="<?php echo e(route('client.cart.index')); ?>">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="badge bg-danger">0</span>
+                            <span class="badge bg-danger cart-count">0</span>
                         </a>
                     </li>
                     <!-- Auth -->
@@ -212,7 +213,7 @@
                             <?php if(auth()->guard()->check()): ?>
                                 <!-- 👉 Mục Tài khoản -->
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="<?php echo e(route('client.profile.index')); ?>">
                                         <i class="fas fa-user-circle me-2"></i> Tài khoản
                                     </a>
                                 </li>
@@ -302,8 +303,34 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <?php echo $__env->yieldContent('scripts'); ?>
+    <script>
+    $(document).ready(function() {
+        // Load số lượng giỏ hàng khi trang được load
+        loadCartCount();
+    });
+
+    function loadCartCount() {
+        $.ajax({
+            url: '<?php echo e(route("client.cart.count")); ?>',
+            method: 'GET',
+            success: function(response) {
+                $('.cart-count').text(response.count);
+            },
+            error: function() {
+                console.log('Không thể load số lượng giỏ hàng');
+            }
+        });
+    }
+
+    function updateCartCount(count) {
+        $('.cart-count').text(count);
+    }
+    </script>
+
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html>
