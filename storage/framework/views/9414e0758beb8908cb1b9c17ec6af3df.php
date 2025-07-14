@@ -332,7 +332,7 @@
 
     <?php echo $__env->yieldPushContent('scripts'); ?>
 
-    <?php echo $__env->yieldContent('scripts'); ?>
+     <?php echo $__env->yieldContent('scripts'); ?>
 <!-- Chatbot Toggle Button -->
 <div id="chatbot-toggle" onclick="toggleChatbot()">
   <i class="fas fa-comments"></i>
@@ -519,9 +519,6 @@ function addMessage(who, text) {
   }
 }
 </script>
-
-
-
 </body>
 
 </html>

@@ -233,8 +233,10 @@
                                     <p class="card-text text-muted">
                                         <?php echo e(Str::limit($news->summary ?? $news->content, 120)); ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <small
-                                            class="text-muted"><?php echo e($news->created_at ? $news->created_at->format('d/m/Y') : 'N/A'); ?></small>
+                                       <small class="text-muted">
+                                        <?php echo e($news->created_at ? \Carbon\Carbon::parse($news->created_at)->format('d/m/Y') : 'N/A'); ?>
+
+                                        </small>
                                         <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>"
                                             class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết
@@ -296,6 +298,7 @@
             });
         });
     </script>
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\resources\views/client/home.blade.php ENDPATH**/ ?>
