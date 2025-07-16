@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatbotController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -150,6 +151,7 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     //     \UniSharp\LaravelFilemanager\Lfm::routes();
     // });
-    
+
 
 });
+    Route::post('/chatbot/send', [ChatbotController::class, 'send']);

@@ -234,9 +234,13 @@
                                         <?php echo e(Str::limit($news->summary ?? $news->content, 120)); ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small
+<<<<<<< Updated upstream:storage/framework/views/78b6697cea4e54e2f8dace9f3b6756ea.php
                                             class="text-muted"><?php echo e($news->created_at ? \Carbon\Carbon::parse($news->created_at)->format('d/m/Y') : 'N/A'); ?>
 
                                         </small>
+=======
+                                            class="text-muted"><?php echo e($news->created_at ? $news->created_at->format('d/m/Y') : 'N/A'); ?></small>
+>>>>>>> Stashed changes:storage/framework/views/7e83f8f718a41f653992358da041c17f.php
                                         <a href="<?php echo e(route('client.news.show', $news->news_id)); ?>"
                                             class="btn btn-outline-primary btn-sm">
                                             Xem chi tiết
