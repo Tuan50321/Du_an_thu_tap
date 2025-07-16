@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\Client\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -83,6 +84,12 @@ Route::prefix('/')->name('client.')->group(function () {
         Route::post('/checkout', [App\Http\Controllers\client\CartController::class, 'checkout'])->name('checkout');
         Route::get('/count', [App\Http\Controllers\client\CartController::class, 'getCount'])->name('count');
         Route::get('/mini', [App\Http\Controllers\client\CartController::class, 'miniCart'])->name('mini');
+    });
+
+   // Trang thanh toán (phải đăng nhập)
+    Route::middleware('auth')->group(function () {
+        Route::get('/thanh-toan', [CheckoutController::class, 'show'])->name('checkout');
+        Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
     });
 
     Route::resource('reviews', ReviewsController::class);

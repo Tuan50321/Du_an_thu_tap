@@ -519,6 +519,35 @@ function addMessage(who, text) {
   }
 }
 </script>
+
+<script>
+    function showToast(message, type = 'success') {
+        const toastEl = document.getElementById('liveToast');
+        const toastMsg = document.getElementById('toast-message');
+
+        // Cập nhật màu sắc theo loại
+        toastEl.className = `toast align-items-center text-bg-${type} border-0`;
+
+        toastMsg.textContent = message;
+
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
+</script>
+
+<!-- Toast Container -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <div id="liveToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toast-message">
+                <!-- Thông điệp toast sẽ được gán bằng JS -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

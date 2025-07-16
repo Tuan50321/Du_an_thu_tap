@@ -128,9 +128,15 @@
                                             <?php endif; ?>
                                         </div>
                                         <div class="d-flex gap-2">
-                                            <button class="btn btn-primary btn-sm flex-fill">
-                                                <i class="fas fa-shopping-cart me-1"></i>Thêm vào giỏ
-                                            </button>
+                                            <form method="POST" class="add-to-cart-form w-100">
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" name="product_id" value="<?php echo e($product->product_id); ?>">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="hidden" name="price" value="<?php echo e($product->discount_price ?? $product->price); ?>">
+                                                <button type="submit" class="btn btn-primary btn-sm w-100">
+                                                    <i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ hàng
+                                                </button>
+                                            </form>
                                             <button class="btn btn-outline-danger btn-sm">
                                                 <i class="fas fa-heart"></i>
                                             </button>
@@ -287,18 +293,69 @@
             </div>
         </div>
     </section>
+    <div class="toast-container" id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
     <script>
-        // Auto-play carousel
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#bannerCarousel').carousel({
                 interval: 5000
             });
+
+            $('.add-to-cart-form').on('submit', function (e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let btn = form.find('button');
+                let originalText = btn.html();
+
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Đang thêm...');
+
+                $.ajax({
+                    url: "<?php echo e(route('client.cart.add')); ?>",
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function (res) {
+                        if (res.success) {
+                            showToast('🛒 Đã thêm vào giỏ hàng!', 'success');
+                            $('.cart-count').text(res.cart_count ?? 0);
+                        } else {
+                            showToast(res.message || '❌ Có lỗi xảy ra!', 'danger');
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 401) {
+                            showToast('⚠️ Vui lòng đăng nhập để thêm vào giỏ hàng.', 'warning');
+                            setTimeout(() => {
+                                window.location.href = "<?php echo e(route('login')); ?>";
+                            }, 1500);
+                        } else {
+                            showToast('❌ Thêm sản phẩm vào giỏ thất bại!', 'danger');
+                        }
+                    },
+                    complete: function () {
+                        btn.prop('disabled', false).html(originalText);
+                    }
+                });
+            });
         });
+
+        function showToast(message, type = 'success') {
+            const toastEl = document.getElementById('liveToast');
+            const toastMsg = document.getElementById('toast-message');
+
+            toastEl.className = `toast align-items-center text-bg-${type} border-0`;
+            toastMsg.textContent = message;
+
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
     </script>
-    
 <?php $__env->stopSection(); ?>
+
+
+
+
 
 <?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\resources\views/client/home.blade.php ENDPATH**/ ?>

@@ -77,7 +77,7 @@
                         <span>Tổng cộng:</span>
                         <span id="cart-grand-total">0đ</span>
                     </div>
-                    <a href="<?php echo e(route('client.cart.checkout')); ?>" class="btn btn-primary btn-block">Đặt hàng</a>
+                    <a href="<?php echo e(route('client.checkout')); ?>" class="btn btn-primary btn-block">Tiến hành thanh toán</a>
                 </div>
             </div>
             <?php endif; ?>
@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Lấy giá và tính tổng mới
             const price = parseFloat(itemCard.querySelector('.cart-item-price').dataset.price);
             const newTotal = price * newQuantity;
-            
+
             // Cập nhật tổng tiền của item
             itemCard.querySelector('.cart-item-total').textContent = `${newTotal.toLocaleString()}đ`;
             itemCard.querySelector('.cart-item-total').dataset.total = newTotal;
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Lấy giá và tính tổng mới
             const price = parseFloat(itemCard.querySelector('.cart-item-price').dataset.price);
             const newTotal = price * quantity;
-            
+
             // Cập nhật tổng tiền của item
             itemCard.querySelector('.cart-item-total').textContent = `${newTotal.toLocaleString()}đ`;
             itemCard.querySelector('.cart-item-total').dataset.total = newTotal;
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 total += parseFloat(totalElement.dataset.total);
             }
         });
-        
+
         // Cập nhật tổng tiền
         document.getElementById('cart-total').textContent = `${total.toLocaleString()}đ`;
         document.getElementById('cart-grand-total').textContent = `${total.toLocaleString()}đ`;
@@ -431,11 +431,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.remove-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault(); // Ngăn chặn submit mặc định
-            
+
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
                 // Lấy ID của item cần xóa
                 const itemId = this.closest('.cart-item-card').dataset.cartItemId;
-                
+
                 // Gọi API xóa
                 fetch(`/cart/${itemId}/remove`, {
                     method: 'DELETE',
@@ -470,4 +470,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('client.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\resources\views/client/cart/index.blade.php ENDPATH**/ ?>
