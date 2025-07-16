@@ -39,18 +39,23 @@ class Cart extends Model
 
     public static function getOrCreateCart($userId = null, $sessionId = null)
     {
-        $query = self::query();
-        
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-        
-        if ($sessionId) {
-            $query->where('session_id', $sessionId);
-        }
-        
-        $cart = $query->where('status', 'pending')->first();
+        $cart = null;
 
+        // Nếu có userId (đã đăng nhập), ưu tiên tìm theo user_id
+        if ($userId) {
+            $cart = self::where('user_id', $userId)
+                ->where('status', 'pending')
+                ->first();
+        }
+
+        // Nếu không có userId hoặc chưa tìm được cart theo user => tìm theo session_id
+        if (!$cart && $sessionId) {
+            $cart = self::where('session_id', $sessionId)
+                ->where('status', 'pending')
+                ->first();
+        }
+
+        // Nếu vẫn chưa có cart thì tạo mới
         if (!$cart) {
             $cart = self::create([
                 'user_id' => $userId,
@@ -61,4 +66,4 @@ class Cart extends Model
 
         return $cart;
     }
-} 
+}

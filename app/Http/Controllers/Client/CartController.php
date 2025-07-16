@@ -75,7 +75,7 @@ class CartController extends Controller
         } else {
             $quantity = (int) $request->input('quantity', 1);
             if ($quantity < 1) $quantity = 1;
-            
+
             $cart->items()->create([
                 'product_id' => $request->product_id,
                 'quantity' => $quantity,
@@ -112,11 +112,11 @@ class CartController extends Controller
         }
 
         $cartItem = CartItem::findOrFail($id);
-        
+
         // Kiểm tra số lượng tồn kho
         $product = $cartItem->product;
         $newQuantity = (int) $request->quantity;
-        
+
         if ($newQuantity > $product->stock) {
             if ($request->ajax()) {
                 return response()->json([
@@ -172,7 +172,7 @@ class CartController extends Controller
 
         // Tìm cart item cần xóa
         $cartItem = CartItem::findOrFail($id);
-        
+
         // Kiểm tra xem cart item có thuộc về người dùng hiện tại không
         if ($cartItem->user_id !== Auth::id()) {
             return redirect()->back()->with('error', 'Không được phép xóa sản phẩm này!');
