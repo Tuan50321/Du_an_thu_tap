@@ -217,7 +217,12 @@
                                         <i class="fas fa-user-circle me-2"></i> Tài khoản
                                     </a>
                                 </li>
-
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('client.orders.index') }}">
+                                        <i class="bi bi-receipt-cut me-1"></i> Trạng thái đơn hàng
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
                                 <!-- 👉 Mục Đăng xuất -->
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="dropdown-item m-0 p-0">
