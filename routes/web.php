@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\Client\CheckoutController;
+use App\Http\Controllers\Client\OrderClientController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,10 +87,18 @@ Route::prefix('/')->name('client.')->group(function () {
         Route::get('/mini', [App\Http\Controllers\client\CartController::class, 'miniCart'])->name('mini');
     });
 
-   // Trang thanh toán (phải đăng nhập)
+    // Trang thanh toán (phải đăng nhập)
     Route::middleware('auth')->group(function () {
+        // Thanh toán
         Route::get('/thanh-toan', [CheckoutController::class, 'show'])->name('checkout');
         Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
+
+        // Đơn hàng của tôi (client)
+        Route::get('/don-hang-cua-toi', [OrderClientController::class, 'index'])->name('orders.index');
+        Route::get('/don-hang/{order}', [OrderClientController::class, 'show'])->name('orders.show');
+        Route::patch('/don-hang/{order}/huy', [OrderClientController::class, 'cancel'])->name('orders.cancel');
+        Route::delete('/don-hang/{order}', [OrderClientController::class, 'destroy'])
+        ->name('orders.destroy');
     });
 
     Route::resource('reviews', ReviewsController::class);
