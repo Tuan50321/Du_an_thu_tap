@@ -31,7 +31,6 @@ return new class extends Migration
             $table->decimal('discount_price', 10, 2)->nullable();
             $table->text('description')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->json('gallery')->nullable();
             $table->string('status', 20)->nullable();
 
             // Foreign key: users.user_id (⚠ Thêm dòng unsigned trước foreign key)

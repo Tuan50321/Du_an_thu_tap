@@ -119,6 +119,10 @@ Route::prefix('profile')->name('client.profile.')->group(function () {
     Route::post('/update-password', [App\Http\Controllers\Client\ProfileController::class, 'updatePassword'])->name('update-password');
 });
 
+// Thanh toán Momo
+Route::get('/payment/momo/callback', [CheckoutController::class, 'momoCallback'])->name('payment.momo.callback');
+
+
 // ============================
 // Admin Routes (có middleware 'admin')
 // ============================
