@@ -12,9 +12,56 @@
             </li>
 
             <li>
-                <a href="{{ route('admin.users.index') }}" class="sidebar-link">
-                    <i class="fas fa-users"></i> Quản lý người dùng
+                <a class="sidebar-link d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" href="#userMenu" role="button"
+                    aria-expanded="false">
+                    <span><i class="fas fa-users"></i> Quản lý người dùng</span>
+                    <i class="fas fa-chevron-down small"></i>
                 </a>
+                <div class="collapse" id="userMenu">
+                    <ul class="nav flex-column ms-3 mt-2">
+                        <li>
+                            <a href="{{ route('admin.users.admins') }}" class="sidebar-link">
+                                <i class="fas fa-user"></i> Admin
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.users.staffs') }}" class="sidebar-link">
+                                <i class="fas fa-user"></i> Staff
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.users.customers') }}" class="sidebar-link">
+                                <i class="fas fa-user"></i> Customer
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a class="sidebar-link d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" href="#roleMenu" role="button"
+                    aria-expanded="false">
+                    <span><i class="fas fa-users"></i> Quản lý phân quyền</span>
+                    <i class="fas fa-chevron-down small"></i>
+                </a>
+                <div class="collapse" id="roleMenu">
+                    <ul class="nav flex-column ms-3 mt-2">
+                        <li>
+                            <a href="{{ route('admin.roles.index') }}" class="sidebar-link">
+                                <i class="fas fa-user"></i> Vai trò
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.permissions.index') }}" class="sidebar-link">
+                                <i class="fas fa-user"></i> Phân quyền
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
             </li>
 
             <li>
