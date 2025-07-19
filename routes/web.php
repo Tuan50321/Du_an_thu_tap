@@ -66,6 +66,7 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::resource('contacts', ContactController::class);
 
     // Sản phẩm
+    Route::get('/products', [ProductClientController::class, 'index'])->name('products.index');
     Route::get('/products/{id}', [ProductClientController::class, 'show'])->name('products.show');
 
     // Tin tức
