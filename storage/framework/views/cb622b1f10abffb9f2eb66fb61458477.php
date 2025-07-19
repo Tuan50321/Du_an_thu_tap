@@ -180,7 +180,7 @@
                 <input type="hidden" name="product_id" value="<?php echo e($product->product_id); ?>">
 
                 <div class="star-rating mb-3">
-                    <?php for($i = 1; $i <= 5; $i++): ?>
+                    <?php for($i = 5; $i >= 1; $i--): ?>
                         <input type="radio" id="star<?php echo e($i); ?>" name="rating" value="<?php echo e($i); ?>">
                         <label for="star<?php echo e($i); ?>" title="<?php echo e($i); ?> sao">&#9733;</label>
                     <?php endfor; ?>
@@ -198,7 +198,7 @@
             <h5 class="fw-bold mb-3">Đánh giá của khách hàng</h5>
 
             <?php
-                $reviews = $product->reviews()->latest()->get();
+                $reviews = $product->reviews()->where('is_approved', 1)->latest()->get();
                 $reviewCount = $reviews->count();
                 $avgRating = $reviewCount ? round($reviews->avg('rating'), 1) : 0;
             ?>
@@ -233,6 +233,7 @@
                 <p class="text-muted">Chưa có đánh giá nào.</p>
             <?php endif; ?>
         </div>
+
 
         
         <?php if($relatedProducts->isNotEmpty()): ?>

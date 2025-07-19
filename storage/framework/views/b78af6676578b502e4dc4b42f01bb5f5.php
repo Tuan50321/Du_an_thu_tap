@@ -67,6 +67,16 @@
                                             title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        
+                                        <form action="<?php echo e(route('admin.reviews.destroy', $item->review_id)); ?>"
+                                            method="POST" class="d-inline"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?')">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Xóa">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
