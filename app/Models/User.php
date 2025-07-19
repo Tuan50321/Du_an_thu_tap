@@ -2,62 +2,81 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+// use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, SoftDeletes;
 
-    protected $primaryKey = 'id';
-    public $incrementing = true;
-    protected $keyType = 'int';
-
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role'
+        'phone_number',
+        'image_profile',
+        'is_active',
+        'birthday',
+        'gender',
     ];
 
+    protected $dates = ['deleted_at'];
+
     /**
-     * Get the profile associated with the user.
+     * Quan hệ nhiều-nhiều với bảng roles thông qua bảng user_roles.
      */
-    public function profile()
+    public function roles(): BelongsToMany
     {
-        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
+    }
+
+
+    /**
+     * Quan hệ một-nhiều với bảng user_addresses.
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class, 'user_id', 'id');
     }
 
     /**
-
-     * The attributes that should be hidden for serialization.
+     * Kiểm tra xem người dùng có vai trò cụ thể không.
      *
-     * @var list<string>
+     * @param string|array $roles
+     * @return bool
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function hasRole(string|array $roles): bool
+    {
+        if (is_array($roles)) {
+            return $this->roles()->whereIn('name', $roles)->exists(); // ✅ dùng name
+        }
+
+        return $this->roles()->where('name', $roles)->exists(); // ✅ dùng name
+    }
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Kiểm tra xem người dùng có phải admin không.
      */
-    protected function casts(): array
+    public function isAdmin(): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasRole(['admin', 'staff']);
+    }
+
+    /**
+     * Kiểm tra xem người dùng có quyền cụ thể không (thông qua các vai trò).
+     */
+    public function hasPermission(string $permissionName): bool
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasPermission($permissionName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

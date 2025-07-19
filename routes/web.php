@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderClientController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckPermission;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\HomeController;
@@ -21,7 +22,9 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\Users\UserController;
+use App\Http\Controllers\Admin\Users\RoleController;
+use App\Http\Controllers\Admin\Users\PermissionController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\News\NewsCategoryController as NewsNewsCategoryController;
 use App\Http\Controllers\Admin\News\NewsCommentController;
@@ -63,6 +66,7 @@ Route::prefix('/')->name('client.')->group(function () {
     Route::resource('contacts', ContactController::class);
 
     // Sản phẩm
+    Route::get('/products', [ProductClientController::class, 'index'])->name('products.index');
     Route::get('/products/{id}', [ProductClientController::class, 'show'])->name('products.show');
 
     // Tin tức
@@ -119,6 +123,10 @@ Route::prefix('profile')->name('client.profile.')->group(function () {
     Route::post('/update-password', [App\Http\Controllers\Client\ProfileController::class, 'updatePassword'])->name('update-password');
 });
 
+// Thanh toán Momo
+Route::get('/payment/momo/callback', [CheckoutController::class, 'momoCallback'])->name('payment.momo.callback');
+
+
 // ============================
 // Admin Routes (có middleware 'admin')
 // ============================
@@ -126,7 +134,7 @@ Route::prefix('profile')->name('client.profile.')->group(function () {
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('users', UserController::class);
+    
 
 
     // Resource routes
@@ -163,6 +171,97 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('contacts/{id}', [ContactAdminController::class, 'show'])->name('contacts.show');
     Route::delete('contacts/{id}', [ContactAdminController::class, 'destroy'])->name('contacts.destroy');
 
+    Route::prefix('users')->name('users.')->group(function () {
+        // Danh sách người dùng chung + tìm kiếm
+        Route::get('/', [UserController::class, 'index'])->name('index');
+
+        // Danh sách chia theo vai trò
+        Route::get('/admins', [UserController::class, 'admins'])->name('admins');
+        Route::get('/staffs', [UserController::class, 'staffs'])->name('staffs');
+        Route::get('/customers', [UserController::class, 'customers'])->name('customers');
+
+        // Thêm, sửa, xóa người dùng
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+
+        // Thùng rác, khôi phục, xóa vĩnh viễn
+        Route::get('/trashed', [UserController::class, 'trashed'])->name('trashed');
+        Route::post('/{id}/restore', [UserController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [UserController::class, 'forceDelete'])->name('forceDelete');
+
+        // Quản lý địa chỉ người dùng
+        Route::get('/{user}/addresses', [UserController::class, 'addresses'])->name('addresses.index');
+        Route::post('/{user}/addresses', [UserController::class, 'addAddress'])->name('addresses.store');
+        Route::put('/addresses/{address}', [UserController::class, 'updateAddress'])->name('addresses.update');
+        Route::delete('/addresses/{address}', [UserController::class, 'deleteAddress'])->name('addresses.destroy');
+    });
+
+    // =================== ROLES MANAGEMENT (chỉ admin) ===================
+    Route::prefix('roles')->name('roles.')->group(function () {
+        // Thùng rác, khôi phục, xóa vĩnh viễn
+        Route::get('trashed', [RoleController::class, 'trashed'])->name('trashed');
+        Route::post('{id}/restore', [RoleController::class, 'restore'])->name('restore');
+        Route::delete('{id}/force-delete', [RoleController::class, 'forceDelete'])->name('force-delete');
+
+        // Danh sách roles riêng (ví dụ dùng để phân trang)
+        Route::get('list', [RoleController::class, 'list'])->name('list');
+
+        // ✅ Gán vai trò cho người dùng
+        Route::post('update-users', [RoleController::class, 'updateUsers'])->name('updateUsers');
+
+        // Gán quyền cho vai trò
+        Route::middleware(CheckPermission::class . ':assign_permission')
+            ->get('{role}/permissions', [PermissionController::class, 'permissions'])->name('permissions.edit');
+        Route::middleware(CheckPermission::class . ':assign_permission')
+            ->put('{role}/permissions', [PermissionController::class, 'updatePermissions'])->name('permissions.update');
+
+        // CRUD tài nguyên chính (nên để sau cùng để tránh override)
+        Route::resource('/', RoleController::class)->parameters(['' => 'role']);
+    });
+
+
+
+    Route::prefix('permissions')->name('permissions.')->group(function () {
+        // Xem danh sách quyền (dạng ma trận + danh sách phân trang)
+        Route::middleware(CheckPermission::class . ':view_permission')
+            ->get('/', [PermissionController::class, 'index'])->name('index');
+        Route::middleware(CheckPermission::class . ':view_permission')
+            ->get('/list', [PermissionController::class, 'list'])->name('list');
+
+        // Thêm quyền
+        Route::middleware(CheckPermission::class . ':create_permission')
+            ->get('/create', [PermissionController::class, 'create'])->name('create');
+        Route::middleware(CheckPermission::class . ':create_permission')
+            ->post('/', [PermissionController::class, 'store'])->name('store');
+
+        // Sửa quyền
+        Route::middleware(CheckPermission::class . ':edit_permission')
+            ->get('/{permission}/edit', [PermissionController::class, 'edit'])->name('edit');
+        Route::middleware(CheckPermission::class . ':edit_permission')
+            ->put('/{permission}', [PermissionController::class, 'update'])->name('update');
+
+        // Xoá mềm quyền
+        Route::middleware(CheckPermission::class . ':delete_permission')
+            ->delete('/{permission}', [PermissionController::class, 'destroy'])->name('destroy');
+
+        // Gán quyền cho vai trò (từ bảng ma trận)
+        Route::middleware(CheckPermission::class . ':assign_permission')
+            ->post('/update-roles', [PermissionController::class, 'updateRoles'])->name('updateRoles');
+
+        // 📦 Thùng rác - quyền đã xoá mềm
+        Route::middleware(CheckPermission::class . ':delete_permission')
+            ->get('/trashed', [PermissionController::class, 'trashed'])->name('trashed');
+
+        Route::middleware(CheckPermission::class . ':delete_permission')
+            ->post('/{id}/restore', [PermissionController::class, 'restore'])->name('restore');
+
+        Route::middleware(CheckPermission::class . ':delete_permission')
+            ->delete('/{id}/force-delete', [PermissionController::class, 'forceDelete'])->name('forceDelete');
+    });
     // Laravel File Manager
     // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     //     \UniSharp\LaravelFilemanager\Lfm::routes();

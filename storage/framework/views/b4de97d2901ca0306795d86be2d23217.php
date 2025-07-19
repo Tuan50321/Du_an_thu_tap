@@ -152,7 +152,7 @@
             <div class="row mt-4">
                 <div class="col-12 text-center">
                     <?php if(!isset($query)): ?>
-                        <a href="#" class="btn btn-primary btn-lg">Xem tất cả sản phẩm gia dụng</a>
+                        <a href="<?php echo e(route('client.products.index')); ?>" class="btn btn-primary btn-lg">Xem tất cả sản phẩm gia dụng</a>
                     <?php endif; ?>
                 </div>
             </div>

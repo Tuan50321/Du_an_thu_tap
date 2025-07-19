@@ -12,7 +12,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
 
     <style>
         #sidebar {
@@ -81,6 +83,56 @@
             background-color: #fff;
             border-radius: 10px;
         }
+
+        /* Làm nút bo tròn và đậm hơn */
+        .btn {
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Hiệu ứng hover mềm mại hơn */
+        .btn:hover,
+        .btn:focus {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        /* Các nút nhỏ dùng trong bảng */
+        .btn-sm {
+            padding: 0.35rem 0.6rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.4rem;
+        }
+
+        /* Nút soft dùng màu nhạt nhưng hover rõ */
+        .btn-soft-primary {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            border: none;
+        }
+
+        .btn-soft-primary:hover {
+            background-color: rgba(13, 110, 253, 0.2);
+            color: #0b5ed7;
+        }
+
+        .btn-soft-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: none;
+        }
+
+        .btn-soft-danger:hover {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #bb2d3b;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+        }
     </style>
 
 
@@ -97,7 +149,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button class="btn btn-dark" id="sidebarCollapse">
-                        <i class="fas fa-bars"></i>
+
                     </button>
 
                     <div class="dropdown">

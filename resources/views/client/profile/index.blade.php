@@ -28,15 +28,21 @@
                         <div class="col-md-6">
                             <p><strong>Họ tên:</strong> {{ Auth::user()->name }}</p>
                             <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-                            <p><strong>Số điện thoại:</strong> {{ Auth::user()->profile->phone ?? 'Chưa cập nhật' }}</p>
-                            <p><strong>Ngày sinh:</strong> {{ Auth::user()->profile->birthday ? Auth::user()->profile->birthday->format('d/m/Y') : 'Chưa cập nhật' }}</p>
-                            <p><strong>Giới tính:</strong> {{ Auth::user()->profile->gender ? (Auth::user()->profile->gender == 1 ? 'Nam' : 'Nữ') : 'Chưa cập nhật' }}</p>
+                            <p><strong>Số điện thoại:</strong> {{ Auth::user()->phone_number ?? 'Chưa cập nhật' }}</p>
+                            <p><strong>Ngày sinh:</strong> 
+                                {{ Auth::user()->birthday ? \Carbon\Carbon::parse(Auth::user()->birthday)->format('d/m/Y') : 'Chưa cập nhật' }}
+                            </p>
+                            <p><strong>Giới tính:</strong> 
+                                {{ Auth::user()->gender ? (Auth::user()->gender === 'male' ? 'Nam' : (Auth::user()->gender === 'female' ? 'Nữ' : 'Khác')) : 'Chưa cập nhật' }}
+                            </p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Tỉnh/Thành phố:</strong> {{ Auth::user()->profile->province ?? 'Chưa cập nhật' }}</p>
-                            <p><strong>Quận/Huyện:</strong> {{ Auth::user()->profile->district ?? 'Chưa cập nhật' }}</p>
-                            <p><strong>Phường/Xã:</strong> {{ Auth::user()->profile->ward ?? 'Chưa cập nhật' }}</p>
-                            <p><strong>Đường:</strong> {{ Auth::user()->profile->street ?? 'Chưa cập nhật' }}</p>
+                            <p><strong>Ảnh đại diện:</strong></p>
+                            @if (Auth::user()->image_profile)
+                                <img src="{{ asset('storage/' . Auth::user()->image_profile) }}" alt="Avatar" width="120" class="rounded">
+                            @else
+                                <p>Chưa có ảnh</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -44,4 +50,5 @@
         </div>
     </div>
 </div>
+
 @endsection

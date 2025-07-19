@@ -1,102 +1,156 @@
 @extends('admin.layouts.app')
 
-@section('title','Thêm người dùng')
-
 @section('content')
-<div class="container mt-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Thêm người dùng</h1>
+    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+    </a>
+</div>
 
-    {{-- Thông báo --}}
-    @if (session('status'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('status') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-        </div>
-    @endif
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-        </div>
-    @endif
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
-    <div class="card shadow-sm border-0">
-        <div class="card-header d-flex justify-content-between align-items-center bg-white">
-            <h5 class="mb-0 text-primary">👤 Thêm người dùng mới</h5>
-            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary btn-sm" title="Quay lại danh sách">
-                <i class="bi bi-arrow-left"></i>
-            </a>
-        </div>
+<div class="card">
+    <div class="card-body">
+        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <!-- Tên người dùng -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên người dùng</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Nhập tên người dùng" required>
+            </div>
 
-        <div class="card-body">
-            <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" class="row g-3">
-                @csrf
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email" required>
+            </div>
 
-                {{-- Tên người dùng --}}
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Tên người dùng</label>
-                    <input type="text" name="name" id="name"
-                           class="form-control @error('name') is-invalid @enderror"
-                           placeholder="Nhập tên người dùng" value="{{ old('name') }}">
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+            <!-- Mật khẩu -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Số điện thoại</label>
+                <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Nhập số điện thoại">
+            </div>
+
+            <!-- Ngày sinh -->
+            <div class="mb-3">
+                <label for="birthday" class="form-label">Ngày sinh</label>
+                <input type="date" id="birthday" name="birthday" class="form-control">
+            </div>
+
+            <!-- Giới tính -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Giới tính</label>
+                <select id="gender" name="gender" class="form-select">
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                    <option value="other">Khác</option>
+                </select>
+            </div>
+
+            <!-- Vai trò -->
+            <div class="mb-3">
+                <label for="roles" class="form-label">Vai trò</label>
+                <select id="roles" name="roles[]" class="form-select" multiple>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+                <small class="text-muted">Giữ phím Ctrl hoặc Cmd để chọn nhiều vai trò.</small>
+            </div>
+
+            <!-- Trạng thái -->
+            <div class="mb-3">
+                <label for="is_active" class="form-label">Trạng thái</label>
+                <select id="is_active" name="is_active" class="form-select">
+                    <option value="1">Hoạt động</option>
+                    <option value="0">Không hoạt động</option>
+                </select>
+            </div>
+
+            <!-- Ảnh đại diện -->
+            <div class="mb-3">
+                <label for="image_profile" class="form-label">Ảnh đại diện</label>
+                <input type="file" id="image_profile" name="image_profile" class="form-control" onchange="previewImage(event)">
+                <div class="mt-3">
+                    <img id="image_preview" src="#" alt="Xem trước ảnh" style="max-height: 150px; display: none;" class="rounded">
                 </div>
+            </div>
 
-                {{-- Email --}}
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           placeholder="Nhập email" value="{{ old('email') }}">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+            <!-- Địa chỉ -->
+            <div class="mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" id="address" name="address_line" class="form-control" placeholder="Nhập địa chỉ chi tiết">
+            </div>
+            <div class="mb-3">
+                <label for="ward" class="form-label">Xã/Phường</label>
+                <input type="text" id="ward" name="ward" class="form-control" placeholder="Nhập phường">
+            </div>
+            <div class="mb-3">
+                <label for="district" class="form-label">Quận/Huyện</label>
+                <input type="text" id="district" name="district" class="form-control" placeholder="Nhập quận">
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">Thành phố</label>
+                <input type="text" id="city" name="city" class="form-control" placeholder="Nhập thành phố">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" id="is_default" name="is_default" class="form-check-input">
+                <label for="is_default" class="form-check-label">Đặt làm địa chỉ mặc định</label>
+            </div>
 
-                {{-- Mật khẩu --}}
-                <div class="col-md-6">
-                    <label for="password" class="form-label">Mật khẩu</label>
-                    <input type="password" name="password" id="password"
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="Nhập mật khẩu">
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- Xác nhận mật khẩu --}}
-                <div class="col-md-6">
-                    <label for="password_confirmation" class="form-label">Xác nhận mật khẩu</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation"
-                           class="form-control @error('password_confirmation') is-invalid @enderror"
-                           placeholder="Nhập lại mật khẩu">
-                    @error('password_confirmation')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- Vai trò --}}
-                <div class="col-md-6">
-                    <label for="role" class="form-label">Vai trò</label>
-                    <select name="role" id="role"
-                            class="form-select @error('role') is-invalid @enderror">
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                    </select>
-                    @error('role')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- Nút gửi --}}
-                <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-person-plus me-1"></i> Thêm người dùng
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Nút submit -->
+            <button type="submit" class="btn btn-primary">Thêm người dùng</button>
+        </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('image_profile').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('image_preview');
+
+        if (file) {
+            // Kiểm tra loại file (chỉ chấp nhận ảnh)
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+                this.value = ''; // Reset input
+                preview.style.display = 'none';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    });
+</script>
 @endsection
