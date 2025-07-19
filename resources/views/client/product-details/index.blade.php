@@ -1,178 +1,298 @@
 @extends('client.layouts.app')
 
+@section('title', $product->name)
+
+@push('styles')
+<style>
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    min-width: 300px;
+    margin-bottom: 10px;
+}
+
+.toast-success {
+    background-color: #6c757d;
+    border-color: #5a6268;
+    color: #ffffff;
+}
+
+.toast-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+</style>
+@endpush
+
 @section('content')
-    <div class="container py-4">
+<div class="container py-4">
+    {{-- Breadcrumb --}}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white p-2 rounded shadow-sm">
+            <li class="breadcrumb-item"><a href="{{ url('/') }}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
+        </ol>
+    </nav>
 
-        {{-- Breadcrumb --}}
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white p-2 rounded shadow-sm">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
-            </ol>
-        </nav>
+    {{-- Chi tiết sản phẩm --}}
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <img src="{{ asset('storage/' . $product->thumbnail) }}" class="img-fluid rounded shadow-sm"
+                alt="{{ $product->name }}">
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-3">{{ $product->name }}</h2>
+            <p class="text-muted mb-2">Thương hiệu: {{ $product->brand->name ?? 'N/A' }}</p>
+            <p class="mb-3">Danh mục: {{ $product->category->name ?? 'N/A' }}</p>
+            <p class="mb-3">Số lượng còn lại: <span class="badge bg-info">{{ $product->stock }}</span></p>
+            <h4 class="text-danger fw-bold mb-3">
+                {{ number_format($product->discount_price ?? $product->price, 0, ',', '.') }}₫
+            </h4>
 
-        {{-- Chi tiết sản phẩm --}}
-        <div class="row mt-4">
-            <div class="col-md-5">
-                <img src="{{ asset('storage/' . $product->thumbnail) }}" class="img-fluid rounded shadow-sm w-100"
-                    alt="{{ $product->name }}">
+            {{-- Số lượng --}}
+            <div class="mb-3" style="width: 120px;">
+                <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control" id="quantityDisplay">
             </div>
-            <div class="col-md-7">
-                <h1 class="fw-bold mb-3">{{ $product->name }}</h1>
-                <p class="text-muted mb-1">Thương hiệu: <strong>{{ $product->brand->name ?? 'N/A' }}</strong></p>
-                <p class="mb-3">Danh mục: <strong>{{ $product->category->name ?? 'N/A' }}</strong></p>
 
-                <div class="mb-3">
-                    <h3 class="text-danger fw-bold">
-                        {{ number_format($product->discount_price ?? $product->price, 0, ',', '.') }}₫
-                    </h3>
-                </div>
-
-                {{-- Tùy chọn sản phẩm --}}
-                <div class="row g-2">
-                    @if ($colors->isNotEmpty())
-                        <div class="col-6">
-                            <label class="form-label">Màu sắc:</label>
-                            <select class="form-select">
-                                <option>Chọn màu</option>
-                                @foreach ($colors as $color)
-                                    <option>{{ ucfirst($color) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-                    @if ($materials->isNotEmpty())
-                        <div class="col-6">
-                            <label class="form-label">Chất liệu:</label>
-                            <select class="form-select">
-                                <option>Chọn chất liệu</option>
-                                @foreach ($materials as $material)
-                                    <option>{{ ucfirst($material) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-                </div>
-
-                 {{-- Mô tả chi tiết --}}
-                <div class="mt-4">
-                    <h5 class="fw-bold mb-2">Mô tả sản phẩm</h5>
-                    <div class="p-3 rounded bg-light shadow-sm" style="line-height: 1.7;">
-                        {!! nl2br(e($product->description ?: 'Sản phẩm chất lượng cao, thiết kế tinh tế, đáp ứng nhu cầu sử dụng hàng ngày của bạn.')) !!}
-                    </div>
-                </div>
-
-                <div class="mt-4 d-flex gap-2">
-                    <button class="btn btn-primary w-50">
-                        <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+            {{-- Nút thêm vào giỏ hàng --}}
+            <form method="POST" action="{{ route('client.cart.add') }}" class="add-to-cart-form mt-3" id="addToCartForm">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <input type="hidden" name="quantity" value="1" id="quantityInput">
+                <input type="hidden" name="price" value="{{ $product->discount_price ?? $product->price }}">
+                @if($product->stock <= 0)
+                    <button type="button" class="btn btn-secondary" disabled>
+                        <i class="fa fa-shopping-cart"></i> Hết hàng
                     </button>
-                    <button class="btn btn-danger w-50">
-                        <i class="fas fa-bolt"></i> Mua ngay
+                @else
+                    <button type="submit" class="btn btn-primary" id="addToCartBtn">
+                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                     </button>
-                </div>
-            </div>
-        </div>
+                @endif
+            </form>
 
-        {{-- Mô tả sản phẩm --}}
-        <div class="mt-5">
-            <h4 class="fw-bold">Mô tả sản phẩm</h4>
-            <div class="bg-light rounded p-3 shadow-sm">
-                {!! nl2br(e($product->description ?: 'Không có mô tả chi tiết.')) !!}
-            </div>
-        </div>
+            {{-- JavaScript để cập nhật số lượng --}}
+            <script>
+                $(document).ready(function() {
+                    // Cập nhật số lượng khi thay đổi
+                    $('#quantityDisplay').on('change', function() {
+                        $('#quantityInput').val($(this).val());
+                    });
 
-        {{-- Đánh giá --}}
-        <div class="mt-5">
-            <h4 class="fw-bold mb-3">Đánh giá từ người dùng</h4>
+                    // Xử lý form thêm vào giỏ hàng
+                    $('#addToCartForm').on('submit', function(e) {
+                        e.preventDefault();
+                        
+                        var form = $(this);
+                        var btn = $('#addToCartBtn');
+                        var originalText = btn.html();
+                        
+                        // Disable button và hiển thị loading
+                        btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Đang thêm...');
+                        
+                        $.ajax({
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                if (response.success) {
+                                    showToast('success', 'Đã thêm sản phẩm vào giỏ hàng');
+                                    // Reset form
+                                    $('#quantityDisplay').val(1);
+                                    $('#quantityInput').val(1);
+                                    // Cập nhật số lượng giỏ hàng
+                                    updateCartCount(response.cart_count);
+                                } else {
+                                    showToast('error', response.message || 'Có lỗi xảy ra khi thêm sản phẩm');
+                                }
+                            },
+                            error: function(xhr) {
+                                showToast('error', xhr.responseJSON ? xhr.responseJSON.message : 'Có lỗi xảy ra');
+                            },
+                            complete: function() {
+                                // Enable button và khôi phục text
+                                btn.prop('disabled', false).html(originalText);
+                            }
+                        });
+                    });
+                });
 
-            @php
-                $approvedReviews = $product->reviews->where('is_approved', true)->sortByDesc('created_at');
-            @endphp
-
-
-            @if ($approvedReviews->isEmpty())
-                <div class="alert alert-info">Chưa có đánh giá nào cho sản phẩm này.</div>
-            @else
-                <div class="list-group">
-                    @foreach ($approvedReviews as $review)
-                        <div class="list-group-item mb-2 rounded shadow-sm">
-                            <div class="d-flex justify-content-between">
-                                <strong>{{ $review->user->name ?? 'Ẩn danh' }}</strong>
-                                <small>{{ $review->created_at->format('d/m/Y H:i') }}</small>
+                // Hàm hiển thị toast
+                function showToast(type, message) {
+                    var toastClass = type === 'success' ? 'toast-success' : 'toast-error';
+                    var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+                    
+                    var toast = `
+                        <div class="toast ${toastClass} border-0 shadow" role="alert" style="display: block;">
+                            <div class="toast-header">
+                                <i class="fa ${icon} me-2"></i>
+                                <strong class="me-auto">${type === 'success' ? 'Thành công' : 'Lỗi'}</strong>
+                                <button type="button" class="btn-close" onclick="$(this).closest('.toast').remove()"></button>
                             </div>
-                            <div>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <i class="{{ $i <= $review->rating ? 'fas' : 'far' }} fa-star text-warning"></i>
-                                @endfor
-                            </div>
-                            <p>{{ $review->content }}</p>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
-            {{-- Gửi đánh giá --}}
-            @auth
-                <div class="card mt-4">
-                    <div class="card-header">Gửi đánh giá của bạn</div>
-                    <div class="card-body">
-                        <form action="{{ route('client.reviews.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Đánh giá của bạn <span class="text-danger">*</span></label>
-                                <div class="star-rating d-flex gap-1">
-                                    @for ($i = 5; $i >= 1; $i--)
-                                        <input type="radio" name="rating" value="{{ $i }}"
-                                            id="star{{ $i }}">
-                                        <label for="star{{ $i }}"><i class="fa fa-star"></i></label>
-                                    @endfor
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label class="form-label">Nội dung:</label>
-                                <textarea name="content" class="form-control" rows="3" required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-success">Gửi đánh giá</button>
-                        </form>
-                    </div>
-                </div>
-            @else
-                <div class="alert alert-warning mt-4">
-                    Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để gửi đánh giá.
-                </div>
-            @endauth
-        </div>
-
-        {{-- Sản phẩm liên quan --}}
-        @if ($relatedProducts->isNotEmpty())
-            <div class="mt-5">
-                <h4 class="fw-bold">Sản phẩm liên quan</h4>
-                <div class="row row-cols-2 row-cols-md-4 g-3">
-                    @foreach ($relatedProducts as $related)
-                        <div class="col">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <a href="{{ route('client.product.details', $related->product_id) }}">
-                                    <img src="{{ asset('storage/' . $related->thumbnail) }}" class="card-img-top"
-                                        alt="{{ $related->name }}" style="height: 200px; object-fit: cover;">
-                                </a>
-                                <div class="card-body p-2">
-                                    <h6 class="card-title text-truncate">{{ $related->name }}</h6>
-                                    <p class="text-danger fw-bold">
-                                        {{ number_format($related->discount_price ?? $related->price, 0, ',', '.') }}₫
-                                    </p>
-                                    <a href="{{ route('client.product.details', $related->product_id) }}"
-                                        class="btn btn-sm btn-outline-primary w-100">Xem chi tiết</a>
-                                </div>
+                            <div class="toast-body">
+                                ${message}
                             </div>
                         </div>
-                    @endforeach
+                    `;
+                    
+                    $('#toastContainer').append(toast);
+                    
+                    setTimeout(function() {
+                        $('.toast').fadeOut(function() {
+                            $(this).remove();
+                        });
+                    }, 3000);
+                }
+
+                // Cập nhật số lượng giỏ hàng
+                function updateCartCount(count) {
+                    $('.cart-count').text(count);
+                }
+            </script>
+
+            {{-- Mô tả chi tiết --}}
+            <div class="mt-4">
+                <h5 class="fw-bold mb-2">Mô tả sản phẩm</h5>
+                <div class="p-3 rounded bg-light shadow-sm" style="line-height: 1.7;">
+                    {!! nl2br(e($product->description ?: 'Sản phẩm chất lượng cao, thiết kế tinh tế, đáp ứng nhu cầu sử dụng hàng ngày của bạn.')) !!}
                 </div>
             </div>
-        @endif
+        </div>
     </div>
+
+    {{-- Sản phẩm liên quan --}}
+    @if ($relatedProducts->isNotEmpty())
+        <div class="mt-5">
+            <h4 class="fw-bold mb-3">Sản phẩm liên quan</h4>
+            <div class="row row-cols-2 row-cols-md-4 g-4">
+                @foreach ($relatedProducts as $related)
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <a href="{{ route('client.product.details', $related->product_id) }}">
+                                <img src="{{ asset('storage/' . $related->thumbnail) }}"
+                                     class="card-img-top"
+                                     alt="{{ $related->name }}"
+                                     style="object-fit: cover; height: 200px;">
+                            </a>
+                            <div class="card-body p-2">
+                                <h6 class="card-title mb-1 text-truncate">{{ $related->name }}</h6>
+                                <p class="text-danger fw-bold mb-1">
+                                    {{ number_format($related->discount_price ?? $related->price, 0, ',', '.') }}₫
+                                </p>
+                                <a href="{{ route('client.product.details', $related->product_id) }}"
+                                   class="btn btn-sm btn-outline-primary w-100">
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+</div>
 @endsection
+
+{{-- Toast Container --}}
+<div class="toast-container" id="toastContainer"></div>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Cập nhật số lượng khi người dùng thay đổi
+    $('#quantityDisplay').on('change', function() {
+        $('#quantityInput').val($(this).val());
+    });
+
+    // Xử lý form thêm vào giỏ hàng
+    $('#addToCartForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        var form = $(this);
+        var btn = $('#addToCartBtn');
+        var originalText = btn.html();
+        
+        // Disable button và hiển thị loading
+        btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Đang thêm...');
+        
+        $.ajax({
+            url: form.attr('action'),
+            method: 'POST',
+            data: form.serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.success) {
+                    showToast('success', 'Đã thêm sản phẩm vào giỏ hàng');
+                    // Reset form
+                    $('#quantityDisplay').val(1);
+                    $('#quantityInput').val(1);
+                    // Cập nhật số lượng giỏ hàng
+                    if (response.cart_count !== undefined) {
+                        updateCartCount(response.cart_count);
+                    }
+                } else {
+                    showToast('error', response.message || 'Có lỗi xảy ra khi thêm sản phẩm');
+                }
+            },
+            error: function(xhr) {
+                var message = 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                showToast('error', message);
+            },
+            complete: function() {
+                // Enable button và khôi phục text
+                btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+
+    // Hàm hiển thị toast
+    function showToast(type, message) {
+        var toastClass = type === 'success' ? 'toast-success' : 'toast-error';
+        var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+        
+        var toast = `
+            <div class="toast ${toastClass} border-0 shadow" role="alert" style="display: block;">
+                <div class="toast-header">
+                    <i class="fa ${icon} me-2"></i>
+                    <strong class="me-auto">${type === 'success' ? 'Thành công' : 'Lỗi'}</strong>
+                    <button type="button" class="btn-close" onclick="$(this).closest('.toast').remove()"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>
+        `;
+        
+        $('#toastContainer').append(toast);
+        
+        // Tự động ẩn sau 3 giây
+        setTimeout(function() {
+            $('.toast').fadeOut(function() {
+                $(this).remove();
+            });
+        }, 3000);
+    }
+});
+</script>
+@endpush

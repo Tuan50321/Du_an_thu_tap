@@ -30,6 +30,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the profile associated with the user.
+     */
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
+
+    /**
+
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

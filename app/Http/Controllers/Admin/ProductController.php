@@ -16,7 +16,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'brand', 'creator'])->get();
+        $products = Product::with(['category', 'brand', 'creator'])
+            ->when(request('search'), function ($query) {
+                $search = request('search');
+                return $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('product_id', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -29,7 +36,7 @@ class ProductController extends Controller
     }
 
 
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'category_id'     => 'required|exists:categories,category_id',
@@ -48,7 +55,10 @@ class ProductController extends Controller
             ],
             'description'     => 'nullable',
             'status'          => 'required|in:active,inactive',
-            'thumbnail'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stock'           => 'required|integer|min:0',
+            'thumbnail'       => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery'         => 'nullable|array',
+            'gallery.*'       => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'discount_price.numeric' => 'The discount price must be a number.',
             'discount_price.min'     => 'The discount price must be at least 0.',
@@ -66,17 +76,18 @@ class ProductController extends Controller
         }
 
         // Tạo sản phẩm
-        $product = Product::create([
-            'category_id'     => $validated['category_id'],
-            'brand_id'        => $validated['brand_id'],
-            'name'            => $validated['name'],
-            'price'           => $validated['price'],
-            'discount_price'  => $validated['discount_price'],
-            'description'     => $validated['description'],
-            'status'          => $validated['status'],
-            'thumbnail'       => $thumbnailPath, // thêm thumbnail
-            'created_by'      => Auth::id(),
-        ]);
+        $product = new Product();
+        $product->category_id = $validated['category_id'];
+        $product->brand_id = $validated['brand_id'];
+        $product->name = $validated['name'];
+        $product->price = $validated['price'];
+        $product->discount_price = $validated['discount_price'];
+        $product->description = $validated['description'];
+        $product->status = $validated['status'];
+        $product->stock = $validated['stock'];
+        $product->thumbnail = $thumbnailPath; // thêm thumbnail
+        $product->created_by = Auth::id();
+        $product->save();
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');
@@ -117,6 +128,7 @@ class ProductController extends Controller
             ],
             'description' => 'nullable',
             'status' => 'required|in:active,inactive',
+            'stock' => 'required|integer|min:0',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'discount_price.numeric' => 'The discount price must be a number.',
@@ -134,7 +146,8 @@ class ProductController extends Controller
             'price' => $request->price,
             'discount_price' => $request->discount_price,
             'description' => $request->description,
-            'status' => $request->status
+            'status' => $request->status,
+            'stock' => $request->stock
         ]);
 
 
@@ -156,6 +169,3 @@ class ProductController extends Controller
             ->with('success', 'Product deleted successfully');
     }
 }
-
-
-
