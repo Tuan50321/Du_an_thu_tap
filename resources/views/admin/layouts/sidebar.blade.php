@@ -1,5 +1,5 @@
-<nav id="sidebar">
-    <div class="p-3">
+<nav id="sidebar" style="width:300px; min-width:300px; max-width:350px;">
+    <div class="p-4">
         <h4 class="text-white">Bảng Quản Trị</h4>
         <hr class="bg-light">
         <ul class="list-unstyled">
@@ -150,18 +150,6 @@
                 <a href="{{ route('admin.contacts.index') }}"
                     class="sidebar-link {{ request()->routeIs('admin.contacts.*') ? 'bg-primary text-white' : '' }}">
                     <i class="fas fa-envelope"></i> Liên hệ
-                </a>
-            </li>
-
-            <li>
-                <a href="#" class="sidebar-link">
-                    <i class="fas fa-cog"></i> Cài đặt
-                </a>
-            </li>
-
-            <li>
-                <a href="#" class="sidebar-link">
-                    <i class="fas fa-chart-bar"></i> Báo cáo
                 </a>
             </li>
         </ul>

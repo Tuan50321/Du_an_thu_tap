@@ -14,7 +14,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    
+
 
     <style>
         #sidebar {
@@ -129,6 +129,10 @@
             color: #bb2d3b;
         }
 
+        .sidebar-nav a:hover {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+        }
     </style>
 
 
@@ -145,7 +149,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button class="btn btn-dark" id="sidebarCollapse">
-                        <i class="fas fa-bars"></i>
+
                     </button>
 
                     <div class="dropdown">

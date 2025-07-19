@@ -1,146 +1,103 @@
-<?php $__env->startSection('title', 'Danh sách người dùng'); ?>
-
-<?php $__env->startPush('styles'); ?>
-    <style>
-        .pagination-wrapper nav {
-            padding: 8px 16px;
-            background-color: #fff;
-            border-radius: 10px;
-        }
-    </style>
-<?php $__env->stopPush(); ?>
-
 <?php $__env->startSection('content'); ?>
-    <div class="container-fluid px-3 px-md-5 mt-4">
-
-        <!-- Thông báo -->
-        <?php if(session('status')): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo e(session('status')); ?>
-
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-            </div>
-        <?php endif; ?>
-
-        <?php if(session('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo e(session('error')); ?>
-
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-            </div>
-        <?php endif; ?>
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-
-                <!-- Nút thêm -->
-                <div class="mb-3 d-flex justify-content-end flex-wrap gap-2">
-                    <a href="<?php echo e(route('admin.users.create')); ?>"
-                        class="btn btn-outline-success d-flex align-items-center gap-1" title="Thêm người dùng mới">
-                        <i class="bi bi-person-plus-fill fs-5"></i>
-                        <span class="d-none d-sm-inline">Thêm</span>
-                    </a>
-                </div>
-
-                <!-- Form tìm kiếm -->
-                <form action="" method="get" class="row row-cols-1 row-cols-sm-auto g-2 align-items-center mb-3">
-                    <div class="col">
-                        <input type="text" name="search" class="form-control" placeholder="Tìm kiếm người dùng"
-                            value="<?php echo e(request('search')); ?>">
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary btn-sm" title="Tìm kiếm">
-                            <i class="bi bi-search fs-5"></i>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Bảng người dùng -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-sm align-middle text-center">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên người dùng</th>
-                                <th>Email</th>
-                                <th>Vai trò</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <tr>
-                                    <td><?php echo e($user->id); ?></td>
-                                    <td><?php echo e($user->name); ?></td>
-                                    <td><?php echo e($user->email); ?></td>
-                                    <td>
-                                        <?php switch($user->role):
-                                            case ('admin'): ?>
-                                                <span class="badge bg-danger d-inline-flex align-items-center gap-1">
-                                                    <i class="bi bi-shield-lock-fill"></i> Admin
-                                                </span>
-                                            <?php break; ?>
-                                            <?php default: ?>
-                                                <span class="badge bg-secondary d-inline-flex align-items-center gap-1">
-                                                    <i class="bi bi-person"></i> User
-                                                </span>
-                                        <?php endswitch; ?>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <!-- Sửa -->
-                                            <a href="<?php echo e(route('admin.users.edit', $user->id)); ?>"
-                                                class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                                                style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
-                                                title="Sửa người dùng">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </a>
-
-                                            <!-- Xóa -->
-                                            <form action="<?php echo e(route('admin.users.destroy', $user->id)); ?>" method="POST"
-                                                class="d-inline">
-                                                <?php echo csrf_field(); ?>
-                                                <?php echo method_field('DELETE'); ?>
-                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                                                    style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
-                                                    title="Xóa người dùng"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">Không có người dùng nào.</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Phân trang -->
-                <div class="d-flex justify-content-center mt-4">
-                    <div class="shadow-sm rounded pagination-wrapper">
-                        <?php echo e($users->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5')); ?>
-
-                    </div>
-                </div>
-
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Quản lý người dùng</h1>
+        <div class="d-flex gap-2">
+            <a href="<?php echo e(route('admin.users.trashed')); ?>" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Thùng rác
+            </a>
+            <a href="<?php echo e(route('admin.users.create')); ?>" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm người dùng
+            </a>
         </div>
     </div>
 
-    
-    <?php $__env->startPush('scripts'); ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
-            });
-        </script>
-    <?php $__env->stopPush(); ?>
+    <form method="GET" action="<?php echo e(route('admin.users.index')); ?>" class="mb-4 d-flex gap-2 align-items-center">
+        <input type="text" name="search" value="<?php echo e(request('search')); ?>" class="form-control w-25" placeholder="Tìm người dùng...">
+        <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+
+        <?php if(request('search')): ?>
+            <a href="<?php echo e(route('admin.users.index')); ?>" class="btn btn-secondary">
+                <i class="fas fa-undo"></i> Quay lại danh sách đầy đủ
+            </a>
+        <?php endif; ?>
+    </form>
+
+    <?php if(session('success')): ?>
+        <div class="alert alert-success">
+            <?php echo e(session('success')); ?>
+
+        </div>
+    <?php endif; ?>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle table-hover table-centered">
+                    <thead class="bg-light-subtle">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Vai trò</th>
+                            <th>Trạng thái</th>
+                            <th width="200px">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <tr>
+                                <td><?php echo e($user->id); ?></td>
+                                <td>
+                                    <p class="text-dark fw-medium fs-15 mb-0"><?php echo e($user->name); ?></p>
+                                </td>
+                                <td><?php echo e($user->email); ?></td>
+                                <td>
+                                    <?php if($user->roles->isNotEmpty()): ?>
+                                        <?php $__currentLoopData = $user->roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <span class="badge bg-primary" title="Vai trò: <?php echo e($role->name); ?>"><?php echo e($role->name); ?></span>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
+                                        <span class="text-secondary">Chưa có vai trò</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span class="badge bg-<?php echo e($user->is_active ? 'success' : 'secondary'); ?>">
+                                        <?php echo e($user->is_active ? 'Hoạt động' : 'Không hoạt động'); ?>
+
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="<?php echo e(route('admin.users.show', $user)); ?>" class="btn btn-light btn-sm" title="Xem chi tiết">
+                                            <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
+                                        </a>
+                                        <a href="<?php echo e(route('admin.users.edit', $user)); ?>" class="btn btn-soft-primary btn-sm" title="Chỉnh sửa">
+                                            <iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon>
+                                        </a>
+                                        <form action="<?php echo e(route('admin.users.destroy', $user)); ?>" method="POST" class="d-inline">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
+                                            <button type="submit" class="btn btn-soft-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá người dùng này?')" title="Xoá">
+                                                <iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <tr>
+                                <td colspan="6" class="text-center text-secondary">Không tìm thấy người dùng nào.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+                <div class="mt-3">
+                    <?php echo e($users->links('pagination::bootstrap-5')); ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/admin/users/index.blade.php ENDPATH**/ ?>

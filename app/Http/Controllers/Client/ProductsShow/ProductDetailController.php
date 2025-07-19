@@ -36,8 +36,6 @@ class ProductDetailController extends Controller
         return view('client.product-details.index', compact(
             'product',
             'variants',
-            'rams',
-            'roms',
             'colors',
             'materials',
             'relatedProducts'
