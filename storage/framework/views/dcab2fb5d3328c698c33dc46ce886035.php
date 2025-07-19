@@ -171,7 +171,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Sản phẩm</a>
+                        <a class="nav-link text-white" href="<?php echo e(route('client.products.index')); ?>">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="<?php echo e(route('client.news.index')); ?>">Tin tức</a>

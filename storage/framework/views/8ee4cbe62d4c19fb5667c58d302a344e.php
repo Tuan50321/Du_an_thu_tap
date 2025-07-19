@@ -61,9 +61,17 @@
                         </label>
                     </div>
 
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="payment_method" id="payment_momo"
+                            value="momo" <?php echo e(old('payment_method') == 'momo' ? 'checked' : ''); ?>>
+                        <label class="form-check-label d-flex align-items-center" for="payment_momo">
+                            <img src="https://static.mservice.io/img/logo-momo.png" alt="MoMo" style="height:24px;margin-right:8px;"> MoMo (Thanh toán QR/Ứng dụng)
+                        </label>
+                    </div>
+
                     
                 </div>
-                <button type="submit" class="btn btn-primary">Xác nhận đặt hàng</button>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Xác nhận đặt hàng & Thanh toán</button>
             </div>
 
             
