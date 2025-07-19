@@ -50,7 +50,7 @@ class Product extends Model
     // Relationship với User (người tạo)
     public function creator()
     {
-        return $this->belongsTo(User::class, 'created_by', 'user_id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
 

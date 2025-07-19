@@ -20,7 +20,7 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id'); // hoặc 'id' nếu bảng users dùng 'id'
+        return $this->belongsTo(User::class, 'user_id', 'id'); // hoặc 'id' nếu bảng users dùng 'id'
     }
 
 
