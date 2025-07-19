@@ -16,7 +16,7 @@ class ReviewsController extends Controller
             'content' => 'required|string|max:1000',
         ]);
 
-        $data['user_id'] = auth()->user()->user_id;
+        $data['id'] = auth()->user()->id;
 
         Review::create($data); // Laravel sẽ tự thêm created_at, updated_at
 
