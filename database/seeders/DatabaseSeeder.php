@@ -11,8 +11,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // Người dùng & phân quyền
             UserSeeder::class,
+            RoleSeeder::class,
             PermissionSeeder::class,
             UserRoleSeeder::class,
+            PermissionRoleSeeder::class,
             UserProfileSeeder::class,
 
             // Danh mục, thương hiệu, sản phẩm

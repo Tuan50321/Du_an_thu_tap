@@ -143,35 +143,57 @@ class CheckoutController extends Controller
     {
         $resultCode = $request->input('resultCode');
         $orderId = session('momo_order_id');
-
+        $signature = $request->input('signature');
+        $rawData = [
+            'accessKey' => env('MOMO_ACCESS_KEY'),
+            'amount' => $request->input('amount'),
+            'extraData' => $request->input('extraData'),
+            'ipnUrl' => $request->input('ipnUrl'),
+            'orderId' => $request->input('orderId'),
+            'orderInfo' => $request->input('orderInfo'),
+            'orderType' => $request->input('orderType'),
+            'partnerCode' => $request->input('partnerCode'),
+            'redirectUrl' => $request->input('redirectUrl'),
+            'requestId' => $request->input('requestId'),
+            'requestType' => $request->input('requestType'),
+            'responseTime' => $request->input('responseTime'),
+            'resultCode' => $request->input('resultCode'),
+            'transId' => $request->input('transId'),
+            'message' => $request->input('message'),
+            'payType' => $request->input('payType'),
+        ];
+        ksort($rawData);
+        $rawHash = urldecode(http_build_query($rawData));
+        $expectedSignature = hash_hmac('sha256', $rawHash, env('MOMO_SECRET_KEY'));
+        if ($signature !== $expectedSignature) {
+            Log::warning('Momo callback: Sai signature', ['request' => $request->all()]);
+            return redirect()->route('client.orders.index')->with('error', 'Xác thực thanh toán MoMo thất bại.');
+        }
         if ($resultCode == 0 && session()->has('checkout_info')) {
             $info = session('checkout_info');
-
             DB::beginTransaction();
             try {
-                $order = Order::create([
-                    'user_id' => $info['user_id'],
-                    'status' => 'paid',
-                    'payment_method' => 'momo',
-                    'total_amount' => $info['total'],
-                ]);
-
-                foreach ($info['cart_items'] as $item) {
-                    OrderItem::create([
-                        'order_id' => $order->order_id,
-                        'variant_id' => $item['product_id'],
-                        'quantity' => $item['quantity'],
-                        'price' => $item['price'],
+                $order = Order::where('order_id', $orderId)->first();
+                if (!$order) {
+                    $order = Order::create([
+                        'user_id' => $info['user_id'],
+                        'status' => 'paid',
+                        'payment_method' => 'momo',
+                        'total_amount' => $info['total'],
                     ]);
+                    foreach ($info['cart_items'] as $item) {
+                        OrderItem::create([
+                            'order_id' => $order->order_id,
+                            'variant_id' => $item['product_id'],
+                            'quantity' => $item['quantity'],
+                            'price' => $item['price'],
+                        ]);
+                    }
+                    $cart = Cart::getOrCreateCart($info['user_id'], session()->getId());
+                    $cart->items()->delete();
                 }
-
-                // Xoá giỏ hàng
-                $cart = Cart::getOrCreateCart($info['user_id'], session()->getId());
-                $cart->items()->delete();
-
                 DB::commit();
                 session()->forget(['checkout_info', 'momo_order_id']);
-
                 return redirect()->route('client.orders.index')->with('success', 'Thanh toán thành công qua Momo!');
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -179,7 +201,6 @@ class CheckoutController extends Controller
                 return redirect()->route('client.orders.index')->with('error', 'Có lỗi xảy ra sau khi thanh toán Momo.');
             }
         }
-
         return redirect()->route('client.orders.index')->with('error', 'Thanh toán thất bại qua Momo.');
     }
 }
