@@ -32,6 +32,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('status', 20)->nullable();
+            //gallery
+            $table->text('gallery')->nullable();
 
             // Foreign key: users.user_id (⚠ Thêm dòng unsigned trước foreign key)
             $table->unsignedBigInteger('created_by')->nullable();
