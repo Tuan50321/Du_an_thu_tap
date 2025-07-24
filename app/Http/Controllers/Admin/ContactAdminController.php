@@ -19,7 +19,7 @@ class ContactAdminController extends Controller
                 ->orWhere('phone', 'like', "%$search%");
         }
 
-        $contacts = $query->latest()->paginate(10);
+        $contacts = $query->latest()->paginate(50);
 
         return view('admin.contact.index', compact('contacts'));
     }

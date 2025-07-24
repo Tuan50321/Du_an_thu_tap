@@ -118,7 +118,7 @@
                     <h4 class="mb-3"><i class="fas fa-fire text-danger me-2"></i>Sản phẩm bán chạy nhất</h4>
                     <div class="row g-3">
                         @foreach($bestSellers as $product)
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="card h-100 shadow-sm">
                                 <img src="{{ $product->thumbnail_url ?? asset('images/default-thumbnail.jpg') }}" class="card-img-top" alt="{{ $product->name }}">
                                 <div class="card-body">

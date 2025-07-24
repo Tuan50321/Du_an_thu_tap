@@ -7,6 +7,7 @@
             background-color: #fff;
             border-radius: 10px;
         }
+
         .product-thumbnail {
             max-width: 30px !important;
             max-height: 30px !important;
@@ -82,19 +83,25 @@
                             <?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
                                     <td>
-                                        <img src="<?php echo e($product->thumbnail_url); ?>" alt="<?php echo e($product->name); ?>" class="product-thumbnail" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                                        <img src="<?php echo e($product->thumbnail_url); ?>" alt="<?php echo e($product->name); ?>"
+                                            class="product-thumbnail"
+                                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
                                     </td>
                                     <td><?php echo e($product->product_id); ?></td>
                                     <td><?php echo e($product->name); ?></td>
                                     <td><?php echo e($product->category->name ?? ''); ?></td>
                                     <td>
-                                        <a href="<?php echo e(route('admin.brands.show', ['brand_id' => $product->brand_id])); ?>" 
-                                           class="text-decoration-none" 
-                                           title="Xem chi tiết thương hiệu">
-                                            <?php echo e($product->brand->name ?? 'Không có'); ?>
+                                        <?php if($product->brand): ?>
+                                            <a href="<?php echo e(route('admin.brands.show', ['brand_id' => $product->brand_id])); ?>"
+                                                class="text-decoration-none" title="Xem chi tiết thương hiệu">
+                                                <?php echo e($product->brand->name); ?>
 
-                                        </a>
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-muted">Không có</span>
+                                        <?php endif; ?>
                                     </td>
+
                                     <td><?php echo e(number_format($product->price)); ?>đ</td>
                                     <td>
                                         <?php if($product->stock == 0): ?>
@@ -124,7 +131,7 @@
                                                 title="Xem chi tiết">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
-                                            
+
                                             <!-- Sửa -->
                                             <a href="<?php echo e(route('admin.products.edit', $product->product_id)); ?>"
                                                 class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
@@ -132,12 +139,14 @@
                                                 title="Sửa sản phẩm">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
-                                            
+
                                             <!-- Xóa -->
-                                            <form action="<?php echo e(route('admin.products.destroy', $product->product_id)); ?>" method="POST" class="d-inline">
+                                            <form action="<?php echo e(route('admin.products.destroy', $product->product_id)); ?>"
+                                                method="POST" class="d-inline">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('DELETE'); ?>
-                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                                <button type="submit"
+                                                    class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                     style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                     title="Xóa sản phẩm"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
@@ -170,4 +179,5 @@
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Du_an_thu_tap\Du_an_thu_tap\resources\views/admin/products/index.blade.php ENDPATH**/ ?>

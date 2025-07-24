@@ -38,7 +38,7 @@ class NewsController extends Controller
             'published_at' => 'nullable|date',
             'category_id' => 'nullable|exists:news_categories,category_id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'author_id' => 'required|exists:users,user_id'
+            'author_id' => 'required|exists:users,id'
         ], [
             'title.required' => 'Tiêu đề là bắt buộc.',
             'content.required' => 'Nội dung là bắt buộc.',
@@ -52,7 +52,7 @@ class NewsController extends Controller
         ]);
 
         // ✅ Gán tác giả là user đang đăng nhập
-        $data['author_id'] = auth()->user()->user_id;
+        $data['author_id'] = auth()->user()->id;
 
         if (empty($data['published_at'])) {
             $data['published_at'] = now(); // ngày giờ hiện tại
@@ -88,7 +88,7 @@ class NewsController extends Controller
             'published_at' => 'nullable|date',
             'category_id' => 'nullable|exists:news_categories,category_id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'author_id' => 'required|exists:users,user_id'
+            'author_id' => 'required|exists:users,id'
         ], [
             'title.required' => 'Tiêu đề là bắt buộc.',
             'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
@@ -103,7 +103,7 @@ class NewsController extends Controller
         ]);
 
         // ✅ Gán lại tác giả là người đang đăng nhập
-        $data['author_id'] = auth()->user()->user_id;
+        $data['author_id'] = auth()->user()->id;
 
         // ✅ Gán lại thời gian đăng là hiện tại
         $data['published_at'] = now();

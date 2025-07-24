@@ -10,7 +10,7 @@ class LienHeAdminController extends Controller
 {
     public function index()
     {
-        $contacts = Lienhe::latest()->paginate(10); // dùng paginate()
+        $contacts = Lienhe::latest()->paginate(50); // dùng paginate()
         return view('admin.lienhe.index', compact('contacts'));
     }
 

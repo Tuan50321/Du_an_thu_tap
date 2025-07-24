@@ -22,7 +22,7 @@ class ReviewController extends Controller
             });
         }
 
-        $reviews = $query->latest()->paginate(10);
+        $reviews = $query->latest()->paginate(50);
 
         return view('admin.reviews.index', compact('reviews'));
     }

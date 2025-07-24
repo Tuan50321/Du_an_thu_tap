@@ -22,7 +22,7 @@ class ProductController extends Controller
                 return $query->where('name', 'like', "%{$search}%")
                             ->orWhere('product_id', 'like', "%{$search}%");
             })
-            ->paginate(10);
+            ->paginate(50);
 
         return view('admin.products.index', compact('products'));
     }

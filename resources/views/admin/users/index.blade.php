@@ -14,10 +14,11 @@
     </div>
 
     <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 d-flex gap-2 align-items-center">
-        <input type="text" name="search" value="{{ request('search') }}" class="form-control w-25" placeholder="Tìm người dùng...">
+        <input type="text" name="search" value="{{ request('search') }}" class="form-control w-25"
+            placeholder="Tìm người dùng...">
         <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
 
-        @if(request('search'))
+        @if (request('search'))
             <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
                 <i class="fas fa-undo"></i> Quay lại danh sách đầy đủ
             </a>
@@ -55,7 +56,8 @@
                                 <td>
                                     @if ($user->roles->isNotEmpty())
                                         @foreach ($user->roles as $role)
-                                            <span class="badge bg-primary" title="Vai trò: {{ $role->name }}">{{ $role->name }}</span>
+                                            <span class="badge bg-primary"
+                                                title="Vai trò: {{ $role->name }}">{{ $role->name }}</span>
                                         @endforeach
                                     @else
                                         <span class="text-secondary">Chưa có vai trò</span>
@@ -67,22 +69,25 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-light btn-sm" title="Xem chi tiết">
-                                            <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
-                                        </a>
-                                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-soft-primary btn-sm" title="Chỉnh sửa">
-                                            <iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon>
-                                        </a>
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-soft-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá người dùng này?')" title="Xoá">
-                                                <iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-sm btn-info"
+                                        title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-warning"
+                                        title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Bạn có chắc muốn xoá người dùng này?')" title="Xoá">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
                                 </td>
+
                             </tr>
                         @empty
                             <tr>

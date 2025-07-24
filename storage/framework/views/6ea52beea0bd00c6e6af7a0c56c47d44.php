@@ -116,7 +116,7 @@
                     <h4 class="mb-3"><i class="fas fa-fire text-danger me-2"></i>Sản phẩm bán chạy nhất</h4>
                     <div class="row g-3">
                         <?php $__currentLoopData = $bestSellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="card h-100 shadow-sm">
                                 <img src="<?php echo e($product->thumbnail_url ?? asset('images/default-thumbnail.jpg')); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
                                 <div class="card-body">

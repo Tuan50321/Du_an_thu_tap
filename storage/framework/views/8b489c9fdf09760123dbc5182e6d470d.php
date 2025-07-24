@@ -62,6 +62,14 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Xác nhận mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-lock-fill"></i></span>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Nhập lại mật khẩu">
+                        </div>
+                    </div>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">Đăng ký</button>
                     </div>

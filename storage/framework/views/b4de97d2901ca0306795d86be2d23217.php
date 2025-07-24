@@ -48,7 +48,7 @@
                         bếp, đồ dùng phòng tắm, vệ sinh, chăm sóc nhà cửa... với giá tốt nhất!</p>
                     <div class="d-flex gap-3">
                         <a href="#" class="btn btn-light btn-lg">Khám phá ngay</a>
-                        <a href="#" class="btn btn-outline-light btn-lg">Tư vấn miễn phí</a>
+                        <a href="<?php echo e(route('client.contacts.index')); ?>" class="btn btn-outline-light btn-lg">Tư vấn miễn phí</a>
                     </div>
                 </div>
                 <div class="col-lg-6">

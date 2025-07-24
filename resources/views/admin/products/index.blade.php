@@ -9,6 +9,7 @@
             background-color: #fff;
             border-radius: 10px;
         }
+
         .product-thumbnail {
             max-width: 30px !important;
             max-height: 30px !important;
@@ -82,21 +83,27 @@
                             @forelse ($products as $product)
                                 <tr>
                                     <td>
-                                        <img src="{{ $product->thumbnail_url }}" alt="{{ $product->name }}" class="product-thumbnail" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                                        <img src="{{ $product->thumbnail_url }}" alt="{{ $product->name }}"
+                                            class="product-thumbnail"
+                                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
                                     </td>
                                     <td>{{ $product->product_id }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->category->name ?? '' }}</td>
                                     <td>
-                                        <a href="{{ route('admin.brands.show', ['brand_id' => $product->brand_id]) }}" 
-                                           class="text-decoration-none" 
-                                           title="Xem chi tiết thương hiệu">
-                                            {{ $product->brand->name ?? 'Không có' }}
-                                        </a>
+                                        @if ($product->brand)
+                                            <a href="{{ route('admin.brands.show', ['brand_id' => $product->brand_id]) }}"
+                                                class="text-decoration-none" title="Xem chi tiết thương hiệu">
+                                                {{ $product->brand->name }}
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Không có</span>
+                                        @endif
                                     </td>
+
                                     <td>{{ number_format($product->price) }}đ</td>
                                     <td>
-                                        @if($product->stock == 0)
+                                        @if ($product->stock == 0)
                                             <span class="badge bg-danger">Hết hàng</span>
                                         @elseif($product->stock < 5)
                                             <span class="badge bg-warning">Sắp hết</span>
@@ -122,7 +129,7 @@
                                                 title="Xem chi tiết">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
-                                            
+
                                             <!-- Sửa -->
                                             <a href="{{ route('admin.products.edit', $product->product_id) }}"
                                                 class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
@@ -130,12 +137,14 @@
                                                 title="Sửa sản phẩm">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
-                                            
+
                                             <!-- Xóa -->
-                                            <form action="{{ route('admin.products.destroy', $product->product_id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.products.destroy', $product->product_id) }}"
+                                                method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                                <button type="submit"
+                                                    class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
                                                     style="width: 36px; height: 36px;" data-bs-toggle="tooltip"
                                                     title="Xóa sản phẩm"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
